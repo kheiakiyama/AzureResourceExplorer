@@ -48,9 +48,11 @@ jobs:
         run: |
           ls -la
           cat ./syncResult.json
-          content=`cat ./syncResult.json | jq -r '.Items[] | [.ResourceType,.Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "- %s to %s\n",$1,$2,ORS}' | sed 's/\"//g'`
-          echo $content
-          echo "LOAD_RESULTS=$content" >> $GITHUB_ENV
+          LOAD_RESULTS=`cat ./syncResult.json | jq -r '.Items[] | [.ResourceType,.Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "- %s to %s\n",$1,$2,ORS}' | sed 's/\"//g'`
+          echo $LOAD_RESULTS
+          echo "LOAD_RESULTS<<EOF" >> $GITHUB_ENV
+          echo "$LOAD_RESULTS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
         working-directory: ${{ env.working-directory }}
       - name: Create Pull Request
         id: cpr
