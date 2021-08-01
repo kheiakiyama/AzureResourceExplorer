@@ -17,11 +17,12 @@ namespace SyncSwaggerSpecs
         {
             await DownloadSpecs();
             LoadCurrentSpecs();
-            FilterLatestSpecs();
+            LoadRemoteSpecs();
             CopySpecsToLocal();
         }
 
         private static string tmpSpecDirectry;
+        private static bool doCopyOnlyStableVersion = true;
         private static List<SwaggerSpec> localSpecs = new List<SwaggerSpec>();
         private static List<SwaggerSpec> remoteSpecs = new List<SwaggerSpec>();
 
@@ -41,7 +42,7 @@ namespace SyncSwaggerSpecs
             File.Delete(tmpSpecFile);
         }
 
-        private static void FilterLatestSpecs()
+        private static void LoadRemoteSpecs()
         {
             Console.WriteLine($"Loading azure-rest-api-specs");
             Regex reg = new Regex(@"\w*\\resource-manager\\(Microsoft.\w*)\\\w*\\([0-9]{4}-[0-9]{2}-[0-9]{2})(-preview)?\\\w*.json");
@@ -122,7 +123,7 @@ namespace SyncSwaggerSpecs
 
         private static void CopySpecsToLocal()
         {
-            var updatedTargets = remoteSpecs
+            var updatedTargets = (doCopyOnlyStableVersion ? remoteSpecs.Where(q => q.IsStable) : remoteSpecs)                
                 .GroupBy(q => new { q.FileName, q.ResourceType })
                 .OrderBy(q => q.Key.ResourceType)
                 .ThenBy(q => q.Key.FileName)
@@ -134,6 +135,5 @@ namespace SyncSwaggerSpecs
                 .GroupBy(q => new { q.Key.ResourceType, q.Latest.IsStable, q.Latest.Version })
                 .ToArray();
         }
-
     }
 }
