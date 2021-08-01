@@ -53,7 +53,7 @@ jobs:
       - name: Load Results
         id: loadResults
         run: |
-          content=`fromJson(steps.syncSwaggerSpecs.outputs.syncResultJson) | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}`
+          content=`${{ fromJson(steps.syncSwaggerSpecs.outputs.syncResultJson) }} | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
