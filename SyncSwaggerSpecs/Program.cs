@@ -133,10 +133,18 @@ namespace SyncSwaggerSpecs
             Console.WriteLine($"Loaded API definitions on this repository");
         }
 
+
         [Serializable]
-        public class SyncResult
+        public class SyncResultRoot
         {
-            public SyncResult()
+            public SyncResultItem[] Items { get; set; }
+        }
+
+
+        [Serializable]
+        public class SyncResultItem
+        {
+            public SyncResultItem()
             {
 
             }
@@ -158,12 +166,12 @@ namespace SyncSwaggerSpecs
             var updatedGroups = updatedTargets
                 .GroupBy(q => new { q.Key.ResourceType, q.Latest.IsStable, q.Latest.Version })
                 .ToArray();
-            List<SyncResult> results = new List<SyncResult>();
+            List<SyncResultItem> results = new List<SyncResultItem>();
             using (StreamWriter sw = new StreamWriter(syncResultFileName, false, System.Text.Encoding.UTF8))
             {
                 foreach (var group in updatedGroups)
                 {
-                    results.Add((new SyncResult() { 
+                    results.Add((new SyncResultItem() { 
                         ResourceType = group.Key.ResourceType,
                         Version = group.Key.Version,
                         Files = group.Select(q => q.Latest.FileName).ToArray(),
@@ -175,7 +183,7 @@ namespace SyncSwaggerSpecs
                         });
                     }
                 }
-                await sw.WriteLineAsync(JsonSerializer.Serialize<SyncResult[]>(results.ToArray()));
+                await sw.WriteLineAsync(JsonSerializer.Serialize<SyncResultRoot>(new SyncResultRoot() { Items = results.ToArray() }));
             }
         }
     }
