@@ -46,7 +46,7 @@ jobs:
       - name: Load Results
         id: loadResults
         run: |
-          content=`cat ./syncResult.json` | jq '.Items[] | [.ResourceType,.Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}'
+          content=`cat ./syncResult.json | jq '.Items[] | [.ResourceType,.Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}'`
           echo $content
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
