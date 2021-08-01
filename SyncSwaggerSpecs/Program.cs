@@ -50,7 +50,7 @@ namespace SyncSwaggerSpecs
             Console.WriteLine($"Loading azure-rest-api-specs");
             Regex reg = new Regex(@"\w*\\resource-manager\\(Microsoft.\w*)\\\w*\\([0-9]{4}-[0-9]{2}-[0-9]{2})(-preview)?\\\w*.json");
             remoteSpecs.Clear();
-            remoteSpecs.AddRange(Directory.GetFiles(tmpSpecDirectry + @"\azure-rest-api-specs-master\specification" + Path.DirectorySeparatorChar, "*.*", SearchOption.AllDirectories)
+            remoteSpecs.AddRange(Directory.GetFiles(tmpSpecDirectry + Path.DirectorySeparatorChar + @"azure-rest-api-specs-master" + Path.DirectorySeparatorChar + @"specification" + Path.DirectorySeparatorChar, "*.*", SearchOption.AllDirectories)
              .Where(s => reg.IsMatch(s))
              .Select(q => new SwaggerSpec() {
                  FullName = q,
