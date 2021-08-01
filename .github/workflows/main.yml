@@ -19,6 +19,8 @@ jobs:
   CreateSyncSwaggerSpecsPullRequest:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env: 
+      working-directory: 'SyncSwaggerSpecs'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,16 +37,16 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        working-directory: 'SyncSwaggerSpecs'
+        working-directory: ${{env.working-directory}
       - name: Run SyncSwaggerSpecs
         run: dotnet run --configuration Release --no-restore
-        working-directory: 'SyncSwaggerSpecs'
+        working-directory: ${{env.working-directory}
       - name: Load Results
         id: loadResults
         run: |
-          JSON=$(cat ./bin/Release/netcoreapp3.1/syncResult.json)
+          JSON=$(cat ${{env.working-directory}/bin/Release/netcoreapp3.1/syncResult.json)
           echo ::set-output name=commitLog::$(fromJSON($JSON) | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}')
-        working-directory: 'SyncSwaggerSpecs'
+        working-directory: ${{env.working-directory}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v3
