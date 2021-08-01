@@ -42,18 +42,11 @@ jobs:
         id: syncSwaggerSpecs
         run: |
           dotnet run --configuration Release --no-restore
-          content=`cat ./syncResult.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=syncResultJson::$content"
         working-directory: ${{ env.working-directory }}
       - name: Load Results
         id: loadResults
         run: |
-          content=`${{ fromJson(steps.syncSwaggerSpecs.outputs.syncResultJson) }} | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}`
+          content=`cat ./syncResult.json | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
