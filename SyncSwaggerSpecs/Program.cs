@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,18 +16,20 @@ namespace SyncSwaggerSpecs
     {
         static async Task Main(string[] args)
         {
-            await DownloadSpecs();
+            await DownloadSpecsAsync();
             LoadCurrentSpecs();
             LoadRemoteSpecs();
-            CopySpecsToLocal();
+            await CopySpecsToLocalAsync();
         }
 
         private static string tmpSpecDirectry;
         private static bool doCopyOnlyStableVersion = true;
+        private static bool dryRunCopy = false;
+        private static string syncResultFileName = "syncResult.json";
         private static List<SwaggerSpec> localSpecs = new List<SwaggerSpec>();
         private static List<SwaggerSpec> remoteSpecs = new List<SwaggerSpec>();
 
-        private static async Task DownloadSpecs()
+        private static async Task DownloadSpecsAsync()
         {
             Console.WriteLine("Downloading swagger specs from https://github.com/Azure/azure-rest-api-specs");
             var tmpSpecFile = Path.GetTempFileName();
@@ -71,6 +74,16 @@ namespace SyncSwaggerSpecs
             internal string ResourceType { get; set; }
             internal string FileName { get; set; }
             internal string FullName { get; set; }
+
+            internal void CopyToLocal()
+            {
+                File.Copy(FullName, GetLocalSwaggerSpecsPath() + Path.DirectorySeparatorChar + ResourceType + Path.DirectorySeparatorChar + FileName, true);
+            }
+
+            internal static string GetLocalSwaggerSpecsPath()
+            {
+                return Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))))) + Path.DirectorySeparatorChar + @"App_Data\SwaggerSpecs";
+            }
         }
 
         [Serializable]
@@ -98,8 +111,7 @@ namespace SyncSwaggerSpecs
         {
             Console.WriteLine($"Loading API definitions on this repository");
             localSpecs.Clear();
-            var path = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))))) + Path.DirectorySeparatorChar + @"App_Data\SwaggerSpecs";
-            localSpecs.AddRange(Directory.GetDirectories(path, "Microsoft.*")
+            localSpecs.AddRange(Directory.GetDirectories(SwaggerSpec.GetLocalSwaggerSpecsPath(), "Microsoft.*")
                 .SelectMany(q =>
                 Directory.GetFiles(q, "*.json"))
                 .Select(q =>
@@ -121,7 +133,19 @@ namespace SyncSwaggerSpecs
             Console.WriteLine($"Loaded API definitions on this repository");
         }
 
-        private static void CopySpecsToLocal()
+        [Serializable]
+        public class SyncResult
+        {
+            public SyncResult()
+            {
+
+            }
+            public string ResourceType { get; set; }
+            public string Version { get; set; }
+            public string[] Files { get; set; }
+        }
+
+        private static async Task CopySpecsToLocalAsync()
         {
             var updatedTargets = (doCopyOnlyStableVersion ? remoteSpecs.Where(q => q.IsStable) : remoteSpecs)                
                 .GroupBy(q => new { q.FileName, q.ResourceType })
@@ -134,6 +158,25 @@ namespace SyncSwaggerSpecs
             var updatedGroups = updatedTargets
                 .GroupBy(q => new { q.Key.ResourceType, q.Latest.IsStable, q.Latest.Version })
                 .ToArray();
+            List<SyncResult> results = new List<SyncResult>();
+            using (StreamWriter sw = new StreamWriter(syncResultFileName, false, System.Text.Encoding.UTF8))
+            {
+                foreach (var group in updatedGroups)
+                {
+                    results.Add((new SyncResult() { 
+                        ResourceType = group.Key.ResourceType,
+                        Version = group.Key.Version,
+                        Files = group.Select(q => q.Latest.FileName).ToArray(),
+                    }));
+                    if (!dryRunCopy)
+                    {
+                        Array.ForEach(group.Select(q => q.Latest).ToArray(), (SwaggerSpec q) => {
+                            q.CopyToLocal();
+                        });
+                    }
+                }
+                await sw.WriteLineAsync(JsonSerializer.Serialize<SyncResult[]>(results.ToArray()));
+            }
         }
     }
 }
