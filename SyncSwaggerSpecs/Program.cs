@@ -47,12 +47,16 @@ namespace SyncSwaggerSpecs
 
         private static void LoadRemoteSpecs()
         {
-            Console.WriteLine($"Loading azure-rest-api-specs");
-            Regex reg = new Regex($@"\w*{Path.DirectorySeparatorChar}resource-manager{Path.DirectorySeparatorChar}(Microsoft.\w*){Path.DirectorySeparatorChar}\w*{Path.DirectorySeparatorChar}([0-9]{4}-[0-9]{2}-[0-9]{2})(-preview)?{Path.DirectorySeparatorChar}\w*.json");
+            Regex reg = new Regex(@"\w*[\\\/]resource-manager[\\\/](Microsoft.\w*)[\\\/]\w*[\\\/]([0-9]{4}-[0-9]{2}-[0-9]{2})(-preview)?[\\\/]\w*.json");
             remoteSpecs.Clear();
             var searchDir = tmpSpecDirectry + Path.DirectorySeparatorChar + @"azure-rest-api-specs-master" + Path.DirectorySeparatorChar + @"specification" + Path.DirectorySeparatorChar;
-            Console.WriteLine($"Loading azure-rest-api-specs");
-            remoteSpecs.AddRange(Directory.GetFiles(searchDir, "*.*", SearchOption.AllDirectories)
+            var files = Directory.GetFiles(searchDir, "*.*", SearchOption.AllDirectories);
+            Console.WriteLine($"Loading azure-rest-api-specs {searchDir} {files.Length} Files are Found");
+            if (files.Length > 0)
+            {
+                Console.WriteLine($"1st File is {files[0]}");
+            }
+            remoteSpecs.AddRange(files
              .Where(s => reg.IsMatch(s))
              .Select(q => new SwaggerSpec() {
                  FullName = q,
