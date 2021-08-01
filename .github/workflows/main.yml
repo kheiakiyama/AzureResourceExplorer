@@ -44,8 +44,7 @@ jobs:
       - name: Load Results
         id: loadResults
         run: |
-          JSON="$(cat ./syncResult.json)"
-          echo ::set-output name=commitLog::$(fromJSON($JSON) | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}')
+          echo ::set-output name=commitLog::$(fromJSON($(cat ./syncResult.json)) | jq -r 'map .[] | [.ResourceType, .Version] | @csv' | awk -v FS="," 'BEGIN{print "Swaggers updated"}{printf "-%s to %s",$1,$2,ORS}')
         working-directory: ${{ env.working-directory }}
       - name: Create Pull Request
         id: cpr
