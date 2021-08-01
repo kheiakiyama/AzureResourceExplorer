@@ -82,7 +82,7 @@ namespace SyncSwaggerSpecs
 
             internal static string GetLocalSwaggerSpecsPath()
             {
-                return Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))))) + Path.DirectorySeparatorChar + @"App_Data\SwaggerSpecs";
+                return Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))))) + Path.DirectorySeparatorChar + @"App_Data" + Path.DirectorySeparatorChar + @"SwaggerSpecs";
             }
         }
 
