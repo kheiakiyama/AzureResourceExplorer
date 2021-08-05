@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-01-15",
     "title": "Provider API Client"
   },
   "host": "management.azure.com",
@@ -64,12 +64,14 @@
         "tags": [
           "Provider"
         ],
-        "description": "Description for ",
+        "summary": "Get available Function app frameworks and their versions",
+        "description": "Description for Get available Function app frameworks and their versions",
         "operationId": "Provider_GetFunctionAppStacks",
         "parameters": [
           {
             "name": "stackOsType",
             "in": "query",
+            "description": "Stack OS Type",
             "type": "string",
             "enum": [
               "Windows",
@@ -93,6 +95,11 @@
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get Function App Stacks": {
+            "$ref": "./examples/GetFunctionAppStacks.json"
           }
         },
         "x-ms-pageable": {
@@ -105,18 +112,21 @@
         "tags": [
           "Provider"
         ],
-        "description": "Description for ",
+        "summary": "Get available Function app frameworks and their versions for location",
+        "description": "Description for Get available Function app frameworks and their versions for location",
         "operationId": "Provider_GetFunctionAppStacksForLocation",
         "parameters": [
           {
             "name": "location",
             "in": "path",
+            "description": "Function App stack location.",
             "required": true,
             "type": "string"
           },
           {
             "name": "stackOsType",
             "in": "query",
+            "description": "Stack OS Type",
             "type": "string",
             "enum": [
               "Windows",
@@ -142,6 +152,11 @@
             }
           }
         },
+        "x-ms-examples": {
+          "Get Locations Function App Stacks": {
+            "$ref": "./examples/GetFunctionAppStacksForLocation.json"
+          }
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -152,18 +167,21 @@
         "tags": [
           "Provider"
         ],
-        "description": "Description for ",
+        "summary": "Get available Web app frameworks and their versions for location",
+        "description": "Description for Get available Web app frameworks and their versions for location",
         "operationId": "Provider_GetWebAppStacksForLocation",
         "parameters": [
           {
             "name": "location",
             "in": "path",
+            "description": "Web App stack location.",
             "required": true,
             "type": "string"
           },
           {
             "name": "stackOsType",
             "in": "query",
+            "description": "Stack OS Type",
             "type": "string",
             "enum": [
               "Windows",
@@ -187,6 +205,11 @@
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get Locations Web App Stacks": {
+            "$ref": "./examples/GetWebAppStacksForLocation.json"
           }
         },
         "x-ms-pageable": {
@@ -231,60 +254,19 @@
         }
       }
     },
-    "/providers/Microsoft.Web/runtimeStacks": {
-      "get": {
-        "tags": [
-          "Provider"
-        ],
-        "description": "Description for ",
-        "operationId": "Provider_GetRuntimeStacks",
-        "parameters": [
-          {
-            "name": "osTypeSelected",
-            "in": "query",
-            "type": "string",
-            "enum": [
-              "Windows",
-              "Linux",
-              "WindowsFunctions",
-              "LinuxFunctions",
-              "All"
-            ]
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApplicationStackCollection"
-            }
-          },
-          "default": {
-            "description": "App Service error response.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
     "/providers/Microsoft.Web/webAppStacks": {
       "get": {
         "tags": [
           "Provider"
         ],
-        "description": "Description for ",
+        "summary": "Get available Web app frameworks and their versions",
+        "description": "Description for Get available Web app frameworks and their versions",
         "operationId": "Provider_GetWebAppStacks",
         "parameters": [
           {
             "name": "stackOsType",
             "in": "query",
+            "description": "Stack OS Type",
             "type": "string",
             "enum": [
               "Windows",
@@ -308,6 +290,11 @@
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Get Web App Stacks": {
+            "$ref": "./examples/GetWebAppStacks.json"
           }
         },
         "x-ms-pageable": {
@@ -370,25 +357,13 @@
       "properties": {
         "isSupported": {
           "description": "<code>true</code> if remote Application Insights is supported for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isDefaultOff": {
           "description": "<code>true</code> if Application Insights is disabled by default for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
-        }
-      }
-    },
-    "AppSettingsDictionary": {
-      "description": "App settings dictionary.",
-      "type": "object",
-      "properties": {
-        "functionS_WORKER_RUNTIME": {
-          "description": "FUNCTIONS_WORKER_RUNTIME application setting",
-          "type": "string"
-        },
-        "websitE_NODE_DEFAULT_VERSION": {
-          "description": "WEBSITE_NODE_DEFAULT_VERSION application setting",
-          "type": "string"
+          "type": "boolean",
+          "readOnly": true
         }
       }
     },
@@ -474,18 +449,21 @@
       "properties": {
         "displayText": {
           "description": "Function App stack major version (display only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "value": {
           "description": "Function App stack major version name.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "minorVersions": {
           "description": "Minor versions associated with the major version.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/FunctionAppMinorVersion"
-          }
+          },
+          "readOnly": true
         }
       }
     },
@@ -495,15 +473,18 @@
       "properties": {
         "displayText": {
           "description": "Function App stack (display only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "value": {
           "description": "Function App stack name.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "stackSettings": {
           "$ref": "#/definitions/FunctionAppRuntimes",
-          "description": "Settings associated with the minor version."
+          "description": "Settings associated with the minor version.",
+          "readOnly": true
         }
       }
     },
@@ -513,58 +494,80 @@
       "properties": {
         "runtimeVersion": {
           "description": "Function App stack minor version (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "remoteDebuggingSupported": {
           "description": "<code>true</code> if remote debugging is supported for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "appInsightsSettings": {
           "$ref": "#/definitions/AppInsightsWebAppStackSettings",
-          "description": "Application Insights settings associated with the minor version."
+          "description": "Application Insights settings associated with the minor version.",
+          "readOnly": true
         },
         "gitHubActionSettings": {
           "$ref": "#/definitions/GitHubActionWebAppStackSettings",
-          "description": "GitHub Actions settings associated with the minor version."
+          "description": "GitHub Actions settings associated with the minor version.",
+          "readOnly": true
         },
         "appSettingsDictionary": {
-          "$ref": "#/definitions/AppSettingsDictionary",
-          "description": "Application settings associated with the minor version."
+          "description": "Application settings associated with the minor version.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true
         },
         "siteConfigPropertiesDictionary": {
           "$ref": "#/definitions/SiteConfigPropertiesDictionary",
-          "description": "Configuration settings associated with the minor version."
+          "description": "Configuration settings associated with the minor version.",
+          "readOnly": true
         },
         "supportedFunctionsExtensionVersions": {
           "description": "List of supported Functions extension versions.",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "readOnly": true
         },
         "isPreview": {
           "description": "<code>true</code> if the stack is in preview; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isDeprecated": {
           "description": "<code>true</code> if the stack is deprecated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isHidden": {
           "description": "<code>true</code> if the stack should be hidden; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "endOfLifeDate": {
+          "format": "date-time",
           "description": "End-of-life date for the minor version.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isAutoUpdate": {
           "description": "<code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isEarlyAccess": {
           "description": "<code>true</code> if the minor version is early-access; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
+        },
+        "isDefault": {
+          "description": "<code>true</code> if the minor version the default; otherwise, <code>false</code>.",
+          "type": "boolean",
+          "readOnly": true
         }
       }
     },
@@ -574,11 +577,13 @@
       "properties": {
         "linuxRuntimeSettings": {
           "$ref": "#/definitions/FunctionAppRuntimeSettings",
-          "description": "Linux-specific settings associated with the minor version."
+          "description": "Linux-specific settings associated with the minor version.",
+          "readOnly": true
         },
         "windowsRuntimeSettings": {
           "$ref": "#/definitions/FunctionAppRuntimeSettings",
-          "description": "Windows-specific settings associated with the minor version."
+          "description": "Windows-specific settings associated with the minor version.",
+          "readOnly": true
         }
       }
     },
@@ -591,34 +596,43 @@
         }
       ],
       "properties": {
+        "location": {
+          "description": "Function App stack location.",
+          "type": "string",
+          "readOnly": true
+        },
         "properties": {
           "description": "FunctionAppStack resource specific properties",
+          "type": "object",
           "properties": {
             "displayText": {
               "description": "Function App stack (display only).",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
             },
             "value": {
               "description": "Function App stack name.",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
             },
             "majorVersions": {
               "description": "List of major versions available.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/FunctionAppMajorVersion"
-              }
+              },
+              "readOnly": true
             },
             "preferredOs": {
               "description": "Function App stack preferred OS.",
               "enum": [
                 "Windows",
-                "Linux",
-                "All"
+                "Linux"
               ],
               "type": "string",
+              "readOnly": true,
               "x-ms-enum": {
-                "name": "StackOsTypes",
+                "name": "StackPreferredOs",
                 "modelAsString": false
               }
             }
@@ -654,11 +668,13 @@
       "properties": {
         "isSupported": {
           "description": "<code>true</code> if GitHub Actions is supported for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "supportedVersion": {
           "description": "The minor version that is supported for GitHub Actions.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -668,35 +684,44 @@
       "properties": {
         "java11Runtime": {
           "description": "Java 11 version (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "java8Runtime": {
           "description": "Java 8 version (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isPreview": {
           "description": "<code>true</code> if the stack is in preview; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isDeprecated": {
           "description": "<code>true</code> if the stack is deprecated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isHidden": {
           "description": "<code>true</code> if the stack should be hidden; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "endOfLifeDate": {
+          "format": "date-time",
           "description": "End-of-life date for the minor version.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isAutoUpdate": {
           "description": "<code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isEarlyAccess": {
           "description": "<code>true</code> if the minor version is early-access; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         }
       }
     },
@@ -706,19 +731,23 @@
       "properties": {
         "use32BitWorkerProcess": {
           "description": "<code>true</code> if use32BitWorkerProcess should be set to true for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "linuxFxVersion": {
           "description": "LinuxFxVersion configuration setting.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "javaVersion": {
           "description": "JavaVersion configuration setting.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "powerShellVersion": {
           "description": "PowerShellVersion configuration setting.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -749,6 +778,18 @@
           "description": "<code>true</code> if this supports Application Insights; otherwise, <code>false</code>.",
           "type": "boolean"
         },
+        "isPreview": {
+          "description": "<code>true</code> if this stack is in Preview, otherwise <code>false</code>.",
+          "type": "boolean"
+        },
+        "isDeprecated": {
+          "description": "<code>true</code> if this stack has been deprecated, otherwise <code>false</code>.",
+          "type": "boolean"
+        },
+        "isHidden": {
+          "description": "<code>true</code> if this stack should be hidden for new customers on portal, otherwise <code>false</code>.",
+          "type": "boolean"
+        },
         "appSettingsDictionary": {
           "description": "<appSettings>\n <appSetting name=\"FUNCTIONS_WORKER_RUNTIME\" value=\"dotnet\" />\n</appSettings>\n Example: All the function apps need AppSetting: \"FUNCTIONS_WORKER_RUNTIME\" to be set stack name",
           "type": "object",
@@ -762,18 +803,6 @@
           "additionalProperties": {
             "type": "object"
           }
-        },
-        "isPreview": {
-          "description": "<code>true</code> if this stack is in Preview, otherwise <code>false</code>.",
-          "type": "boolean"
-        },
-        "isDeprecated": {
-          "description": "<code>true</code> if this stack has been deprecated, otherwise <code>false</code>.",
-          "type": "boolean"
-        },
-        "isHidden": {
-          "description": "<code>true</code> if this stack should be hidden for new customers on portal, otherwise <code>false</code>.",
-          "type": "boolean"
         }
       }
     },
@@ -805,18 +834,21 @@
       "properties": {
         "displayText": {
           "description": "Web App stack major version (display only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "value": {
           "description": "Web App stack major version name.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "minorVersions": {
           "description": "Minor versions associated with the major version.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/WebAppMinorVersion"
-          }
+          },
+          "readOnly": true
         }
       }
     },
@@ -826,15 +858,18 @@
       "properties": {
         "displayText": {
           "description": "Web App stack minor version (display only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "value": {
           "description": "Web App stack major version name.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "stackSettings": {
           "$ref": "#/definitions/WebAppRuntimes",
-          "description": "Settings associated with the minor version."
+          "description": "Settings associated with the minor version.",
+          "readOnly": true
         }
       }
     },
@@ -844,43 +879,54 @@
       "properties": {
         "runtimeVersion": {
           "description": "Web App stack minor version (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "remoteDebuggingSupported": {
           "description": "<code>true</code> if remote debugging is supported for the stack; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "appInsightsSettings": {
           "$ref": "#/definitions/AppInsightsWebAppStackSettings",
-          "description": "Application Insights settings associated with the minor version."
+          "description": "Application Insights settings associated with the minor version.",
+          "readOnly": true
         },
         "gitHubActionSettings": {
           "$ref": "#/definitions/GitHubActionWebAppStackSettings",
-          "description": "GitHub Actions settings associated with the minor version."
+          "description": "GitHub Actions settings associated with the minor version.",
+          "readOnly": true
         },
         "isPreview": {
           "description": "<code>true</code> if the stack is in preview; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isDeprecated": {
           "description": "<code>true</code> if the stack is deprecated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isHidden": {
           "description": "<code>true</code> if the stack should be hidden; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "endOfLifeDate": {
+          "format": "date-time",
           "description": "End-of-life date for the minor version.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isAutoUpdate": {
           "description": "<code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isEarlyAccess": {
           "description": "<code>true</code> if the minor version is early-access; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         }
       }
     },
@@ -890,19 +936,23 @@
       "properties": {
         "linuxRuntimeSettings": {
           "$ref": "#/definitions/WebAppRuntimeSettings",
-          "description": "Linux-specific settings associated with the minor version."
+          "description": "Linux-specific settings associated with the minor version.",
+          "readOnly": true
         },
         "windowsRuntimeSettings": {
           "$ref": "#/definitions/WebAppRuntimeSettings",
-          "description": "Windows-specific settings associated with the minor version."
+          "description": "Windows-specific settings associated with the minor version.",
+          "readOnly": true
         },
         "linuxContainerSettings": {
           "$ref": "#/definitions/LinuxJavaContainerSettings",
-          "description": "Linux-specific settings associated with the Java container minor version."
+          "description": "Linux-specific settings associated with the Java container minor version.",
+          "readOnly": true
         },
         "windowsContainerSettings": {
           "$ref": "#/definitions/WindowsJavaContainerSettings",
-          "description": "Windows-specific settings associated with the Java container minor version."
+          "description": "Windows-specific settings associated with the Java container minor version.",
+          "readOnly": true
         }
       }
     },
@@ -915,34 +965,43 @@
         }
       ],
       "properties": {
+        "location": {
+          "description": "Web App stack location.",
+          "type": "string",
+          "readOnly": true
+        },
         "properties": {
           "description": "WebAppStack resource specific properties",
+          "type": "object",
           "properties": {
             "displayText": {
               "description": "Web App stack (display only).",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
             },
             "value": {
               "description": "Web App stack name.",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
             },
             "majorVersions": {
               "description": "List of major versions available.",
               "type": "array",
               "items": {
                 "$ref": "#/definitions/WebAppMajorVersion"
-              }
+              },
+              "readOnly": true
             },
             "preferredOs": {
               "description": "Web App stack preferred OS.",
               "enum": [
                 "Windows",
-                "Linux",
-                "All"
+                "Linux"
               ],
               "type": "string",
+              "readOnly": true,
               "x-ms-enum": {
-                "name": "StackOsTypes",
+                "name": "StackPreferredOs",
                 "modelAsString": false
               }
             }
@@ -978,35 +1037,44 @@
       "properties": {
         "javaContainer": {
           "description": "Java container (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "javaContainerVersion": {
           "description": "Java container version (runtime only).",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isPreview": {
           "description": "<code>true</code> if the stack is in preview; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isDeprecated": {
           "description": "<code>true</code> if the stack is deprecated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isHidden": {
           "description": "<code>true</code> if the stack should be hidden; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "endOfLifeDate": {
+          "format": "date-time",
           "description": "End-of-life date for the minor version.",
-          "type": "string"
+          "type": "string",
+          "readOnly": true
         },
         "isAutoUpdate": {
           "description": "<code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         },
         "isEarlyAccess": {
           "description": "<code>true</code> if the minor version is early-access; otherwise, <code>false</code>.",
-          "type": "boolean"
+          "type": "boolean",
+          "readOnly": true
         }
       }
     }

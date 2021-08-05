@@ -2,9 +2,11 @@
   "swagger": "2.0",
   "info": {
     "title": "Relay API",
-    "description": "Use these API to manage Azure Relay resources through Azure Resources Manager.",
-    "version": "2016-07-01",
-    "x-ms-code-generation-settings": { "name": "RelayManagementClient" }
+    "description": "Use these API to manage Azure Relay resources through Azure Resource Manager.",
+    "version": "2017-04-01",
+    "x-ms-code-generation-settings": {
+      "name": "RelayManagementClient"
+    }
   },
   "host": "management.azure.com",
   "schemes": [
@@ -42,9 +44,11 @@
         ],
         "operationId": "Operations_List",
         "x-ms-examples": {
-          "RelayOperationsList": { "$ref": "../examples/RelayOperations_List.json" }
+          "RelayOperationsList": {
+            "$ref": "./examples/RelayOperations_List.json"
+          }
         },
-        "description": "Lists all of the available Relay REST API operations.",
+        "description": "Lists all available Relay REST API operations.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -69,16 +73,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/CheckNameAvailability": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/checkNameAvailability": {
       "post": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_CheckNameAvailability",
         "x-ms-examples": {
-          "RelayCheckNameAvailability": { "$ref": "../examples/NameSpaces/RelayNameSpaceCheckNameAvailability.json" }
+          "RelayCheckNameAvailability": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceCheckNameAvailability.json"
+          }
         },
-        "description": "Check the give namespace name availability.",
+        "description": "Check the specified namespace name availability.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -93,29 +99,37 @@
             "schema": {
               "$ref": "#/definitions/CheckNameAvailability"
             },
-            "description": "Parameters to check availability of the given namespace name"
+            "description": "Parameters to check availability of the specified namespace name."
           }
         ],
         "responses": {
           "200": {
-            "description": "check availability returned successfully.",
+            "description": "Check availability returned successfully.",
             "schema": {
               "$ref": "#/definitions/CheckNameAvailabilityResult"
+            }
+          },
+          "default": {
+            "description": "Relay error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/Namespaces": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Relay/namespaces": {
       "get": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_List",
         "x-ms-examples": {
-          "RelayNameSpaceListBySubscription": { "$ref": "../examples/NameSpaces/RelayNameSpaceListBySubscription.json" }
+          "RelayNameSpaceListBySubscription": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceListBySubscription.json"
+          }
         },
-        "description": "Lists all the available namespaces within the subscription irrespective of the resourceGroups.",
+        "description": "Lists all the available namespaces within the subscription regardless of the resourceGroups.",
         "parameters": [
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -143,14 +157,16 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/Namespaces": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces": {
       "get": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_ListByResourceGroup",
         "x-ms-examples": {
-          "RelayNameSpaceListByResourceGroup": { "$ref": "../examples/NameSpaces/RelayNameSpaceListByResourceGroup.json" }
+          "RelayNameSpaceListByResourceGroup": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceListByResourceGroup.json"
+          }
         },
         "description": "Lists all the available namespaces within the ResourceGroup.",
         "parameters": [
@@ -166,7 +182,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespaces by resourcegroup returned successfully",
+            "description": "Namespaces by resource group returned successfully",
             "schema": {
               "$ref": "#/definitions/RelayNamespaceListResult"
             }
@@ -188,15 +204,13 @@
         "tags": [
           "Namespaces"
         ],
-
         "operationId": "Namespaces_CreateOrUpdate",
         "x-ms-examples": {
-
-          "RelayNamespaceCreate": { "$ref": "../examples/NameSpaces/RelayNameSpaceCreate.json" }
+          "RelayNamespaceCreate": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceCreate.json"
+          }
         },
-
         "description": "Create Azure Relay namespace.",
-
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -211,7 +225,7 @@
             "schema": {
               "$ref": "#/definitions/RelayNamespace"
             },
-            "description": "Parameters supplied to create a Namespace Resource."
+            "description": "Parameters supplied to create a namespace resource."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -222,13 +236,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespace create request succeeded",
+            "description": "Namespace create request succeeded.",
             "schema": {
               "$ref": "#/definitions/RelayNamespace"
             }
           },
-          "202": {
-            "description": "Namespace create request accepted"
+          "201": {
+            "description": "Namespace create request accepted.",
+            "schema": {
+              "$ref": "#/definitions/RelayNamespace"
+            }
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -245,7 +262,9 @@
         ],
         "operationId": "Namespaces_Delete",
         "x-ms-examples": {
-          "RelayNameSpaceDelete": { "$ref": "../examples/NameSpaces/RelayNameSpaceDelete.json" }
+          "RelayNameSpaceDelete": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceDelete.json"
+          }
         },
         "description": "Deletes an existing namespace. This operation also removes all associated resources under the namespace.",
         "parameters": [
@@ -264,13 +283,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespace delete Request succeeded"
+            "description": "Namespace delete request succeeded."
           },
           "202": {
             "description": "Namespace delete request has been accepted for processing and the operation will complete asynchronously."
           },
           "204": {
-            "description": "Namespace delete request has been accepted, but the Namespace not found"
+            "description": "Namespace delete request has been accepted, but the namespace was not found."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -285,19 +304,17 @@
         "tags": [
           "Namespaces"
         ],
-
         "operationId": "Namespaces_Get",
         "x-ms-examples": {
-
-          "RelayNameSpaceGet": { "$ref": "../examples/NameSpaces/RelayNameSpaceGet.json" }
+          "RelayNameSpaceGet": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceGet.json"
+          }
         },
-
         "description": "Returns the description for the specified namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
           },
-
           {
             "$ref": "#/parameters/namespaceNameParameter"
           },
@@ -310,7 +327,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespace returned successfully",
+            "description": "Namespace description returned successfully.",
             "schema": {
               "$ref": "#/definitions/RelayNamespace"
             }
@@ -328,6 +345,11 @@
           "Namespaces"
         ],
         "operationId": "Namespaces_Update",
+        "x-ms-examples": {
+          "RelayNameSpaceUpdate": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceUpdate.json"
+          }
+        },
         "description": "Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.",
         "parameters": [
           {
@@ -341,7 +363,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RelayNamespaceUpdateParameter"
+              "$ref": "#/definitions/RelayUpdateParameters"
             },
             "description": "Parameters for updating a namespace resource."
           },
@@ -358,18 +380,32 @@
             "schema": {
               "$ref": "#/definitions/RelayNamespace"
             }
+          },
+          "201": {
+            "description": "Namespace update request accepted.",
+            "schema": {
+              "$ref": "#/definitions/RelayNamespace"
+            }
+          },
+          "default": {
+            "description": "Relay error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/AuthorizationRules": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules": {
       "get": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_ListAuthorizationRules",
         "x-ms-examples": {
-          "RelayNameSpaceAutorizationRuleListAll": { "$ref": "../examples/NameSpaces/RelayNameSpaceAutorizationRuleListAll.json" }
+          "RelayNameSpaceAutorizationRuleListAll": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAutorizationRuleListAll.json"
+          }
         },
         "description": "Authorization rules for a namespace.",
         "parameters": [
@@ -388,7 +424,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespace Authorization rule returned successfully",
+            "description": "Namespace authorization rule returned successfully.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRuleListResult"
             }
@@ -405,16 +441,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}": {
       "put": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_CreateOrUpdateAuthorizationRule",
         "x-ms-examples": {
-          "RelayNameSpaceAuthorizationRuleCreate": { "$ref": "../examples/NameSpaces/RelayNameSpaceAuthorizationRuleCreate.json" }
+          "RelayNameSpaceAuthorizationRuleCreate": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAuthorizationRuleCreate.json"
+          }
         },
-        "description": "Creates or Updates an authorization rule for a namespace",
+        "description": "Creates or updates an authorization rule for a namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -432,7 +470,7 @@
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             },
-            "description": "The authorization rule parameters"
+            "description": "The authorization rule parameters."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -443,7 +481,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to create Namespace Authorization rule succeeded",
+            "description": "Request to create namespace authorization rule succeeded.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -462,9 +500,11 @@
         ],
         "operationId": "Namespaces_DeleteAuthorizationRule",
         "x-ms-examples": {
-          "RelayNameSpaceAutorizationRuleDelete": { "$ref": "../examples/NameSpaces/RelayNameSpaceAutorizationRuleDelete.json" }
+          "RelayNameSpaceAutorizationRuleDelete": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAutorizationRuleDelete.json"
+          }
         },
-        "description": "Deletes a namespace authorization rule",
+        "description": "Deletes a namespace authorization rule.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -484,10 +524,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to delete Namespace Authorization rule succeeded."
+            "description": "Request to delete namespace authorization rule succeeded."
           },
           "204": {
-            "description": "No Content. The request has been accepted but the Namespace Authorization rule was not found."
+            "description": "No content. The request has been accepted but the namespace authorization rule was not found."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -503,7 +543,9 @@
         ],
         "operationId": "Namespaces_GetAuthorizationRule",
         "x-ms-examples": {
-          "RelayNameSpaceAutorizationRuleGet": { "$ref": "../examples/NameSpaces/RelayNameSpaceAutorizationRuleGet.json" }
+          "RelayNameSpaceAutorizationRuleGet": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAutorizationRuleGet.json"
+          }
         },
         "description": "Authorization rule for a namespace by name.",
         "parameters": [
@@ -525,7 +567,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Namespace Authorization rule returned successfully",
+            "description": "Namespace Authorization rule returned successfully.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -539,16 +581,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/listKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/listKeys": {
       "post": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_ListKeys",
         "x-ms-examples": {
-          "RelayNameSpaceAuthorizationRuleListKey": { "$ref": "../examples/NameSpaces/RelayNameSpaceAuthorizationRuleListKey.json" }
+          "RelayNameSpaceAuthorizationRuleListKey": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAuthorizationRuleListKey.json"
+          }
         },
-        "description": "Primary and Secondary ConnectionStrings to the namespace ",
+        "description": "Primary and secondary connection strings to the namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -568,9 +612,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful",
+            "description": "Successful.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -582,16 +626,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/regenerateKeys": {
       "post": {
         "tags": [
           "Namespaces"
         ],
         "operationId": "Namespaces_RegenerateKeys",
         "x-ms-examples": {
-          "RelayNameSpaceAuthorizationRuleRegenrateKey": { "$ref": "../examples/NameSpaces/RelayNameSpaceAuthorizationRuleRegenrateKey.json" }
+          "RelayNameSpaceAuthorizationRuleRegenrateKey": {
+            "$ref": "./examples/NameSpaces/RelayNameSpaceAuthorizationRuleRegenrateKey.json"
+          }
         },
-        "description": "Regenerates the Primary or Secondary ConnectionStrings to the namespace ",
+        "description": "Regenerates the primary or secondary connection strings to the namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -607,9 +653,9 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RegenerateKeysParameters"
+              "$ref": "#/definitions/RegenerateAccessKeyParameters"
             },
-            "description": "Parameters supplied to regenerate Auth Rule."
+            "description": "Parameters supplied to regenerate authorization rule."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -620,9 +666,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful",
+            "description": "Successful.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -634,16 +680,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections": {
       "get": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_ListByNamespace",
         "x-ms-examples": {
-          "RelayHybridConnectionListAll": { "$ref": "../examples/HybridConnection/RelayHybridConnectionListAll.json" }
+          "RelayHybridConnectionListAll": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionListAll.json"
+          }
         },
-        "description": "Lists the HybridConnection within the namespace.",
+        "description": "Lists the hybrid connection within the namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -660,7 +708,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to retrieve HybridConnections by NameSpace succeeded",
+            "description": "Request to retrieve hybrid connections by namespace succeeded.",
             "schema": {
               "$ref": "#/definitions/HybridConnectionListResult"
             }
@@ -677,16 +725,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections/{hybridConnectionName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}": {
       "put": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_CreateOrUpdate",
         "x-ms-examples": {
-          "RelayHybridConnectionCreate": { "$ref": "../examples/HybridConnection/RelayHybridConnectionCreate.json" }
+          "RelayHybridConnectionCreate": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionCreate.json"
+          }
         },
-        "description": "Creates or Updates a service HybridConnection. This operation is idempotent.",
+        "description": "Creates or updates a service hybrid connection. This operation is idempotent.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -704,7 +754,7 @@
             "schema": {
               "$ref": "#/definitions/HybridConnection"
             },
-            "description": "Parameters supplied to create a HybridConnection."
+            "description": "Parameters supplied to create a hybrid connection."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -715,7 +765,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to Create Hybrid Connections succeeded",
+            "description": "Request to create hybrid connections succeeded.",
             "schema": {
               "$ref": "#/definitions/HybridConnection"
             }
@@ -734,9 +784,11 @@
         ],
         "operationId": "HybridConnections_Delete",
         "x-ms-examples": {
-          "RelayHybridconnectionDelete": { "$ref": "../examples/HybridConnection/RelayHybridconnectionDelete.json" }
+          "RelayHybridconnectionDelete": {
+            "$ref": "./examples/HybridConnection/RelayHybridconnectionDelete.json"
+          }
         },
-        "description": "Deletes a HybridConnection .",
+        "description": "Deletes a hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -756,10 +808,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to delete Hybrid Connections succeeded."
+            "description": "Request to delete hybrid connection succeeded."
           },
           "204": {
-            "description": "No Content. The request has been accepted but the Hybrid Connections was not found."
+            "description": "No content. The request has been accepted but the hybrid connection was not found."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -775,9 +827,11 @@
         ],
         "operationId": "HybridConnections_Get",
         "x-ms-examples": {
-          "RelayHybridConnectionGet": { "$ref": "../examples/HybridConnection/RelayHybridConnectionGet.json" }
+          "RelayHybridConnectionGet": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionGet.json"
+          }
         },
-        "description": "Returns the description for the specified HybridConnection.",
+        "description": "Returns the description for the specified hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -797,7 +851,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved hybridConnection description",
+            "description": "Successfully retrieved description for the hybrid connection.",
             "schema": {
               "$ref": "#/definitions/HybridConnection"
             }
@@ -811,16 +865,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections/{hybridConnectionName}/authorizationRules": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules": {
       "get": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_ListAuthorizationRules",
         "x-ms-examples": {
-          "RelayHybridConnectionAutorizationRuleListAll": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAutorizationRuleListAll.json" }
+          "RelayHybridConnectionAutorizationRuleListAll": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAutorizationRuleListAll.json"
+          }
         },
-        "description": "Authorization rules for a HybridConnection.",
+        "description": "Authorization rules for a hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -844,6 +900,12 @@
             "schema": {
               "$ref": "#/definitions/AuthorizationRuleListResult"
             }
+          },
+          "default": {
+            "description": "Relay error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
@@ -851,16 +913,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}": {
       "put": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_CreateOrUpdateAuthorizationRule",
         "x-ms-examples": {
-          "RelayHybridConnectionAuthorizationRuleCreate": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAuthorizationRuleCreate.json" }
+          "RelayHybridConnectionAuthorizationRuleCreate": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAuthorizationRuleCreate.json"
+          }
         },
-        "description": "Creates or Updates an authorization rule for a HybridConnection",
+        "description": "Creates or updates an authorization rule for a hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -881,7 +945,7 @@
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             },
-            "description": "The authorization rule parameters"
+            "description": "The authorization rule parameters."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -892,7 +956,7 @@
         ],
         "responses": {
           "200": {
-            "description": "HybridConnection Authorization rule created",
+            "description": "Hybrid connection authorization rule created.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -911,9 +975,11 @@
         ],
         "operationId": "HybridConnections_DeleteAuthorizationRule",
         "x-ms-examples": {
-          "RelayHybridConnectionAutorizationRuleDelete": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAutorizationRuleDelete.json" }
+          "RelayHybridConnectionAutorizationRuleDelete": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAutorizationRuleDelete.json"
+          }
         },
-        "description": "Deletes a HybridConnection authorization rule",
+        "description": "Deletes a hybrid connection authorization rule.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -936,10 +1002,10 @@
         ],
         "responses": {
           "200": {
-            "description": "HybridConnection authorizationRule deleted"
+            "description": "Hybrid connection authorization rule deleted."
           },
           "204": {
-            "description": "Authorization rule does not exist"
+            "description": "Authorization rule does not exist."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -955,9 +1021,11 @@
         ],
         "operationId": "HybridConnections_GetAuthorizationRule",
         "x-ms-examples": {
-          "RelayHybridConnectionAutorizationRuleGet": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAutorizationRuleGet.json" }
+          "RelayHybridConnectionAutorizationRuleGet": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAutorizationRuleGet.json"
+          }
         },
-        "description": "HybridConnection authorizationRule for a HybridConnection by name.",
+        "description": "Hybrid connection authorization rule for a hybrid connection by name.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -980,7 +1048,7 @@
         ],
         "responses": {
           "200": {
-            "description": "HybridConnection AuthorizationRule returned successfully",
+            "description": "Hybrid connection authorization rule returned successfully.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -994,16 +1062,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/ListKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/listKeys": {
       "post": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_ListKeys",
         "x-ms-examples": {
-          "RelayHybridConnectionAuthorizationRuleListKey": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAuthorizationRuleListKey.json" }
+          "RelayHybridConnectionAuthorizationRuleListKey": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAuthorizationRuleListKey.json"
+          }
         },
-        "description": "Primary and Secondary ConnectionStrings to the HybridConnection.",
+        "description": "Primary and secondary connection strings to the hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1026,9 +1096,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to retirve ConnectionStrings to the HybridConnection succeeded",
+            "description": "Request to retirve connection strings to the hybrid connection succeeded.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -1040,16 +1110,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/HybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/hybridConnections/{hybridConnectionName}/authorizationRules/{authorizationRuleName}/regenerateKeys": {
       "post": {
         "tags": [
           "HybridConnections"
         ],
         "operationId": "HybridConnections_RegenerateKeys",
         "x-ms-examples": {
-          "RelayHybridConnectionAuthorizationRuleRegenrateKey": { "$ref": "../examples/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenrateKey.json" }
+          "RelayHybridConnectionAuthorizationRuleRegenrateKey": {
+            "$ref": "./examples/HybridConnection/RelayHybridConnectionAuthorizationRuleRegenrateKey.json"
+          }
         },
-        "description": "Regenerates the Primary or Secondary ConnectionStrings to the HybridConnection",
+        "description": "Regenerates the primary or secondary connection strings to the hybrid connection.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1068,9 +1140,9 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RegenerateKeysParameters"
+              "$ref": "#/definitions/RegenerateAccessKeyParameters"
             },
-            "description": "Parameters supplied to regenerate Auth Rule."
+            "description": "Parameters supplied to regenerate authorization rule."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1081,9 +1153,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to regenerate ConnectionStrings to HybridConnection succeeded",
+            "description": "Request to regenerate connection strings to hybrid connection succeeded.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -1095,16 +1167,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays": {
       "get": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_ListByNamespace",
         "x-ms-examples": {
-          "RelayListAll": { "$ref": "../examples/Relay/RelayListAll.json" }
+          "RelayListAll": {
+            "$ref": "./examples/Relay/RelayListAll.json"
+          }
         },
-        "description": "Lists the WCFRelays within the namespace.",
+        "description": "Lists the WCF relays within the namespace.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1121,7 +1195,7 @@
         ],
         "responses": {
           "200": {
-            "description": "WCF Relays returned successfully",
+            "description": "WCF relays returned successfully.",
             "schema": {
               "$ref": "#/definitions/WcfRelaysListResult"
             }
@@ -1138,16 +1212,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays/{relayName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}": {
       "put": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_CreateOrUpdate",
         "x-ms-examples": {
-          "RelayCreate": { "$ref": "../examples/Relay/RelayCreate.json" }
+          "RelayCreate": {
+            "$ref": "./examples/Relay/RelayCreate.json"
+          }
         },
-        "description": "Creates or Updates a WCFRelay. This operation is idempotent.",
+        "description": "Creates or updates a WCF relay. This operation is idempotent.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1165,7 +1241,7 @@
             "schema": {
               "$ref": "#/definitions/WcfRelay"
             },
-            "description": "Parameters supplied to create a WCFRelays."
+            "description": "Parameters supplied to create a WCF relay."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1176,7 +1252,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to create WCFRelays succeeded",
+            "description": "Request to create WCF relay succeeded.",
             "schema": {
               "$ref": "#/definitions/WcfRelay"
             }
@@ -1195,9 +1271,11 @@
         ],
         "operationId": "WCFRelays_Delete",
         "x-ms-examples": {
-          "RelayDelete": { "$ref": "../examples/Relay/RelayDelete.json" }
+          "RelayDelete": {
+            "$ref": "./examples/Relay/RelayDelete.json"
+          }
         },
-        "description": "Deletes a WCFRelays .",
+        "description": "Deletes a WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1217,10 +1295,10 @@
         ],
         "responses": {
           "200": {
-            "description": "WCFRelays deleted."
+            "description": "WCF relay deleted."
           },
           "204": {
-            "description": "No Content"
+            "description": "No content."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -1236,9 +1314,11 @@
         ],
         "operationId": "WCFRelays_Get",
         "x-ms-examples": {
-          "RelayGet": { "$ref": "../examples/Relay/RelayGet.json" }
+          "RelayGet": {
+            "$ref": "./examples/Relay/RelayGet.json"
+          }
         },
-        "description": "Returns the description for the specified WCFRelays.",
+        "description": "Returns the description for the specified WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1258,13 +1338,13 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved WCFRelays description",
+            "description": "Successfully retrieved WCF relay description.",
             "schema": {
               "$ref": "#/definitions/WcfRelay"
             }
           },
           "204": {
-            "description": "WCFRelays not found"
+            "description": "WCF relay not found"
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -1275,16 +1355,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays/{relayName}/authorizationRules": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules": {
       "get": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_ListAuthorizationRules",
         "x-ms-examples": {
-          "RelayAutorizationRuleListAll": { "$ref": "../examples/Relay/RelayAutorizationRuleListAll.json" }
+          "RelayAutorizationRuleListAll": {
+            "$ref": "./examples/Relay/RelayAutorizationRuleListAll.json"
+          }
         },
-        "description": "Authorization rules for a WCFRelays.",
+        "description": "Authorization rules for a WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1315,16 +1397,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays/{relayName}/authorizationRules/{authorizationRuleName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}": {
       "put": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_CreateOrUpdateAuthorizationRule",
         "x-ms-examples": {
-          "RelayAuthorizationRuleCreate": { "$ref": "../examples/Relay/RelayAuthorizationRuleCreate.json" }
+          "RelayAuthorizationRuleCreate": {
+            "$ref": "./examples/Relay/RelayAuthorizationRuleCreate.json"
+          }
         },
-        "description": "Creates or Updates an authorization rule for a WCFRelays",
+        "description": "Creates or updates an authorization rule for a WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1356,7 +1440,7 @@
         ],
         "responses": {
           "200": {
-            "description": "WCFRelays Authorization rule created",
+            "description": "WCF relay authorization rule created.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -1375,9 +1459,11 @@
         ],
         "operationId": "WCFRelays_DeleteAuthorizationRule",
         "x-ms-examples": {
-          "RelayAutorizationRuleDelete": { "$ref": "../examples/Relay/RelayAutorizationRuleDelete.json" }
+          "RelayAutorizationRuleDelete": {
+            "$ref": "./examples/Relay/RelayAutorizationRuleDelete.json"
+          }
         },
-        "description": "Deletes a WCFRelays authorization rule",
+        "description": "Deletes a WCF relay authorization rule.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1400,10 +1486,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Request to delete WCFRelay authorizationRule succeeded"
+            "description": "Request to delete WCF relay authorization rule succeeded."
           },
           "204": {
-            "description": "Request accepted but Authorization rule does not exist"
+            "description": "Request accepted butthe authorization rule does not exist."
           },
           "default": {
             "description": "Relay error response describing why the operation failed.",
@@ -1419,9 +1505,11 @@
         ],
         "operationId": "WCFRelays_GetAuthorizationRule",
         "x-ms-examples": {
-          "RelayAutorizationRuleGet": { "$ref": "../examples/Relay/RelayAutorizationRuleGet.json" }
+          "RelayAutorizationRuleGet": {
+            "$ref": "./examples/Relay/RelayAutorizationRuleGet.json"
+          }
         },
-        "description": "Get authorizationRule for a WCFRelays by name.",
+        "description": "Get authorizationRule for a WCF relay by name.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1444,7 +1532,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Request for WCFRelays AuthorizationRule succeeded",
+            "description": "Request for WCF relay authorization rule succeeded.",
             "schema": {
               "$ref": "#/definitions/AuthorizationRule"
             }
@@ -1458,16 +1546,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/ListKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/listKeys": {
       "post": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_ListKeys",
         "x-ms-examples": {
-          "RelayAuthorizationRuleListKey.json": { "$ref": "../examples/Relay/RelayAuthorizationRuleListKey.json" }
+          "RelayAuthorizationRuleListKey.json": {
+            "$ref": "./examples/Relay/RelayAuthorizationRuleListKey.json"
+          }
         },
-        "description": "Primary and Secondary ConnectionStrings to the WCFRelays.",
+        "description": "Primary and secondary connection strings to the WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1490,9 +1580,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful",
+            "description": "Successful.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -1504,16 +1594,18 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/WcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/regenerateKeys": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Relay/namespaces/{namespaceName}/wcfRelays/{relayName}/authorizationRules/{authorizationRuleName}/regenerateKeys": {
       "post": {
         "tags": [
           "WCFRelays"
         ],
         "operationId": "WCFRelays_RegenerateKeys",
         "x-ms-examples": {
-          "RelayAuthorizationRuleRegenrateKey.json": { "$ref": "../examples/Relay/RelayAuthorizationRuleRegenrateKey.json" }
+          "RelayAuthorizationRuleRegenrateKey.json": {
+            "$ref": "./examples/Relay/RelayAuthorizationRuleRegenrateKey.json"
+          }
         },
-        "description": "Regenerates the Primary or Secondary ConnectionStrings to the WCFRelays",
+        "description": "Regenerates the primary or secondary connection strings to the WCF relay.",
         "parameters": [
           {
             "$ref": "#/parameters/resourceGroupNameParameter"
@@ -1532,9 +1624,9 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RegenerateKeysParameters"
+              "$ref": "#/definitions/RegenerateAccessKeyParameters"
             },
-            "description": "Parameters supplied to regenerate Auth Rule."
+            "description": "Parameters supplied to regenerate authorization rule."
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -1545,9 +1637,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful",
+            "description": "Successful.",
             "schema": {
-              "$ref": "#/definitions/AuthorizationRuleKeys"
+              "$ref": "#/definitions/AccessKeys"
             }
           },
           "default": {
@@ -1565,45 +1657,66 @@
       "properties": {
         "location": {
           "type": "string",
-          "description": "Resource location"
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ],
+          "description": "Resource location."
         },
         "tags": {
           "type": "object",
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Resource tags"
+          "description": "Resource tags."
         }
       },
-      "required": [
-        "location"
-      ],
       "allOf": [
         {
           "$ref": "#/definitions/Resource"
         }
       ],
-      "description": "Definition of Resource"
+      "required": [
+        "location"
+      ],
+      "description": "Definition of resource."
+    },
+    "ResourceNamespacePatch": {
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Resource tags."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Resource"
+        }
+      ],
+      "description": "Definition of resource."
     },
     "Resource": {
       "properties": {
         "id": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource Id"
+          "description": "Resource ID."
         },
         "name": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource name"
+          "description": "Resource name."
         },
         "type": {
           "readOnly": true,
           "type": "string",
-          "description": "Resource type"
+          "description": "Resource type."
         }
       },
-      "description": "The Resource definition",
+      "description": "The resource definition.",
       "x-ms-azure-resource": true
     },
     "HybridConnectionListResult": {
@@ -1613,62 +1726,58 @@
           "items": {
             "$ref": "#/definitions/HybridConnection"
           },
-          "description": "Result of the List HybridConnection ."
+          "description": "Result of the list hybrid connections."
         },
         "nextLink": {
           "type": "string",
-          "description": "Link to the next set of results. Not empty if Value contains incomplete list of HybridConnection operation"
+          "description": "Link to the next set of results. Not empty if value contains incomplete list hybrid connection operation."
         }
       },
-      "description": "The response of the List HybridConnection operation."
+      "description": "The response of the list hybrid connection operation."
     },
     "HybridConnection": {
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/HybridConnectionProperties",
-          "description": "Properties of HybridConnection"
+          "properties": {
+            "createdAt": {
+              "readOnly": true,
+              "format": "date-time",
+              "type": "string",
+              "description": "The time the hybrid connection was created."
+            },
+            "updatedAt": {
+              "readOnly": true,
+              "format": "date-time",
+              "type": "string",
+              "description": "The time the namespace was updated."
+            },
+            "listenerCount": {
+              "readOnly": true,
+              "format": "int32",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25,
+              "description": "The number of listeners for this hybrid connection. Note that min : 1 and max:25 are supported."
+            },
+            "requiresClientAuthorization": {
+              "type": "boolean",
+              "description": "Returns true if client authorization is needed for this hybrid connection; otherwise, false."
+            },
+            "userMetadata": {
+              "type": "string",
+              "description": "The usermetadata is a placeholder to store user-defined string data for the hybrid connection endpoint. For example, it can be used to store descriptive data, such as a list of teams and their contact information. Also, user-defined configuration settings can be stored."
+            }
+          },
+          "description": "Properties of the HybridConnection."
         }
       },
-      "description": "Description of HybridConnection Resource.",
+      "description": "Description of hybrid connection resource.",
       "allOf": [
         {
           "$ref": "#/definitions/Resource"
         }
       ]
-    },
-    "HybridConnectionProperties": {
-      "properties": {
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true,
-          "description": "The time the HybridConnection was created."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true,
-          "description": "The time the namespace was updated."
-        },
-        "listenerCount": {
-          "format": "int32",
-          "type": "integer",
-          "readOnly": true,
-          "minimum": 1,
-          "maximum": 25,
-          "description": "The number of listeners for this HybridConnection. min : 1 and max:25 supported"
-        },
-        "requiresClientAuthorization": {
-          "type": "boolean",
-          "description": "true if client authorization is needed for this HybridConnection; otherwise, false."
-        },
-        "userMetadata": {
-          "type": "string",
-          "description": "usermetadata is a placeholder to store user-defined string data for the HybridConnection endpoint.e.g. it can be used to store  descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored."
-        }
-      },
-      "description": "Properties of the HybridConnection."
     },
     "WcfRelaysListResult": {
       "properties": {
@@ -1677,81 +1786,79 @@
           "items": {
             "$ref": "#/definitions/WcfRelay"
           },
-          "description": "Result of the List WcfRelays ."
+          "description": "Result of the list WCF relay operation."
         },
         "nextLink": {
           "type": "string",
-          "description": "Link to the next set of results. Not empty if Value contains incomplete list of WcfRelays operation"
+          "description": "Link to the next set of results. Not empty if value contains incomplete list of WCF relays."
         }
       },
-      "description": "The response of the List WcfRelays operation."
+      "description": "The response of the list WCF relay operation."
     },
     "WcfRelay": {
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/WcfRelayProperties",
-          "description": "Properties of WcfRelay"
+          "properties": {
+            "isDynamic": {
+              "readOnly": true,
+              "type": "boolean",
+              "description": "Returns true if the relay is dynamic; otherwise, false."
+            },
+            "createdAt": {
+              "readOnly": true,
+              "format": "date-time",
+              "type": "string",
+              "description": "The time the WCF relay was created."
+            },
+            "updatedAt": {
+              "readOnly": true,
+              "format": "date-time",
+              "type": "string",
+              "description": "The time the namespace was updated."
+            },
+            "listenerCount": {
+              "readOnly": true,
+              "format": "int32",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25,
+              "description": "The number of listeners for this relay. Note that min :1 and max:25 are supported."
+            },
+            "relayType": {
+              "type": "string",
+              "description": "WCF relay type.",
+              "enum": [
+                "NetTcp",
+                "Http"
+              ],
+              "x-ms-enum": {
+                "name": "Relaytype",
+                "modelAsString": false
+              }
+            },
+            "requiresClientAuthorization": {
+              "type": "boolean",
+              "description": "Returns true if client authorization is needed for this relay; otherwise, false."
+            },
+            "requiresTransportSecurity": {
+              "type": "boolean",
+              "description": "Returns true if transport security is needed for this relay; otherwise, false."
+            },
+            "userMetadata": {
+              "type": "string",
+              "description": "The usermetadata is a placeholder to store user-defined string data for the WCF Relay endpoint. For example, it can be used to store descriptive data, such as list of teams and their contact information. Also, user-defined configuration settings can be stored."
+            }
+          },
+          "description": "Properties of the WCF relay."
         }
       },
-      "description": "Description of WcfRelays Resource.",
+      "description": "Description of the WCF relay resource.",
       "allOf": [
         {
           "$ref": "#/definitions/Resource"
         }
       ]
-    },
-    "WcfRelayProperties": {
-      "properties": {
-        "relayType": {
-          "type": "string",
-          "description": "WCFRelay Type.",
-          "enum": [
-            "NetTcp",
-            "Http"
-          ],
-          "x-ms-enum": {
-            "name": "Relaytype",
-            "modelAsString": true
-          }
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true,
-          "description": "The time the WCFRelay was created."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "date-time",
-          "readOnly": true,
-          "description": "The time the namespace was updated."
-        },
-        "listenerCount": {
-          "format": "int32",
-          "type": "integer",
-          "readOnly": true,
-          "description": "The number of listeners for this relay. min : 1 and max:25 supported"
-        },
-        "requiresClientAuthorization": {
-          "type": "boolean",
-          "description": "true if client authorization is needed for this relay; otherwise, false."
-        },
-        "requiresTransportSecurity": {
-          "type": "boolean",
-          "description": "true if transport security is needed for this relay; otherwise, false."
-        },
-        "isDynamic": {
-          "type": "boolean",
-          "readOnly": true,
-          "description": "true if the relay is dynamic; otherwise, false."
-        },
-        "userMetadata": {
-          "type": "string",
-          "description": "usermetadata is a placeholder to store user-defined string data for the HybridConnection endpoint.e.g. it can be used to store  descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored."
-        }
-      },
-      "description": "Properties of the WcfRelay Properties."
     },
     "RelayNamespaceListResult": {
       "properties": {
@@ -1760,28 +1867,28 @@
           "items": {
             "$ref": "#/definitions/RelayNamespace"
           },
-          "description": "Result of the List Namespace operation."
+          "description": "Result of the list namespace operation."
         },
         "nextLink": {
           "type": "string",
-          "description": "Link to the next set of results. Not empty if Value contains incomplete list of Namespaces"
+          "description": "Link to the next set of results. Not empty if value contains incomplete list of namespaces."
         }
       },
-      "description": "The response of the List Namespace operation."
+      "description": "The response from the list namespace operation."
     },
     "RelayNamespace": {
       "properties": {
         "sku": {
           "$ref": "#/definitions/Sku",
-          "description": "Sku of the Namespace."
+          "description": "SKU of the namespace."
         },
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/RelayNamespaceProperties",
-          "description": "Description of Relay Namespace"
+          "description": "Description of Relay namespace"
         }
       },
-      "description": "Description of a Namespace resource.",
+      "description": "Description of a namespace resource.",
       "allOf": [
         {
           "$ref": "#/definitions/TrackedResource"
@@ -1793,7 +1900,18 @@
         "provisioningState": {
           "type": "string",
           "readOnly": true,
-          "description": "Provisioning state of the namespace."
+          "enum": [
+            "Created",
+            "Succeeded",
+            "Deleted",
+            "Failed",
+            "Updating",
+            "Unknown"
+          ],
+          "x-ms-enum": {
+            "name": "provisioningStateEnum",
+            "modelAsString": false
+          }
         },
         "createdAt": {
           "type": "string",
@@ -1815,41 +1933,59 @@
         "metricId": {
           "type": "string",
           "readOnly": true,
-          "description": "Identifier for Azure Insights metrics"
+          "description": "Identifier for Azure Insights metrics."
         }
       },
-      "description": "Properties of the Namespace."
+      "description": "Properties of the namespace."
+    },
+    "RelayUpdateParameters": {
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "SKU of the namespace."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/RelayNamespaceProperties",
+          "description": "Description of Relay namespace."
+        }
+      },
+      "description": "Description of a namespace resource.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceNamespacePatch"
+        }
+      ]
     },
     "Sku": {
       "type": "object",
       "properties": {
         "name": {
           "type": "string",
-          "description": "Name of this Sku",
+          "description": "Name of this SKU.",
           "enum": [
             "Standard"
           ],
           "x-ms-enum": {
             "name": "SkuName",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "tier": {
           "type": "string",
-          "description": "The tier of this particular SKU",
+          "description": "The tier of this SKU.",
           "enum": [
             "Standard"
           ],
           "x-ms-enum": {
             "name": "SkuTier",
-            "modelAsString": true
+            "modelAsString": false
           }
         }
       },
-      "description": "Sku of the Namespace.",
+      "description": "SKU of the namespace.",
       "required": [
-        "name",
-        "tier"
+        "name"
       ]
     },
     "AuthorizationRuleListResult": {
@@ -1859,21 +1995,42 @@
           "items": {
             "$ref": "#/definitions/AuthorizationRule"
           },
-          "description": "Result of the List AuthorizationRules operation."
+          "description": "Result of the list authorization rules operation."
         },
         "nextLink": {
           "type": "string",
-          "description": "Link to the next set of results. Not empty if Value contains incomplete list of AuthorizationRules"
+          "description": "Link to the next set of results. Not empty if value contains incomplete list of authorization rules."
         }
       },
-      "description": "The response of the List Namespace operation."
+      "description": "The response from the list namespace operation."
     },
     "AuthorizationRule": {
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/AuthorizationRuleProperties",
-          "description": "Authorization Rule properties"
+          "properties": {
+            "rights": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Manage",
+                  "Send",
+                  "Listen"
+                ],
+                "x-ms-enum": {
+                  "name": "AccessRights",
+                  "modelAsString": false
+                }
+              },
+              "description": "The rights associated with the rule."
+            }
+          },
+          "required": [
+            "rights"
+          ],
+          "description": "Authorization rule properties."
         }
       },
       "required": [
@@ -1884,88 +2041,56 @@
           "$ref": "#/definitions/Resource"
         }
       ],
-      "description": "Description of a Namespace AuthorizationRules."
+      "description": "Description of a namespace authorization rule."
     },
-    "AuthorizationRuleProperties": {
-      "properties": {
-        "rights": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "enum": [
-              "Manage",
-              "Send",
-              "Listen"
-            ],
-            "x-ms-enum": {
-              "name": "AccessRights",
-              "modelAsString": true
-            }
-          },
-          "description": "The rights associated with the rule."
-        }
-      },
-      "required": [
-        "rights"
-      ],
-      "description": "AuthorizationRule properties."
-    },
-    "AuthorizationRuleKeys": {
+    "AccessKeys": {
       "properties": {
         "primaryConnectionString": {
           "type": "string",
-          "description": "PrimaryConnectionString of the created Namespace AuthorizationRule."
+          "description": "Primary connection string of the created namespace authorization rule."
         },
         "secondaryConnectionString": {
           "type": "string",
-          "description": "SecondaryConnectionString of the created Namespace AuthorizationRule"
+          "description": "Secondary connection string of the created namespace authorization rule."
         },
         "primaryKey": {
           "type": "string",
-          "description": "A base64-encoded 256-bit primary key for signing and validating the SAS token"
+          "description": "A base64-encoded 256-bit primary key for signing and validating the SAS token."
         },
         "secondaryKey": {
           "type": "string",
-          "description": "A base64-encoded 256-bit secondary key for signing and validating the SAS token"
+          "description": "A base64-encoded 256-bit secondary key for signing and validating the SAS token."
         },
         "keyName": {
           "type": "string",
-          "description": "A string that describes the authorization rule"
+          "description": "A string that describes the authorization rule."
         }
       },
       "description": "Namespace/Relay Connection String"
     },
-    "RegenerateKeysParameters": {
+    "RegenerateAccessKeyParameters": {
       "properties": {
-        "policyKey": {
+        "keyType": {
           "type": "string",
-          "description": "Key that needs to be regenerated.",
+          "description": "The access key to regenerate.",
           "enum": [
             "PrimaryKey",
             "SecondaryKey"
           ],
           "x-ms-enum": {
-            "name": "policyKey",
-            "modelAsString": true
+            "name": "KeyType",
+            "modelAsString": false
           }
+        },
+        "key": {
+          "type": "string",
+          "description": "Optional. If the key value is provided, this is set to key type, or autogenerated key value set for key type."
         }
       },
-      "description": "Parameters supplied to the Regenerate Authorization Rule operation."
-    },
-    "ErrorResponse": {
-      "description": "Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.",
-      "type": "object",
-      "properties": {
-        "code": {
-          "description": "Error code.",
-          "type": "string"
-        },
-        "message": {
-          "description": "Error message indicating why the operation failed.",
-          "type": "string"
-        }
-      }
+      "required": [
+        "keyType"
+      ],
+      "description": "Parameters supplied to the regenerate authorization rule operation, specifies which key neeeds to be reset."
     },
     "UnavailableReason": {
       "type": "string",
@@ -1987,53 +2112,37 @@
       "properties": {
         "name": {
           "type": "string",
-          "description": "The Name to check the namespce name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number."
+          "description": "The namespace name to check for availability. The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number."
         }
       },
       "required": [
         "name"
       ],
-      "description": "Description of a Check Name availability request properties."
+      "description": "Description of the check name availability request properties."
     },
     "CheckNameAvailabilityResult": {
       "properties": {
-        "nameAvailable": {
-          "type": "boolean",
-          "description": "Value indicating namespace is availability, true if the namespace is available; otherwise, false."
-        },
-        "reason": {
-          "$ref": "#/definitions/UnavailableReason",
-          "description": "The reason for unavailability of a namespace."
-        },
         "message": {
           "type": "string",
           "readOnly": true,
           "description": "The detailed info regarding the reason associated with the namespace."
-        }
-      },
-      "description": "Description of a Check Name availability request properties."
-    },
-    "RelayNamespaceUpdateParameter": {
-      "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "description": "Resource tags"
         },
-        "sku": {
-          "$ref": "#/definitions/Sku",
-          "description": "The sku of the created namespace"
+        "nameAvailable": {
+          "type": "boolean",
+          "description": "Value indicating namespace is available. Returns true if the namespace is available; otherwise, false."
+        },
+        "reason": {
+          "$ref": "#/definitions/UnavailableReason",
+          "description": "The reason for unavailability of a namespace."
         }
       },
-      "description": "Parameters supplied to the Patch Namespace operation."
+      "description": "Description of the check name availability request properties."
     },
     "OperationListResult": {
-      "description": "Result of the request to list EventHub operations. It contains a list of operations and a URL link to get the next set of results.",
+      "description": "Result of the request to list Relay operations. It contains a list of operations and a URL link to get the next set of results.",
       "properties": {
         "value": {
-          "description": "List of EventHub operations supported by the Microsoft.EventHub resource provider.",
+          "description": "List of Relay operations supported by resource provider.",
           "type": "array",
           "readOnly": true,
           "items": {
@@ -2048,7 +2157,7 @@
       }
     },
     "Operation": {
-      "description": "A EventHub REST API operation",
+      "description": "A Relay REST API operation.",
       "type": "object",
       "properties": {
         "name": {
@@ -2060,7 +2169,7 @@
           "description": "The object that represents the operation.",
           "properties": {
             "provider": {
-              "description": "Service provider: Microsoft.EventHub",
+              "description": "Service provider: Relay.",
               "type": "string",
               "readOnly": true
             },
@@ -2077,6 +2186,20 @@
           }
         }
       }
+    },
+    "ErrorResponse": {
+      "description": "Error reponse indicates Relay service is not able to process the incoming request. The reason is provided in the error message.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code.",
+          "type": "string"
+        },
+        "message": {
+          "description": "Error message indicating why the operation failed.",
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {
@@ -2085,14 +2208,14 @@
       "in": "path",
       "required": true,
       "type": "string",
-      "description": "Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
+      "description": "Subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call."
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Client Api Version."
+      "description": "Client API version."
     },
     "resourceGroupNameParameter": {
       "name": "resourceGroupName",
@@ -2112,7 +2235,7 @@
       "minLength": 6,
       "maxLength": 50,
       "x-ms-parameter-location": "method",
-      "description": "The Namespace Name"
+      "description": "The namespace name"
     },
     "hybridConnectionNameParameter": {
       "name": "hybridConnectionName",
@@ -2120,7 +2243,6 @@
       "required": true,
       "type": "string",
       "minLength": 1,
-      "maxLength": 50,
       "x-ms-parameter-location": "method",
       "description": "The hybrid connection name."
     },
@@ -2130,9 +2252,8 @@
       "required": true,
       "type": "string",
       "minLength": 1,
-      "maxLength": 50,
       "x-ms-parameter-location": "method",
-      "description": "The authorizationRule name."
+      "description": "The authorization rule name."
     },
     "relayNameParameter": {
       "name": "relayName",
@@ -2140,9 +2261,8 @@
       "required": true,
       "type": "string",
       "minLength": 1,
-      "maxLength": 50,
       "x-ms-parameter-location": "method",
-      "description": "The relay name"
+      "description": "The relay name."
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-01-15",
     "title": "Common Definitions"
   },
   "host": "management.azure.com",
@@ -165,6 +165,7 @@
       "properties": {
         "properties": {
           "description": "AppServicePlan resource specific properties",
+          "type": "object",
           "properties": {
             "workerTierName": {
               "description": "Target worker tier assigned to the App Service plan.",
@@ -309,6 +310,9 @@
         },
         "sku": {
           "$ref": "#/definitions/SkuDescription"
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation"
         }
       }
     },
@@ -418,13 +422,6 @@
             "$ref": "#/definitions/StatusCodesBasedTrigger"
           }
         },
-        "statusCodesRange": {
-          "description": "A rule based on status codes ranges.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StatusCodesRangeBasedTrigger"
-          }
-        },
         "slowRequests": {
           "$ref": "#/definitions/SlowRequestsBasedTrigger",
           "description": "A rule based on request execution time."
@@ -434,6 +431,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/SlowRequestsBasedTrigger"
+          }
+        },
+        "statusCodesRange": {
+          "description": "A rule based on status codes ranges.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StatusCodesRangeBasedTrigger"
           }
         }
       }
@@ -464,7 +468,8 @@
         },
         "accessKey": {
           "description": "Access key for the storage account.",
-          "type": "string"
+          "type": "string",
+          "x-ms-secret": true
         },
         "mountPath": {
           "description": "Path to mount the storage within the site's runtime environment.",
@@ -643,6 +648,9 @@
         "name": {
           "type": "string"
         },
+        "isDataAction": {
+          "type": "boolean"
+        },
         "display": {
           "$ref": "#/definitions/CsmOperationDisplay"
         },
@@ -785,7 +793,10 @@
           "description": "Raw row values",
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       }
@@ -817,6 +828,7 @@
               "type": "array",
               "items": {
                 "description": "Detailed errors.",
+                "type": "object",
                 "properties": {
                   "code": {
                     "description": "Standardized string to programmatically identify the error.",
@@ -858,6 +870,7 @@
       "properties": {
         "properties": {
           "description": "DeletedSite resource specific properties",
+          "type": "object",
           "properties": {
             "deletedSiteId": {
               "format": "int32",
@@ -910,7 +923,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "description": "Id",
+          "description": "Id of detector",
           "type": "string",
           "readOnly": true
         },
@@ -983,6 +996,7 @@
       "properties": {
         "properties": {
           "description": "DetectorResponse resource specific properties",
+          "type": "object",
           "properties": {
             "metadata": {
               "$ref": "#/definitions/DetectorInfo",
@@ -1094,17 +1108,6 @@
             "$ref": "#/definitions/ErrorEntity"
           }
         },
-        "details": {
-          "description": "Details.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ErrorEntity"
-          }
-        },
-        "target": {
-          "description": "The error target.",
-          "type": "string"
-        },
         "code": {
           "description": "Basic error code.",
           "type": "string"
@@ -1125,6 +1128,21 @@
           "items": {
             "$ref": "#/definitions/RampUpRule"
           }
+        }
+      }
+    },
+    "ExtendedLocation": {
+      "description": "Extended Location.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of extended location.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of extended location.",
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -1224,6 +1242,7 @@
       "properties": {
         "properties": {
           "description": "HybridConnection resource specific properties",
+          "type": "object",
           "properties": {
             "serviceBusNamespace": {
               "description": "The name of the Service Bus namespace.",
@@ -1282,6 +1301,7 @@
       "properties": {
         "properties": {
           "description": "Identifier resource specific properties",
+          "type": "object",
           "properties": {
             "id": {
               "description": "String representation of the identity.",
@@ -1479,19 +1499,7 @@
           "description": "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}",
           "type": "object",
           "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "principalId": {
-                "description": "Principal Id of user assigned identity",
-                "type": "string",
-                "readOnly": true
-              },
-              "clientId": {
-                "description": "Client Id of user assigned identity",
-                "type": "string",
-                "readOnly": true
-              }
-            }
+            "$ref": "#/definitions/userAssignedIdentity"
           }
         }
       }
@@ -1699,6 +1707,7 @@
         "properties": {
           "$ref": "#/definitions/PrivateLinkConnectionApprovalRequest",
           "description": "Core resource properties",
+          "type": "object",
           "x-ms-client-flatten": true
         }
       }
@@ -1791,6 +1800,7 @@
     },
     "ProxyOnlyResource": {
       "description": "Azure proxy only resource. This resource is not tracked by Azure Resource Manager.",
+      "type": "object",
       "properties": {
         "id": {
           "description": "Resource Id.",
@@ -1828,6 +1838,7 @@
           "required": [
             "isPushEnabled"
           ],
+          "type": "object",
           "properties": {
             "isPushEnabled": {
               "description": "Gets or sets a flag indicating whether the Push endpoint is enabled.",
@@ -1936,6 +1947,7 @@
       "properties": {
         "properties": {
           "description": "RemotePrivateEndpointConnectionARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "provisioningState": {
               "type": "string",
@@ -2029,6 +2041,7 @@
       "required": [
         "location"
       ],
+      "type": "object",
       "properties": {
         "id": {
           "description": "Resource Id.",
@@ -2113,6 +2126,7 @@
       "properties": {
         "properties": {
           "description": "Site resource specific properties",
+          "type": "object",
           "properties": {
             "state": {
               "description": "Current state of the app.",
@@ -2337,10 +2351,6 @@
               "description": "Status of the last deployment slot swap operation.",
               "readOnly": true
             },
-            "keyVaultReferenceIdentity": {
-              "description": "Identity to use for Key Vault Reference authentication.",
-              "type": "string"
-            },
             "httpsOnly": {
               "description": "HttpsOnly: configures a web site to accept only https requests. Issues redirect for\nhttp requests",
               "type": "boolean"
@@ -2371,6 +2381,10 @@
               "description": "Checks if Customer provided storage account is required",
               "type": "boolean"
             },
+            "keyVaultReferenceIdentity": {
+              "description": "Identity to use for Key Vault Reference authentication.",
+              "type": "string"
+            },
             "virtualNetworkSubnetId": {
               "description": "Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.\nThis must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
               "type": "string"
@@ -2380,6 +2394,9 @@
         },
         "identity": {
           "$ref": "#/definitions/ManagedServiceIdentity"
+        },
+        "extendedLocation": {
+          "$ref": "#/definitions/ExtendedLocation"
         }
       }
     },
@@ -2449,6 +2466,14 @@
           "description": "<code>true</code> if HTTP logging is enabled; otherwise, <code>false</code>.",
           "type": "boolean"
         },
+        "acrUseManagedIdentityCreds": {
+          "description": "Flag to use Managed Identity Creds for ACR pull",
+          "type": "boolean"
+        },
+        "acrUserManagedIdentityID": {
+          "description": "If using user managed identity, the user managed identity ClientId",
+          "type": "string"
+        },
         "logsDirectorySizeLimit": {
           "format": "int32",
           "description": "HTTP logs directory size limit.",
@@ -2467,13 +2492,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/NameValuePair"
-          }
-        },
-        "azureStorageAccounts": {
-          "description": "AzureStorageAccounts.",
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/AzureStorageInfoValue"
           }
         },
         "connectionStrings": {
@@ -2623,10 +2641,6 @@
           "description": "The number of private ports assigned to this app. These will be assigned dynamically on runtime.",
           "type": "integer"
         },
-        "publicNetworkAccess": {
-          "description": "Property to allow or block all public trafic.",
-          "type": "string"
-        },
         "cors": {
           "$ref": "#/definitions/CorsSettings",
           "description": "Cross-Origin Resource Sharing (CORS) settings."
@@ -2759,6 +2773,17 @@
           "maximum": 20,
           "minimum": 0,
           "type": "integer"
+        },
+        "azureStorageAccounts": {
+          "description": "List of Azure Storage Accounts.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/AzureStorageInfoValue"
+          }
+        },
+        "publicNetworkAccess": {
+          "description": "Property to allow or block all public traffic.",
+          "type": "string"
         }
       }
     },
@@ -2805,6 +2830,36 @@
         }
       }
     },
+    "SkuCapacity": {
+      "description": "Description of the App Service plan scale options.",
+      "type": "object",
+      "properties": {
+        "minimum": {
+          "format": "int32",
+          "description": "Minimum number of workers for this App Service plan SKU.",
+          "type": "integer"
+        },
+        "maximum": {
+          "format": "int32",
+          "description": "Maximum number of workers for this App Service plan SKU.",
+          "type": "integer"
+        },
+        "elasticMaximum": {
+          "format": "int32",
+          "description": "Maximum number of Elastic workers for this App Service plan SKU.",
+          "type": "integer"
+        },
+        "default": {
+          "format": "int32",
+          "description": "Default number of workers for this App Service plan SKU.",
+          "type": "integer"
+        },
+        "scaleType": {
+          "description": "Available scale configurations for an App Service plan.",
+          "type": "string"
+        }
+      }
+    },
     "SkuDescription": {
       "description": "Description of a SKU for a scalable resource.",
       "type": "object",
@@ -2829,6 +2884,10 @@
           "format": "int32",
           "description": "Current number of instances assigned to the resource.",
           "type": "integer"
+        },
+        "skuCapacity": {
+          "$ref": "#/definitions/SkuCapacity",
+          "description": "Min, max, and default scale values of the SKU."
         },
         "locations": {
           "description": "Locations of the SKU.",
@@ -2902,6 +2961,7 @@
       "properties": {
         "properties": {
           "description": "Snapshot resource specific properties",
+          "type": "object",
           "properties": {
             "time": {
               "description": "The time the snapshot was taken.",
@@ -2957,10 +3017,6 @@
           "description": "Win32 error code.",
           "type": "integer"
         },
-        "path": {
-          "description": "Request Path",
-          "type": "string"
-        },
         "count": {
           "format": "int32",
           "description": "Request Count.",
@@ -2968,6 +3024,10 @@
         },
         "timeInterval": {
           "description": "Time interval.",
+          "type": "string"
+        },
+        "path": {
+          "description": "Request Path",
           "type": "string"
         }
       }
@@ -3043,6 +3103,7 @@
           "required": [
             "publishingUserName"
           ],
+          "type": "object",
           "properties": {
             "publishingUserName": {
               "description": "Username used for publishing.",
@@ -3152,6 +3213,7 @@
           "required": [
             "vpnPackageUri"
           ],
+          "type": "object",
           "properties": {
             "vnetName": {
               "description": "The Virtual Network name.",
@@ -3185,6 +3247,7 @@
       "properties": {
         "properties": {
           "description": "VnetInfo resource specific properties",
+          "type": "object",
           "properties": {
             "vnetResourceId": {
               "description": "The Virtual Network's resource ID.",
@@ -3236,6 +3299,7 @@
       "properties": {
         "properties": {
           "description": "VnetRoute resource specific properties",
+          "type": "object",
           "properties": {
             "startAddress": {
               "description": "The starting address for this route. This may also include a CIDR notation, in which case the end address must not be specified.",
@@ -3279,6 +3343,22 @@
         },
         "nextLink": {
           "description": "Link to next page of resources.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "userAssignedIdentity": {
+      "description": "User Assigned identity.",
+      "type": "object",
+      "properties": {
+        "principalId": {
+          "description": "Principal Id of user assigned identity",
+          "type": "string",
+          "readOnly": true
+        },
+        "clientId": {
+          "description": "Client Id of user assigned identity",
           "type": "string",
           "readOnly": true
         }
