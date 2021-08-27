@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Azure Media Services",
-    "version": "2018-07-01"
+    "version": "2020-05-01"
   },
   "securityDefinitions": {
     "azure_auth": {
@@ -17,64 +17,40 @@
   },
   "paths": {},
   "definitions": {
-    "Resource": {
-      "description": "The core properties of ARM resources.",
+    "ODataError": {
       "properties": {
-        "id": {
-          "readOnly": true,
+        "code": {
           "type": "string",
-          "description": "Fully qualified resource ID for the resource."
+          "description": "A language-independent error name."
         },
-        "name": {
-          "readOnly": true,
+        "message": {
           "type": "string",
-          "description": "The name of the resource."
+          "description": "The error message."
         },
-        "type": {
-          "readOnly": true,
+        "target": {
           "type": "string",
-          "description": "The type of the resource."
-        }
-      },
-      "x-ms-azure-resource": true
-    },
-    "TrackedResource": {
-      "description": "The resource model definition for a ARM tracked resource.",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
+          "description": "The target of the error (for example, the name of the property in error)."
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ODataError"
           },
-          "x-ms-mutability": [
-            "read",
-            "create",
-            "update"
-          ],
-          "description": "Resource tags."
-        },
-        "location": {
-          "type": "string",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ],
-          "description": "The Azure Region of the resource."
+          "description": "The error details."
         }
       },
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
-        }
-      ]
+      "type": "object",
+      "description": "Information about an error."
     },
-    "ProxyResource": {
-      "description": "The resource model definition for a ARM proxy resource.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Resource"
+    "ApiError": {
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ODataError",
+          "description": "The error properties."
         }
-      ]
+      },
+      "type": "object",
+      "description": "The API error."
     }
   }
 }

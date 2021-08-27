@@ -3,7 +3,7 @@
   "info": {
     "title": "TimeSeriesInsightsClient",
     "description": "Time Series Insights client",
-    "version": "2017-02-28-preview"
+    "version": "2020-05-15"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -34,6 +34,42 @@
     }
   },
   "paths": {
+    "/providers/Microsoft.TimeSeriesInsights/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "Operations_List",
+        "description": "Lists all of the available Time Series Insights related operations.",
+        "x-ms-examples": {
+          "List available operations for the Time Series Insights resource provider": {
+            "$ref": "./examples/Operation_List.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully listed the available operations.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "HTTP 404 (Not Found): The list of operations could not be found.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TimeSeriesInsights/environments/{environmentName}": {
       "put": {
         "tags": [
@@ -41,7 +77,9 @@
         ],
         "operationId": "Environments_CreateOrUpdate",
         "x-ms-examples": {
-          "EnvironmentsCreate": { "$ref": "../examples/EnvironmentsCreate.json" }
+          "EnvironmentsCreate": {
+            "$ref": "./examples/EnvironmentsCreate.json"
+          }
         },
         "x-ms-long-running-operation": true,
         "description": "Create or update an environment in the specified subscription and resource group.",
@@ -83,7 +121,7 @@
             }
           },
           "201": {
-            "description": "The environment create request was accepted. Environment provisioning is an asynchroneous operation. You can periodically get your environment definition and monitor progress via the provisioningState property.",
+            "description": "The environment create request was accepted. Environment provisioning is an asynchronous operation. You can periodically get your environment definition and monitor progress via the provisioningState property.",
             "schema": {
               "$ref": "#/definitions/EnvironmentResource"
             }
@@ -105,7 +143,9 @@
         ],
         "operationId": "Environments_Get",
         "x-ms-examples": {
-          "EnvironmentsGet": { "$ref": "../examples/EnvironmentsGet.json" }
+          "EnvironmentsGet": {
+            "$ref": "./examples/EnvironmentsGet.json"
+          }
         },
         "description": "Gets the environment with the specified name in the specified subscription and resource group.",
         "parameters": [
@@ -117,6 +157,9 @@
           },
           {
             "$ref": "#/parameters/EnvironmentNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ExpandParameter"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -143,7 +186,9 @@
         ],
         "operationId": "Environments_Update",
         "x-ms-examples": {
-          "EnvironmentsUpdate": { "$ref": "../examples/EnvironmentsPatchSkuCapacity.json" }
+          "EnvironmentsUpdate": {
+            "$ref": "./examples/EnvironmentsPatchTags.json"
+          }
         },
         "x-ms-long-running-operation": true,
         "description": "Updates the environment with the specified name in the specified subscription and resource group.",
@@ -172,7 +217,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The environment definition was successfully updated and is in the response. If the environment was updated synchroneously, the response will include a provisioningState value of \"Succeeded\". If the environment was updated asynchroneously, the response will include a provisioningState value of \"Updating\".  You can periodically get your environment definition and monitor progress of the update via the provisioningState property.",
+            "description": "The environment definition was successfully updated and is in the response. If the environment was updated synchronously, the response will include a provisioningState value of \"Succeeded\". If the environment was updated asynchronously, the response will include a provisioningState value of \"Updating\".  You can periodically get your environment definition and monitor progress of the update via the provisioningState property.",
             "schema": {
               "$ref": "#/definitions/EnvironmentResource"
             }
@@ -191,7 +236,9 @@
         ],
         "operationId": "Environments_Delete",
         "x-ms-examples": {
-          "EnvironmentsDelete": { "$ref": "../examples/EnvironmentsDelete.json" }
+          "EnvironmentsDelete": {
+            "$ref": "./examples/EnvironmentsDelete.json"
+          }
         },
         "description": "Deletes the environment with the specified name in the specified subscription and resource group.",
         "parameters": [
@@ -231,7 +278,9 @@
         ],
         "operationId": "Environments_ListByResourceGroup",
         "x-ms-examples": {
-          "EnvironmentsByResourceGroup": { "$ref": "../examples/EnvironmentsListByResourceGroup.json" }
+          "EnvironmentsByResourceGroup": {
+            "$ref": "./examples/EnvironmentsListByResourceGroup.json"
+          }
         },
         "description": "Lists all the available environments associated with the subscription and within the specified resource group.",
         "parameters": [
@@ -268,7 +317,9 @@
         ],
         "operationId": "Environments_ListBySubscription",
         "x-ms-examples": {
-          "EnvironmentsBySubscription": { "$ref": "../examples/EnvironmentsListBySubscription.json" }
+          "EnvironmentsBySubscription": {
+            "$ref": "./examples/EnvironmentsListBySubscription.json"
+          }
         },
         "description": "Lists all the available environments within a subscription, irrespective of the resource groups.",
         "parameters": [
@@ -301,6 +352,14 @@
           "EventSources"
         ],
         "operationId": "EventSources_CreateOrUpdate",
+        "x-ms-examples": {
+          "CreateEventHubEventSource": {
+            "$ref": "./examples/EventSourcesCreateEventHub.json"
+          },
+          "EventSourcesCreateEventHubWithCustomEnquedTime": {
+            "$ref": "./examples/EventSourcesCreateEventHubWithCustomEnquedTime.json"
+          }
+        },
         "description": "Create or update an event source under the specified environment.",
         "parameters": [
           {
@@ -361,6 +420,11 @@
           "EventSources"
         ],
         "operationId": "EventSources_Get",
+        "x-ms-examples": {
+          "GetEventHubEventSource": {
+            "$ref": "./examples/EventSourcesGetEventHub.json"
+          }
+        },
         "description": "Gets the event source with the specified name in the specified environment.",
         "parameters": [
           {
@@ -399,6 +463,11 @@
           "EventSources"
         ],
         "operationId": "EventSources_Update",
+        "x-ms-examples": {
+          "UpdateEventSource": {
+            "$ref": "./examples/EventSourcesPatchTags.json"
+          }
+        },
         "description": "Updates the event source with the specified name in the specified subscription, resource group, and environment.",
         "parameters": [
           {
@@ -446,6 +515,11 @@
           "EventSources"
         ],
         "operationId": "EventSources_Delete",
+        "x-ms-examples": {
+          "DeleteEventSource": {
+            "$ref": "./examples/EventSourcesDelete.json"
+          }
+        },
         "description": "Deletes the event source with the specified name in the specified subscription, resource group, and environment",
         "parameters": [
           {
@@ -486,6 +560,11 @@
           "EventSources"
         ],
         "operationId": "EventSources_ListByEnvironment",
+        "x-ms-examples": {
+          "ListEventSourcesByEnvironment": {
+            "$ref": "./examples/EventSourcesListByEnvironment.json"
+          }
+        },
         "description": "Lists all the available event sources associated with the subscription and within the specified resource group and environment.",
         "parameters": [
           {
@@ -524,7 +603,9 @@
         ],
         "operationId": "ReferenceDataSets_CreateOrUpdate",
         "x-ms-examples": {
-          "ReferenceDataSetsCreate": { "$ref": "../examples/ReferenceDataSetsCreate.json" }
+          "ReferenceDataSetsCreate": {
+            "$ref": "./examples/ReferenceDataSetsCreate.json"
+          }
         },
         "description": "Create or update a reference data set in the specified environment.",
         "parameters": [
@@ -587,7 +668,9 @@
         ],
         "operationId": "ReferenceDataSets_Get",
         "x-ms-examples": {
-          "ReferenceDataSetsGet": { "$ref": "../examples/ReferenceDataSetsGet.json" }
+          "ReferenceDataSetsGet": {
+            "$ref": "./examples/ReferenceDataSetsGet.json"
+          }
         },
         "description": "Gets the reference data set with the specified name in the specified environment.",
         "parameters": [
@@ -628,7 +711,9 @@
         ],
         "operationId": "ReferenceDataSets_Update",
         "x-ms-examples": {
-          "ReferenceDataSetsUpdate": { "$ref": "../examples/ReferenceDataSetsPatchTags.json" }
+          "ReferenceDataSetsUpdate": {
+            "$ref": "./examples/ReferenceDataSetsPatchTags.json"
+          }
         },
         "description": "Updates the reference data set with the specified name in the specified subscription, resource group, and environment.",
         "parameters": [
@@ -678,7 +763,9 @@
         ],
         "operationId": "ReferenceDataSets_Delete",
         "x-ms-examples": {
-          "ReferenceDataSetsDelete": { "$ref": "../examples/ReferenceDataSetsDelete.json" }
+          "ReferenceDataSetsDelete": {
+            "$ref": "./examples/ReferenceDataSetsDelete.json"
+          }
         },
         "description": "Deletes the reference data set with the specified name in the specified subscription, resource group, and environment",
         "parameters": [
@@ -721,7 +808,9 @@
         ],
         "operationId": "ReferenceDataSets_ListByEnvironment",
         "x-ms-examples": {
-          "ReferenceDataSetsListByEnvironment": { "$ref": "../examples/ReferenceDataSetsListByEnvironment.json" }
+          "ReferenceDataSetsListByEnvironment": {
+            "$ref": "./examples/ReferenceDataSetsListByEnvironment.json"
+          }
         },
         "description": "Lists all the available reference data sets associated with the subscription and within the specified resource group and environment.",
         "parameters": [
@@ -761,7 +850,9 @@
         ],
         "operationId": "AccessPolicies_CreateOrUpdate",
         "x-ms-examples": {
-          "AccessPoliciesCreate": { "$ref": "../examples/AccessPoliciesCreate.json" }
+          "AccessPoliciesCreate": {
+            "$ref": "./examples/AccessPoliciesCreate.json"
+          }
         },
         "description": "Create or update an access policy in the specified environment.",
         "parameters": [
@@ -824,7 +915,9 @@
         ],
         "operationId": "AccessPolicies_Get",
         "x-ms-examples": {
-          "AccessPoliciesGet": { "$ref": "../examples/AccessPoliciesGet.json" }
+          "AccessPoliciesGet": {
+            "$ref": "./examples/AccessPoliciesGet.json"
+          }
         },
         "description": "Gets the access policy with the specified name in the specified environment.",
         "parameters": [
@@ -865,7 +958,9 @@
         ],
         "operationId": "AccessPolicies_Update",
         "x-ms-examples": {
-          "AccessPoliciesUpdate": { "$ref": "../examples/AccessPoliciesPatchRoles.json" }
+          "AccessPoliciesUpdate": {
+            "$ref": "./examples/AccessPoliciesPatchRoles.json"
+          }
         },
         "description": "Updates the access policy with the specified name in the specified subscription, resource group, and environment.",
         "parameters": [
@@ -915,7 +1010,9 @@
         ],
         "operationId": "AccessPolicies_Delete",
         "x-ms-examples": {
-          "AccessPoliciesDelete": { "$ref": "../examples/AccessPoliciesDelete.json" }
+          "AccessPoliciesDelete": {
+            "$ref": "./examples/AccessPoliciesDelete.json"
+          }
         },
         "description": "Deletes the access policy with the specified name in the specified subscription, resource group, and environment",
         "parameters": [
@@ -958,7 +1055,9 @@
         ],
         "operationId": "AccessPolicies_ListByEnvironment",
         "x-ms-examples": {
-          "AccessPoliciesByEnvironment": { "$ref": "../examples/AccessPoliciesListByEnvironment.json" }
+          "AccessPoliciesByEnvironment": {
+            "$ref": "./examples/AccessPoliciesListByEnvironment.json"
+          }
         },
         "description": "Lists all the available access policies associated with the environment.",
         "parameters": [
@@ -993,6 +1092,190 @@
     }
   },
   "definitions": {
+    "OperationListResult": {
+      "description": "Result of the request to list Time Series Insights operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "description": "List of Time Series Insights operations supported by the Microsoft.TimeSeriesInsights resource provider.",
+          "type": "array",
+          "readOnly": true,
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        },
+        "nextLink": {
+          "description": "URL to get the next set of operation list results if there are any.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "Operation": {
+      "description": "A Time Series Insights REST API operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name of the operation being performed on this particular object.",
+          "type": "string",
+          "readOnly": true
+        },
+        "display": {
+          "description": "Contains the localized display information for this particular operation / action.",
+          "readOnly": true,
+          "properties": {
+            "provider": {
+              "description": "The localized friendly form of the resource provider name.",
+              "type": "string",
+              "readOnly": true
+            },
+            "resource": {
+              "description": "The localized friendly form of the resource type related to this action/operation.",
+              "type": "string",
+              "readOnly": true
+            },
+            "operation": {
+              "description": "The localized friendly name for the operation.",
+              "type": "string",
+              "readOnly": true
+            },
+            "description": {
+              "description": "The localized friendly description for the operation.",
+              "type": "string",
+              "readOnly": true
+            }
+          }
+        },
+        "origin": {
+          "title": "The intended executor of the operation.",
+          "type": "string"
+        },
+        "properties": {
+          "title": "Properties of the operation, including metric specifications.",
+          "type": "object",
+          "x-ms-client-flatten": true,
+          "x-ms-client-name": "OperationProperties",
+          "$ref": "#/definitions/OperationProperties"
+        }
+      }
+    },
+    "OperationProperties": {
+      "description": "Properties of operation, include metric specifications.",
+      "type": "object",
+      "properties": {
+        "serviceSpecification": {
+          "$ref": "#/definitions/ServiceSpecification",
+          "description": "One property of operation, include metric specifications."
+        }
+      }
+    },
+    "ServiceSpecification": {
+      "description": "One property of operation, include metric specifications.",
+      "type": "object",
+      "properties": {
+        "metricSpecifications": {
+          "description": "Metric specifications of operation.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricSpecification"
+          }
+        },
+        "logSpecifications": {
+          "description": "A list of Azure Monitoring log definitions.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LogSpecification"
+          }
+        }
+      }
+    },
+    "MetricSpecification": {
+      "description": "Metric specification of operation.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of metric specification."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of metric specification."
+        },
+        "displayDescription": {
+          "type": "string",
+          "description": "Display description of metric specification."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit could be Bytes or Count."
+        },
+        "dimensions": {
+          "description": "Dimensions of blobs, including blob type and access tier.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Dimension"
+          }
+        },
+        "aggregationType": {
+          "type": "string",
+          "description": "Aggregation type could be Average."
+        },
+        "availabilities": {
+          "description": "Retention policies of a resource metric.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MetricAvailability"
+          }
+        },
+        "category": {
+          "type": "string",
+          "description": "The category this metric specification belong to, could be Capacity."
+        },
+        "resourceIdDimensionNameOverride": {
+          "type": "string",
+          "description": "Account Resource Id."
+        }
+      }
+    },
+    "LogSpecification": {
+      "description": "The specification of an Azure Monitoring log.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Log name.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "Log display name.",
+          "type": "string"
+        }
+      }
+    },
+    "Dimension": {
+      "description": "Dimension of blobs, possibly be blob type or access tier.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name of dimension."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of dimension."
+        }
+      }
+    },
+    "MetricAvailability": {
+      "description": "Retention policy of a resource metric.",
+      "type": "object",
+      "properties": {
+        "timeGrain": {
+          "type": "string"
+        },
+        "blobDuration": {
+          "type": "string"
+        }
+      }
+    },
     "Resource": {
       "properties": {
         "id": {
@@ -1018,7 +1301,11 @@
       "properties": {
         "location": {
           "type": "string",
-          "description": "Resource location"
+          "description": "Resource location",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "tags": {
           "type": "object",
@@ -1041,21 +1328,8 @@
     "ResourceProperties": {
       "properties": {
         "provisioningState": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Provisioning state of the resource.",
-          "enum": [
-            "Accepted",
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": false
-          }
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource."
         },
         "creationTime": {
           "readOnly": true,
@@ -1066,6 +1340,23 @@
       },
       "description": "Properties that are common to all tracked resources."
     },
+    "ProvisioningState": {
+      "readOnly": true,
+      "type": "string",
+      "description": "Provisioning state of the resource.",
+      "enum": [
+        "Accepted",
+        "Creating",
+        "Updating",
+        "Succeeded",
+        "Failed",
+        "Deleting"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
     "Sku": {
       "type": "object",
       "properties": {
@@ -1074,17 +1365,19 @@
           "description": "The name of this SKU.",
           "enum": [
             "S1",
-            "S2"
+            "S2",
+            "P1",
+            "L1"
           ],
           "x-ms-enum": {
             "name": "SkuName",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "capacity": {
           "format": "int32",
           "type": "integer",
-          "description": "The capacity of the sku. This value can be changed to support scale out of environments after they have been created.",
+          "description": "The capacity of the sku. For Gen1 environments, this value can be changed to support scale out of environments after they have been created.",
           "minimum": 1,
           "maximum": 10
         }
@@ -1093,13 +1386,75 @@
         "name",
         "capacity"
       ],
-      "description": "The sku determines the capacity of the environment, the SLA (in queries-per-minute and total capacity), and the billing rate."
+      "description": "The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate."
+    },
+    "WarmStoreConfigurationProperties": {
+      "type": "object",
+      "properties": {
+        "dataRetention": {
+          "type": "string",
+          "format": "duration",
+          "description": "ISO8601 timespan specifying the number of days the environment's events will be available for query from the warm store."
+        }
+      },
+      "required": [
+        "dataRetention"
+      ],
+      "description": "The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query."
+    },
+    "Gen2StorageConfigurationInput": {
+      "type": "object",
+      "properties": {
+        "accountName": {
+          "type": "string",
+          "description": "The name of the storage account that will hold the environment's Gen2 data."
+        },
+        "managementKey": {
+          "type": "string",
+          "description": "The value of the management key that grants the Time Series Insights service write access to the storage account. This property is not shown in environment responses."
+        }
+      },
+      "required": [
+        "accountName",
+        "managementKey"
+      ],
+      "description": "The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data."
+    },
+    "Gen2StorageConfigurationOutput": {
+      "type": "object",
+      "properties": {
+        "accountName": {
+          "type": "string",
+          "description": "The name of the storage account that will hold the environment's Gen2 data."
+        }
+      },
+      "required": [
+        "accountName"
+      ],
+      "description": "The storage configuration provides the non-secret connection details about the customer storage account that is used to store the environment's data."
+    },
+    "Gen2StorageConfigurationMutableProperties": {
+      "type": "object",
+      "properties": {
+        "managementKey": {
+          "type": "string",
+          "description": "The value of the management key that grants the Time Series Insights service write access to the storage account. This property is not shown in environment responses."
+        }
+      },
+      "required": [
+        "managementKey"
+      ],
+      "description": "The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data."
     },
     "CreateOrUpdateTrackedResourceProperties": {
       "properties": {
         "location": {
           "type": "string",
-          "description": "The location of the resource."
+          "description": "The location of the resource.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "tags": {
           "type": "object",
@@ -1115,18 +1470,32 @@
       "description": "Properties required to create any resource tracked by Azure Resource Manager."
     },
     "EnvironmentCreateOrUpdateParameters": {
+      "discriminator": "kind",
       "properties": {
-        "sku": {
-          "$ref": "#/definitions/Sku"
+        "kind": {
+          "type": "string",
+          "description": "The kind of the environment.",
+          "enum": [
+            "Gen1",
+            "Gen2"
+          ],
+          "x-ms-enum": {
+            "name": "EnvironmentKind",
+            "modelAsString": true
+          },
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EnvironmentCreationProperties"
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate."
         }
       },
       "required": [
-        "sku",
-        "properties"
+        "kind",
+        "sku"
       ],
       "allOf": [
         {
@@ -1135,12 +1504,57 @@
       ],
       "description": "Parameters supplied to the CreateOrUpdate Environment operation."
     },
+    "Gen1EnvironmentCreateOrUpdateParameters": {
+      "x-ms-discriminator-value": "Gen1",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/Gen1EnvironmentCreationProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentCreateOrUpdateParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Create or Update Environment operation for a Gen1 environment."
+    },
+    "Gen2EnvironmentCreateOrUpdateParameters": {
+      "x-ms-discriminator-value": "Gen2",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/Gen2EnvironmentCreationProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentCreateOrUpdateParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Create or Update Environment operation for a Gen2 environment."
+    },
     "EnvironmentUpdateParameters": {
       "type": "object",
+      "discriminator": "kind",
       "properties": {
-        "sku": {
-          "$ref": "#/definitions/Sku",
-          "description": "The sku of the environment."
+        "kind": {
+          "type": "string",
+          "description": "The kind of the environment.",
+          "enum": [
+            "Gen1",
+            "Gen2"
+          ],
+          "x-ms-enum": {
+            "name": "EnvironmentKind",
+            "modelAsString": true
+          }
         },
         "tags": {
           "type": "object",
@@ -1148,14 +1562,50 @@
             "type": "string"
           },
           "description": "Key-value pairs of additional properties for the environment."
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "description": "Parameters supplied to the Update Environment operation."
+    },
+    "Gen1EnvironmentUpdateParameters": {
+      "type": "object",
+      "x-ms-discriminator-value": "Gen1",
+      "properties": {
+        "sku": {
+          "$ref": "#/definitions/Sku",
+          "description": "The sku of the environment."
         },
         "properties": {
           "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EnvironmentMutableProperties",
-          "description": "Properties of the environment."
+          "$ref": "#/definitions/Gen1EnvironmentMutableProperties",
+          "description": "Properties of the Gen1 environment."
         }
       },
-      "description": "Parameters supplied to the Update Environment operation."
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentUpdateParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update Environment operation to update a Gen1 environment."
+    },
+    "Gen2EnvironmentUpdateParameters": {
+      "type": "object",
+      "x-ms-discriminator-value": "Gen2",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/Gen2EnvironmentMutableProperties",
+          "description": "Properties of the Gen2 environment."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentUpdateParameters"
+        }
+      ],
+      "description": "Parameters supplied to the Update Environment operation to update a Gen2 environment."
     },
     "EnvironmentListResponse": {
       "properties": {
@@ -1170,34 +1620,125 @@
       "description": "The response of the List Environments operation."
     },
     "EnvironmentResource": {
+      "type": "object",
+      "discriminator": "kind",
       "properties": {
         "sku": {
-          "$ref": "#/definitions/Sku"
+          "$ref": "#/definitions/Sku",
+          "description": "The sku determines the type of environment, either Gen1 (S1 or S2) or Gen2 (L1). For Gen1 environments the sku determines the capacity of the environment, the ingress rate, and the billing rate."
         },
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EnvironmentResourceProperties"
+        "kind": {
+          "type": "string",
+          "description": "The kind of the environment.",
+          "enum": [
+            "Gen1",
+            "Gen2"
+          ]
         }
       },
+      "required": [
+        "kind",
+        "sku"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/TrackedResource"
         }
       ],
-      "description": "An environment is a set of time-series data avaliable for query, and is the top level Azure Time Series Insights resource."
+      "description": "An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource."
     },
-    "EnvironmentCreationProperties": {
+    "Gen1EnvironmentResource": {
+      "x-ms-discriminator-value": "Gen1",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/Gen1EnvironmentResourceProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentResource"
+        }
+      ],
+      "description": "An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen1 environments have data retention limits."
+    },
+    "Gen2EnvironmentResource": {
+      "x-ms-discriminator-value": "Gen2",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/Gen2EnvironmentResourceProperties"
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentResource"
+        }
+      ],
+      "description": "An environment is a set of time-series data available for query, and is the top level Azure Time Series Insights resource. Gen2 environments do not have set data retention limits."
+    },
+    "Gen1EnvironmentCreationProperties": {
       "properties": {
         "dataRetentionTime": {
           "type": "string",
           "format": "duration",
           "description": "ISO8601 timespan specifying the minimum number of days the environment's events will be available for query."
+        },
+        "storageLimitExceededBehavior": {
+          "type": "string",
+          "description": "The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If \"PauseIngress\" is specified, new events will not be read from the event source. If \"PurgeOldData\" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.",
+          "enum": [
+            "PurgeOldData",
+            "PauseIngress"
+          ],
+          "x-ms-enum": {
+            "name": "StorageLimitExceededBehavior",
+            "modelAsString": true
+          }
+        },
+        "partitionKeyProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesIdProperty"
+          },
+          "description": "The list of event properties which will be used to partition data in the environment. Currently, only a single partition key property is supported."
         }
       },
       "required": [
         "dataRetentionTime"
       ],
-      "description": "Properties used to create an environment."
+      "description": "Properties used to create a Gen1 environment."
+    },
+    "Gen2EnvironmentCreationProperties": {
+      "properties": {
+        "timeSeriesIdProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesIdProperty"
+          },
+          "description": "The list of event properties which will be used to define the environment's time series id."
+        },
+        "storageConfiguration": {
+          "$ref": "#/definitions/Gen2StorageConfigurationInput",
+          "description": "The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data."
+        },
+        "warmStoreConfiguration": {
+          "x-ms-client-flatten": false,
+          "$ref": "#/definitions/WarmStoreConfigurationProperties",
+          "description": "The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query."
+        }
+      },
+      "required": [
+        "timeSeriesIdProperties",
+        "storageConfiguration"
+      ],
+      "description": "Properties used to create a Gen2 environment."
     },
     "EnvironmentResourceProperties": {
       "properties": {
@@ -1211,33 +1752,260 @@
           "readOnly": true,
           "type": "string",
           "description": "The fully qualified domain name used to access the environment data, e.g. to query the environment's events or upload reference data for the environment."
+        },
+        "status": {
+          "$ref": "#/definitions/EnvironmentStatus",
+          "description": "An object that represents the status of the environment, and its internal state in the Time Series Insights service."
         }
       },
       "allOf": [
         {
-          "$ref": "#/definitions/EnvironmentCreationProperties"
+          "$ref": "#/definitions/ResourceProperties"
+        }
+      ],
+      "description": "Properties of the environment."
+    },
+    "Gen1EnvironmentResourceProperties": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Gen1EnvironmentCreationProperties"
         },
         {
-          "$ref": "#/definitions/ResourceProperties"
+          "$ref": "#/definitions/EnvironmentResourceProperties"
         }
       ],
       "required": [
         "dataRetentionTime"
       ],
-      "description": "Properties of the environment."
+      "description": "Properties of the Gen1 environment."
     },
-    "EnvironmentMutableProperties": {
-      "description": "An object that represents a set of mutable environment resource properties.",
+    "Gen2EnvironmentResourceProperties": {
+      "properties": {
+        "timeSeriesIdProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesIdProperty"
+          },
+          "description": "The list of event properties which will be used to define the environment's time series id."
+        },
+        "storageConfiguration": {
+          "$ref": "#/definitions/Gen2StorageConfigurationOutput",
+          "description": "The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data."
+        },
+        "warmStoreConfiguration": {
+          "x-ms-client-flatten": false,
+          "$ref": "#/definitions/WarmStoreConfigurationProperties",
+          "description": "The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query."
+        }
+      },
+      "required": [
+        "timeSeriesIdProperties",
+        "storageConfiguration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/EnvironmentResourceProperties"
+        }
+      ],
+      "description": "Properties of the Gen2 environment."
+    },
+    "Gen1EnvironmentMutableProperties": {
+      "description": "An object that represents a set of mutable Gen1 environment resource properties.",
       "type": "object",
       "properties": {
         "dataRetentionTime": {
           "type": "string",
           "format": "duration",
           "description": "ISO8601 timespan specifying the minimum number of days the environment's events will be available for query."
+        },
+        "storageLimitExceededBehavior": {
+          "type": "string",
+          "description": "The behavior the Time Series Insights service should take when the environment's capacity has been exceeded. If \"PauseIngress\" is specified, new events will not be read from the event source. If \"PurgeOldData\" is specified, new events will continue to be read and old events will be deleted from the environment. The default behavior is PurgeOldData.",
+          "enum": [
+            "PurgeOldData",
+            "PauseIngress"
+          ],
+          "x-ms-enum": {
+            "name": "StorageLimitExceededBehavior",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "Gen2EnvironmentMutableProperties": {
+      "description": "An object that represents a set of mutable Gen2 environment resource properties.",
+      "type": "object",
+      "properties": {
+        "storageConfiguration": {
+          "$ref": "#/definitions/Gen2StorageConfigurationMutableProperties",
+          "description": "The storage configuration provides the connection details that allows the Time Series Insights service to connect to the customer storage account that is used to store the environment's data."
+        },
+        "warmStoreConfiguration": {
+          "x-ms-client-flatten": false,
+          "$ref": "#/definitions/WarmStoreConfigurationProperties",
+          "description": "The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query."
+        }
+      }
+    },
+    "TimeSeriesIdProperty": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the property."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the property.",
+          "enum": [
+            "String"
+          ],
+          "x-ms-enum": {
+            "name": "PropertyType",
+            "modelAsString": true
+          }
+        }
+      },
+      "description": "The structure of the property that a time series id can have. An environment can have multiple such properties."
+    },
+    "EnvironmentStatus": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that represents the status of the environment, and its internal state in the Time Series Insights service.",
+      "properties": {
+        "ingress": {
+          "$ref": "#/definitions/IngressEnvironmentStatus",
+          "description": "An object that represents the status of ingress on an environment."
+        },
+        "warmStorage": {
+          "$ref": "#/definitions/WarmStorageEnvironmentStatus",
+          "description": "An object that represents the status of warm storage on an environment."
+        }
+      }
+    },
+    "IngressEnvironmentStatus": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that represents the status of ingress on an environment.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "This string represents the state of ingress operations on an environment. It can be \"Disabled\", \"Ready\", \"Running\", \"Paused\" or \"Unknown\"",
+          "enum": [
+            "Disabled",
+            "Ready",
+            "Running",
+            "Paused",
+            "Unknown"
+          ],
+          "x-ms-enum": {
+            "name": "IngressState",
+            "modelAsString": true
+          }
+        },
+        "stateDetails": {
+          "$ref": "#/definitions/EnvironmentStateDetails",
+          "description": "An object that contains the details about an environment's state."
+        }
+      }
+    },
+    "EnvironmentStateDetails": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that contains the details about an environment's state.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Contains the code that represents the reason of an environment being in a particular state. Can be used to programmatically handle specific cases."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message that describes the state in detail."
+        }
+      }
+    },
+    "WarmStorageEnvironmentStatus": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that represents the status of warm storage on an environment.",
+      "properties": {
+        "propertiesUsage": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/WarmStoragePropertiesUsage",
+          "description": "An object that contains the status of warm storage properties usage."
+        }
+      }
+    },
+    "WarmStoragePropertiesUsage": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that contains the status of warm storage properties usage.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "This string represents the state of warm storage properties usage. It can be \"Ok\", \"Error\", \"Unknown\".",
+          "enum": [
+            "Ok",
+            "Error",
+            "Unknown"
+          ],
+          "x-ms-enum": {
+            "name": "WarmStoragePropertiesState",
+            "modelAsString": true
+          }
+        },
+        "stateDetails": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/WarmStoragePropertiesUsageStateDetails",
+          "description": "An object that contains the details about warm storage properties usage state."
+        }
+      }
+    },
+    "WarmStoragePropertiesUsageStateDetails": {
+      "readOnly": true,
+      "type": "object",
+      "description": "An object that contains the details about warm storage properties usage state.",
+      "properties": {
+        "currentCount": {
+          "format": "int32",
+          "type": "integer",
+          "description": "A value that represents the number of properties used by the environment for S1/S2 SKU and number of properties used by Warm Store for PAYG SKU",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "maxCount": {
+          "format": "int32",
+          "type": "integer",
+          "description": "A value that represents the maximum number of properties used allowed by the environment for S1/S2 SKU and maximum number of properties allowed by Warm Store for PAYG SKU.",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    },
+    "IngressStartAtProperties": {
+      "type": "object",
+      "description": "An object that contains the details about the starting point in time to ingest events.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of the ingressStartAt, It can be \"EarliestAvailable\", \"EventSourceCreationTime\", \"CustomEnqueuedTime\".",
+          "enum": [
+            "EarliestAvailable",
+            "EventSourceCreationTime",
+            "CustomEnqueuedTime"
+          ],
+          "x-ms-enum": {
+            "name": "IngressStartAtType",
+            "modelAsString": true
+          }
+        },
+        "time": {
+          "type": "string",
+          "description": "ISO8601 UTC datetime with seconds precision (milliseconds are optional), specifying the date and time that will be the starting point for Events to be consumed."
         }
       }
     },
     "EventSourceCreateOrUpdateParameters": {
+      "discriminator": "kind",
       "properties": {
         "kind": {
           "type": "string",
@@ -1247,18 +2015,17 @@
             "Microsoft.IoTHub"
           ],
           "x-ms-enum": {
-            "name": "Kind",
-            "modelAsString": false
+            "name": "EventSourceKind",
+            "modelAsString": true
           }
         },
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EventSourceCommonProperties"
+        "localTimestamp": {
+          "$ref": "#/definitions/LocalTimestamp",
+          "description": "An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events."
         }
       },
       "required": [
-        "kind",
-        "properties"
+        "kind"
       ],
       "allOf": [
         {
@@ -1268,6 +2035,7 @@
       "description": "Parameters supplied to the Create or Update Event Source operation."
     },
     "EventHubEventSourceCreateOrUpdateParameters": {
+      "x-ms-discriminator-value": "Microsoft.EventHub",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
@@ -1285,6 +2053,7 @@
       "description": "Parameters supplied to the Create or Update Event Source operation for an EventHub event source."
     },
     "IoTHubEventSourceCreateOrUpdateParameters": {
+      "x-ms-discriminator-value": "Microsoft.IoTHub",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
@@ -1302,8 +2071,21 @@
       "description": "Parameters supplied to the Create or Update Event Source operation for an IoTHub event source."
     },
     "EventSourceUpdateParameters": {
+      "discriminator": "kind",
       "type": "object",
       "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The kind of the event source.",
+          "enum": [
+            "Microsoft.EventHub",
+            "Microsoft.IoTHub"
+          ],
+          "x-ms-enum": {
+            "name": "EventSourceKind",
+            "modelAsString": true
+          }
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
@@ -1312,10 +2094,14 @@
           "description": "Key-value pairs of additional properties for the event source."
         }
       },
+      "required": [
+        "kind"
+      ],
       "description": "Parameters supplied to the Update Event Source operation."
     },
     "EventHubEventSourceUpdateParameters": {
       "type": "object",
+      "x-ms-discriminator-value": "Microsoft.EventHub",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
@@ -1331,6 +2117,7 @@
       "description": "Parameters supplied to the Update Event Source operation to update an EventHub event source."
     },
     "IoTHubEventSourceUpdateParameters": {
+      "x-ms-discriminator-value": "Microsoft.IoTHub",
       "type": "object",
       "properties": {
         "properties": {
@@ -1365,16 +2152,14 @@
         "kind": {
           "type": "string",
           "description": "The kind of the event source.",
-          "enum": [ "Microsoft.EventHub", "Microsoft.IoTHub" ]
-        },
-        "properties": {
-          "x-ms-client-flatten": true,
-          "$ref": "#/definitions/EventSourceCommonProperties"
+          "enum": [
+            "Microsoft.EventHub",
+            "Microsoft.IoTHub"
+          ]
         }
       },
       "required": [
-        "kind",
-        "properties"
+        "kind"
       ],
       "allOf": [
         {
@@ -1391,6 +2176,9 @@
           "$ref": "#/definitions/EventHubEventSourceResourceProperties"
         }
       },
+      "required": [
+        "properties"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/EventSourceResource"
@@ -1399,13 +2187,16 @@
       "description": "An event source that receives its data from an Azure EventHub."
     },
     "IoTHubEventSourceResource": {
-      "x-ms-discriminator-value": "Microsoft.IotHub",
+      "x-ms-discriminator-value": "Microsoft.IoTHub",
       "properties": {
         "properties": {
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/IoTHubEventSourceResourceProperties"
         }
       },
+      "required": [
+        "properties"
+      ],
       "allOf": [
         {
           "$ref": "#/definitions/EventSourceResource"
@@ -1418,8 +2209,22 @@
         "timestampPropertyName": {
           "type": "string",
           "description": "The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used."
+        },
+        "localTimestamp": {
+          "$ref": "#/definitions/LocalTimestamp",
+          "description": "An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events."
+        },
+        "ingressStartAt": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/IngressStartAtProperties",
+          "description": "An object that contains the details about the starting point in time to ingest events."
         }
       },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ResourceProperties"
+        }
+      ],
       "description": "Properties of the event source."
     },
     "AzureEventSourceProperties": {
@@ -1491,16 +2296,7 @@
     "EventHubEventSourceResourceProperties": {
       "allOf": [
         {
-          "$ref": "#/definitions/ResourceProperties"
-        },
-        {
           "$ref": "#/definitions/EventHubEventSourceCommonProperties"
-        },
-        {
-          "$ref": "#/definitions/AzureEventSourceProperties"
-        },
-        {
-          "$ref": "#/definitions/EventSourceCommonProperties"
         }
       ],
       "description": "Properties of the EventHub event source resource."
@@ -1552,19 +2348,37 @@
     "IoTHubEventSourceResourceProperties": {
       "allOf": [
         {
-          "$ref": "#/definitions/ResourceProperties"
-        },
-        {
           "$ref": "#/definitions/IoTHubEventSourceCommonProperties"
-        },
-        {
-          "$ref": "#/definitions/AzureEventSourceProperties"
-        },
-        {
-          "$ref": "#/definitions/EventSourceCommonProperties"
         }
       ],
       "description": "Properties of the IoTHub event source resource."
+    },
+    "LocalTimestamp": {
+      "description": "An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.",
+      "type": "object",
+      "properties": {
+        "format": {
+          "description": "An enum that represents the format of the local timestamp property that needs to be set.",
+          "type": "string",
+          "enum": [
+            "Embedded"
+          ],
+          "x-ms-enum": {
+            "name": "LocalTimestampFormat",
+            "modelAsString": true
+          }
+        },
+        "timeZoneOffset": {
+          "description": "An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.",
+          "type": "object",
+          "properties": {
+            "propertyName": {
+              "type": "string",
+              "description": "The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00)"
+            }
+          }
+        }
+      }
     },
     "EventSourceMutableProperties": {
       "description": "An object that represents a set of mutable event source resource properties.",
@@ -1669,6 +2483,18 @@
             "$ref": "#/definitions/ReferenceDataSetKeyProperty"
           },
           "description": "The list of key properties for the reference data set."
+        },
+        "dataStringComparisonBehavior": {
+          "type": "string",
+          "description": "The reference data set key comparison behavior can be set using this property. By default, the value is 'Ordinal' - which means case sensitive key comparison will be performed while joining reference data with events or while adding new reference data. When 'OrdinalIgnoreCase' is set, case insensitive comparison will be used.",
+          "enum": [
+            "Ordinal",
+            "OrdinalIgnoreCase"
+          ],
+          "x-ms-enum": {
+            "name": "DataStringComparisonBehavior",
+            "modelAsString": true
+          }
         }
       },
       "required": [
@@ -1707,7 +2533,7 @@
           ],
           "x-ms-enum": {
             "name": "ReferenceDataKeyPropertyType",
-            "modelAsString": false
+            "modelAsString": true
           }
         }
       },
@@ -1730,10 +2556,7 @@
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/AccessPolicyMutableProperties"
         }
-      },
-      "required": [
-        "properties"
-      ]
+      }
     },
     "AccessPolicyListResponse": {
       "properties": {
@@ -1765,7 +2588,11 @@
       "properties": {
         "principalObjectId": {
           "type": "string",
-          "description": "The objectId of the principal in Azure Active Directory."
+          "description": "The objectId of the principal in Azure Active Directory.",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "description": {
           "type": "string",
@@ -1782,7 +2609,7 @@
             ],
             "x-ms-enum": {
               "name": "AccessPolicyRole",
-              "modelAsString": false
+              "modelAsString": true
             }
           },
           "description": "The list of roles the principal is assigned on the environment."
@@ -1808,7 +2635,7 @@
             ],
             "x-ms-enum": {
               "name": "AccessPolicyRole",
-              "modelAsString": false
+              "modelAsString": true
             }
           },
           "description": "The list of roles the principal is assigned on the environment."
@@ -1819,7 +2646,8 @@
       "type": "object",
       "properties": {
         "error": {
-          "$ref": "#/definitions/CloudErrorBody"
+          "$ref": "#/definitions/CloudErrorBody",
+          "description": "Describes a particular API error with an error code and a message."
         }
       },
       "description": "Contains information about an API error.",
@@ -1831,7 +2659,7 @@
       "properties": {
         "code": {
           "type": "string",
-          "description": "An error code that describes the error condition more precisely than an HTTP status code. Can be used to programatically handle specific error cases."
+          "description": "An error code that describes the error condition more precisely than an HTTP status code. Can be used to programmatically handle specific error cases."
         },
         "message": {
           "type": "string",
@@ -1844,7 +2672,8 @@
         "details": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CloudErrorBody"
+            "$ref": "#/definitions/CloudErrorBody",
+            "description": "Describes a particular API error with an error code and a message."
           },
           "description": "Contains nested errors that are related to this error."
         }
@@ -1865,7 +2694,15 @@
       "in": "query",
       "required": true,
       "type": "string",
-      "description": "Version of the API to be used with the client request. Current version is 2017-02-28-preview."
+      "description": "Version of the API to be used with the client request."
+    },
+    "ExpandParameter": {
+      "name": "$expand",
+      "in": "query",
+      "required": false,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "description": "Setting $expand=status will include the status of the internal services of the environment in the Time Series Insights service."
     },
     "ResourceGroupNameParameter": {
       "name": "resourceGroupName",

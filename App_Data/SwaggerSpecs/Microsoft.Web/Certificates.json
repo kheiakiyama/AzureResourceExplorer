@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-01-15",
     "title": "Certificates API Client"
   },
   "host": "management.azure.com",
@@ -29,6 +29,13 @@
           },
           {
             "$ref": "#/parameters/apiVersionParameter"
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Return only information specified in the filter (using OData syntax). For example: $filter=KeyVaultId eq 'KeyVaultId'",
+            "type": "string",
+            "x-ms-skip-url-encoding": true
           }
         ],
         "responses": {
@@ -311,10 +318,15 @@
       "properties": {
         "properties": {
           "description": "Certificate resource specific properties",
-          "required": [
-            "password"
-          ],
+          "type": "object",
           "properties": {
+            "password": {
+              "description": "Certificate password.",
+              "type": "string",
+              "x-ms-mutability": [
+                "create"
+              ]
+            },
             "friendlyName": {
               "description": "Friendly name of the certificate.",
               "type": "string",
@@ -363,13 +375,6 @@
               "description": "Certificate expiration date.",
               "type": "string",
               "readOnly": true
-            },
-            "password": {
-              "description": "Certificate password.",
-              "type": "string",
-              "x-ms-mutability": [
-                "create"
-              ]
             },
             "thumbprint": {
               "description": "Certificate thumbprint.",
@@ -476,10 +481,15 @@
       "properties": {
         "properties": {
           "description": "CertificatePatchResource resource specific properties",
-          "required": [
-            "password"
-          ],
+          "type": "object",
           "properties": {
+            "password": {
+              "description": "Certificate password.",
+              "type": "string",
+              "x-ms-mutability": [
+                "create"
+              ]
+            },
             "friendlyName": {
               "description": "Friendly name of the certificate.",
               "type": "string",
@@ -528,13 +538,6 @@
               "description": "Certificate expiration date.",
               "type": "string",
               "readOnly": true
-            },
-            "password": {
-              "description": "Certificate password.",
-              "type": "string",
-              "x-ms-mutability": [
-                "create"
-              ]
             },
             "thumbprint": {
               "description": "Certificate thumbprint.",

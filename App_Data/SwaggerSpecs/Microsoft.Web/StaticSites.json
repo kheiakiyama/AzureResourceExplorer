@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-01-15",
     "title": "StaticSites API Client"
   },
   "host": "management.azure.com",
@@ -255,7 +255,8 @@
           "Create or update a static site": {
             "$ref": "./examples/CreateOrUpdateStaticSite.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "tags": [
@@ -300,7 +301,8 @@
           "Delete a static site": {
             "$ref": "./examples/DeleteStaticSite.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       },
       "patch": {
         "tags": [
@@ -685,6 +687,9 @@
           "200": {
             "description": "OK."
           },
+          "204": {
+            "description": "OK."
+          },
           "202": {
             "description": "Asynchronous operation in progress."
           },
@@ -699,7 +704,8 @@
           "Delete a static site build": {
             "$ref": "./examples/DeleteStaticSiteBuild.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings": {
@@ -747,12 +753,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -816,12 +816,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -937,12 +931,6 @@
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
           },
-          "202": {
-            "description": "Asynchronous operation in progress.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
           "default": {
             "description": "App Service error response.",
             "schema": {
@@ -993,12 +981,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -1212,7 +1194,8 @@
           "Register a user provided function app with a static site build": {
             "$ref": "./examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "tags": [
@@ -1320,6 +1303,9 @@
           "200": {
             "description": "OK."
           },
+          "202": {
+            "description": "Asynchronous operation in progress."
+          },
           "default": {
             "description": "App Service error response.",
             "schema": {
@@ -1331,7 +1317,8 @@
           "Deploy a site from a zipped package to a particular static site build": {
             "$ref": "./examples/StaticSiteBuildZipDeploy.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings": {
@@ -1372,12 +1359,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -1434,12 +1415,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -1644,6 +1619,7 @@
           {
             "name": "staticSiteCustomDomainRequestPropertiesEnvelope",
             "in": "body",
+            "description": "A JSON representation of the static site custom domain request properties. See example.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/StaticSiteCustomDomainRequestPropertiesARMResource"
@@ -1680,7 +1656,8 @@
           "Create or update a custom domain for a static site": {
             "$ref": "./examples/CreateOrUpdateStaticSiteCustomDomain.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "tags": [
@@ -1732,7 +1709,8 @@
           "Delete a custom domain for a static site": {
             "$ref": "./examples/DeleteStaticSiteCustomDomain.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate": {
@@ -1764,6 +1742,7 @@
           {
             "name": "staticSiteCustomDomainRequestPropertiesEnvelope",
             "in": "body",
+            "description": "A JSON representation of the static site custom domain request properties. See example.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/StaticSiteCustomDomainRequestPropertiesARMResource"
@@ -1794,7 +1773,8 @@
           "Validate a custom domain for a static site": {
             "$ref": "./examples/ValidateStaticSiteCustomDomain.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach": {
@@ -1841,7 +1821,8 @@
           "Detach a static site": {
             "$ref": "./examples/DetachStaticSite.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions": {
@@ -1923,12 +1904,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -2023,12 +1998,6 @@
         "responses": {
           "200": {
             "description": "OK.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
-            }
-          },
-          "202": {
-            "description": "Asynchronous operation in progress.",
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/StringDictionary"
             }
@@ -2604,7 +2573,8 @@
           "Register a user provided function app with a static site": {
             "$ref": "./examples/RegisterUserProvidedFunctionAppWithStaticSite.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "tags": [
@@ -2698,6 +2668,9 @@
           "200": {
             "description": "OK."
           },
+          "202": {
+            "description": "Asynchronous operation in progress."
+          },
           "default": {
             "description": "App Service error response.",
             "schema": {
@@ -2709,11 +2682,38 @@
           "Deploy a site from a zipped package": {
             "$ref": "./examples/StaticSiteZipDeploy.json"
           }
-        }
+        },
+        "x-ms-long-running-operation": true
       }
     }
   },
   "definitions": {
+    "ArmPlan": {
+      "description": "The plan object in Azure Resource Manager, represents a marketplace plan.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The name.",
+          "type": "string"
+        },
+        "publisher": {
+          "description": "The publisher.",
+          "type": "string"
+        },
+        "product": {
+          "description": "The product.",
+          "type": "string"
+        },
+        "promotionCode": {
+          "description": "The promotion code.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version of product.",
+          "type": "string"
+        }
+      }
+    },
     "RemotePrivateEndpointConnection": {
       "description": "A remote private endpoint connection",
       "type": "object",
@@ -2725,6 +2725,7 @@
       "properties": {
         "properties": {
           "description": "RemotePrivateEndpointConnection resource specific properties",
+          "type": "object",
           "properties": {
             "provisioningState": {
               "type": "string",
@@ -2749,33 +2750,63 @@
         }
       }
     },
-    "RemotePrivateEndpointConnectionWrapper": {
-      "description": "Wrapper for a remote private endpoint connection",
-      "required": [
-        "properties"
-      ],
+    "ResponseMessageEnvelope[RemotePrivateEndpointConnection]": {
+      "description": "Message envelope that contains the common Azure resource manager properties and the resource provider specific content.",
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
-          "readOnly": true
+          "description": "Resource Id. Typically ID is populated only for responses to GET requests. Caller is responsible for passing in this\nvalue for GET requests only.\nFor example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}",
+          "type": "string"
         },
         "name": {
-          "description": "Name of a remote private endpoint connection",
-          "type": "string",
-          "readOnly": true
+          "description": "Name of resource.",
+          "type": "string"
         },
         "type": {
-          "type": "string",
-          "readOnly": true
+          "description": "Type of resource e.g \"Microsoft.Web/sites\".",
+          "type": "string"
         },
         "location": {
           "description": "Geographical region resource belongs to e.g. SouthCentralUS, SouthEastAsia.",
-          "type": "string",
-          "readOnly": true
+          "type": "string"
+        },
+        "tags": {
+          "description": "Tags associated with resource.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "plan": {
+          "$ref": "#/definitions/ArmPlan",
+          "description": "Azure resource manager plan."
         },
         "properties": {
-          "$ref": "#/definitions/RemotePrivateEndpointConnection"
+          "$ref": "#/definitions/RemotePrivateEndpointConnection",
+          "description": "Resource specific properties."
+        },
+        "sku": {
+          "$ref": "./CommonDefinitions.json#/definitions/SkuDescription",
+          "description": "SKU description of the resource."
+        },
+        "status": {
+          "description": "Azure-AsyncOperation Status info.",
+          "type": "string"
+        },
+        "error": {
+          "$ref": "./CommonDefinitions.json#/definitions/ErrorEntity",
+          "description": "Azure-AsyncOperation Error info."
+        },
+        "identity": {
+          "$ref": "./CommonDefinitions.json#/definitions/ManagedServiceIdentity",
+          "description": "MSI resource"
+        },
+        "zones": {
+          "description": "Logical Availability Zones the service is hosted in",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -2796,11 +2827,6 @@
           "description": "The target branch in the repository.",
           "type": "string"
         },
-        "provider": {
-          "description": "The provider that submitted the last deployment to the primary environment of the static site.",
-          "type": "string",
-          "readOnly": true
-        },
         "customDomains": {
           "description": "The custom domains associated with this static site.",
           "type": "array",
@@ -2817,32 +2843,11 @@
           "$ref": "#/definitions/StaticSiteBuildProperties",
           "description": "Build properties to configure on the repository."
         },
-        "templateProperties": {
-          "$ref": "#/definitions/StaticSiteTemplateOptions",
-          "description": "Template options for generating a new repository."
-        },
         "privateEndpointConnections": {
           "description": "Private endpoint connections",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/RemotePrivateEndpointConnectionWrapper"
-          },
-          "readOnly": true
-        },
-        "contentDistributionEndpoint": {
-          "description": "The content distribution endpoint for the static site.",
-          "type": "string",
-          "readOnly": true
-        },
-        "keyVaultReferenceIdentity": {
-          "description": "Identity to use for Key Vault Reference authentication.",
-          "type": "string"
-        },
-        "userProvidedFunctionApps": {
-          "description": "User provided function apps registered with the static site",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/StaticSiteUserProvidedFunctionApp"
+            "$ref": "#/definitions/ResponseMessageEnvelope[RemotePrivateEndpointConnection]"
           },
           "readOnly": true
         },
@@ -2855,12 +2860,39 @@
           "type": "string",
           "x-ms-enum": {
             "name": "StagingEnvironmentPolicy",
-            "modelAsString": true
+            "modelAsString": false
           }
         },
         "allowConfigFileUpdates": {
           "description": "<code>false</code> if config file is locked for this static web app; otherwise, <code>true</code>.",
           "type": "boolean"
+        },
+        "templateProperties": {
+          "$ref": "#/definitions/StaticSiteTemplateOptions",
+          "description": "Template options for generating a new repository."
+        },
+        "contentDistributionEndpoint": {
+          "description": "The content distribution endpoint for the static site.",
+          "type": "string",
+          "readOnly": true
+        },
+        "keyVaultReferenceIdentity": {
+          "description": "Identity to use for Key Vault Reference authentication.",
+          "type": "string",
+          "readOnly": true
+        },
+        "userProvidedFunctionApps": {
+          "description": "User provided function apps registered with the static site",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StaticSiteUserProvidedFunctionApp"
+          },
+          "readOnly": true
+        },
+        "provider": {
+          "description": "The provider that submitted the last deployment to the primary environment of the static site.",
+          "type": "string",
+          "readOnly": true
         }
       }
     },
@@ -2897,6 +2929,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteBuildARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "buildId": {
               "description": "An identifier for the static site build.",
@@ -3052,6 +3085,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteCustomDomainOverviewARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "domainName": {
               "description": "The domain name for the static site custom domain.",
@@ -3127,6 +3161,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteCustomDomainRequestPropertiesARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "validationMethod": {
               "description": "Validation method for adding a custom domain",
@@ -3149,6 +3184,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteFunctionOverviewARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "functionName": {
               "description": "The name for the function",
@@ -3221,6 +3257,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteResetPropertiesARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "repositoryToken": {
               "description": "The token which proves admin privileges to the repository.",
@@ -3272,6 +3309,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteUserARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "provider": {
               "description": "The identity provider for the static site user.",
@@ -3329,6 +3367,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteUserInvitationRequestResource resource specific properties",
+          "type": "object",
           "properties": {
             "domain": {
               "description": "The domain name for the static site custom domain.",
@@ -3367,6 +3406,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteUserInvitationResponseResource resource specific properties",
+          "type": "object",
           "properties": {
             "expiresOn": {
               "format": "date-time",
@@ -3395,6 +3435,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteUserProvidedFunctionApp resource specific properties",
+          "type": "object",
           "properties": {
             "functionAppResourceId": {
               "description": "The resource id of the function app registered with the static site",
@@ -3426,6 +3467,7 @@
       "properties": {
         "properties": {
           "description": "StaticSiteUserProvidedFunctionAppARMResource resource specific properties",
+          "type": "object",
           "properties": {
             "functionAppResourceId": {
               "description": "The resource id of the function app registered with the static site",
@@ -3520,6 +3562,7 @@
       "properties": {
         "properties": {
           "description": "StaticSitesWorkflowPreview resource specific properties",
+          "type": "object",
           "properties": {
             "path": {
               "description": "The path for the workflow file to be generated",
@@ -3547,6 +3590,7 @@
       "properties": {
         "properties": {
           "description": "StaticSitesWorkflowPreviewRequest resource specific properties",
+          "type": "object",
           "properties": {
             "repositoryUrl": {
               "description": "URL for the repository of the static site.",

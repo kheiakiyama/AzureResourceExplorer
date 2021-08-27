@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "AppInsightsManagementClient",
-    "description": "Azure Application Insights client for Components.",
-    "version": "2015-05-01"
+    "title": "ApplicationInsightsManagementClient",
+    "description": "Azure Application Insights client for Components",
+    "version": "2020-02-02"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -34,16 +34,16 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/providers/microsoft.insights/components": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/components": {
       "get": {
         "description": "Gets a list of all Application Insights components within a subscription.",
         "operationId": "Components_List",
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -51,12 +51,18 @@
             "description": "A list containing 0 or more Application Insights component definitions.",
             "schema": {
               "$ref": "#/definitions/ApplicationInsightsComponentListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
             }
           }
         },
         "x-ms-examples": {
           "ComponentsList.json": {
-            "$ref": "../examples/ComponentsList.json"
+            "$ref": "./examples/ComponentsList.json"
           }
         },
         "x-ms-pageable": {
@@ -64,19 +70,19 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components": {
       "get": {
         "description": "Gets a list of Application Insights components within a resource group.",
         "operationId": "Components_ListByResourceGroup",
         "parameters": [
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -85,11 +91,17 @@
             "schema": {
               "$ref": "#/definitions/ApplicationInsightsComponentListResult"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
           }
         },
         "x-ms-examples": {
           "ComponentListByResourceGroup": {
-            "$ref": "../examples/ComponentsListByResourceGroup.json"
+            "$ref": "./examples/ComponentsListByResourceGroup.json"
           }
         },
         "x-ms-pageable": {
@@ -97,19 +109,19 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}": {
       "delete": {
         "description": "Deletes an Application Insights component.",
         "operationId": "Components_Delete",
         "parameters": [
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           },
           {
             "$ref": "#/parameters/ResourceNameParameter"
@@ -121,6 +133,17 @@
           },
           "204": {
             "description": "The specified component does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ComponentsDelete": {
+            "$ref": "./examples/ComponentsDelete.json"
           }
         }
       },
@@ -129,13 +152,13 @@
         "operationId": "Components_Get",
         "parameters": [
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           },
           {
             "$ref": "#/parameters/ResourceNameParameter"
@@ -147,11 +170,17 @@
             "schema": {
               "$ref": "#/definitions/ApplicationInsightsComponent"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
           }
         },
         "x-ms-examples": {
           "ComponentGet": {
-            "$ref": "../examples/ComponentsGet.json"
+            "$ref": "./examples/ComponentsGet.json"
           }
         }
       },
@@ -160,13 +189,13 @@
         "operationId": "Components_CreateOrUpdate",
         "parameters": [
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           },
           {
             "$ref": "#/parameters/ResourceNameParameter"
@@ -187,14 +216,20 @@
             "schema": {
               "$ref": "#/definitions/ApplicationInsightsComponent"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
           }
         },
         "x-ms-examples": {
           "ComponentCreate": {
-            "$ref": "../examples/ComponentsCreate.json"
+            "$ref": "./examples/ComponentsCreate.json"
           },
           "ComponentUpdate": {
-            "$ref": "../examples/ComponentsUpdate.json"
+            "$ref": "./examples/ComponentsUpdate.json"
           }
         }
       },
@@ -203,13 +238,13 @@
         "operationId": "Components_UpdateTags",
         "parameters": [
           {
-            "$ref": "#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
           },
           {
             "$ref": "#/parameters/ResourceNameParameter"
@@ -230,18 +265,129 @@
             "schema": {
               "$ref": "#/definitions/ApplicationInsightsComponent"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
           }
         },
         "x-ms-examples": {
           "ComponentUpdateTagsOnly": {
-            "$ref": "../examples/ComponentsUpdateTagsOnly.json"
+            "$ref": "./examples/ComponentsUpdateTagsOnly.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/purge": {
+      "post": {
+        "description": "Purges data in an Application Insights component by a set of user-defined filters.\n\nIn order to manage system resources, purge requests are throttled at 50 requests per hour. You should batch the execution of purge requests by sending a single command whose predicate includes all user identities that require purging. Use the in operator to specify multiple identities. You should run the query prior to using for a purge request to verify that the results are expected.",
+        "operationId": "Components_Purge",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ComponentPurgeParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted request for purging an Application Insights component.",
+            "schema": {
+              "$ref": "#/definitions/ComponentPurgeResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ComponentPurge": {
+            "$ref": "./examples/ComponentsPurge.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/operations/{purgeId}": {
+      "get": {
+        "description": "Get status for an ongoing purge operation.",
+        "operationId": "Components_GetPurgeStatus",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v1/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ComponentPurgeIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns status of purge operation in body of response. e.g.:  running, completed.",
+            "schema": {
+              "$ref": "#/definitions/ComponentPurgeStatusResponse"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponseComponents"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ComponentPurge": {
+            "$ref": "./examples/ComponentsPurgeStatus.json"
           }
         }
       }
     }
   },
   "definitions": {
-    "Resource": {
+    "ErrorResponseComponents": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "description": "Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message.",
+          "type": "object",
+          "properties": {
+            "code": {
+              "readOnly": true,
+              "description": "Error code.",
+              "type": "string"
+            },
+            "message": {
+              "readOnly": true,
+              "description": "Error message indicating why the operation failed.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ComponentsResource": {
       "properties": {
         "id": {
           "type": "string",
@@ -260,7 +406,11 @@
         },
         "location": {
           "type": "string",
-          "description": "Resource location"
+          "description": "Resource location",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "tags": {
           "additionalProperties": {
@@ -292,14 +442,19 @@
           "type": "string",
           "description": "The kind of application that this component refers to, used to customize UI. This value is a freeform string, values should typically be one of the following: web, ios, other, store, java, phone."
         },
+        "etag": {
+          "type": "string",
+          "description": "Resource etag"
+        },
         "properties": {
           "x-ms-client-flatten": true,
+          "description": "Properties that define an Application Insights component resource.",
           "$ref": "#/definitions/ApplicationInsightsComponentProperties"
         }
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Resource"
+          "$ref": "#/definitions/ComponentsResource"
         }
       ],
       "required": [
@@ -320,6 +475,11 @@
           "readOnly": true,
           "description": "Application Insights Unique ID for your Application."
         },
+        "Name": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Application name."
+        },
         "Application_Type": {
           "type": "string",
           "description": "Type of application being monitored.",
@@ -332,7 +492,10 @@
             "name": "ApplicationType",
             "modelAsString": true
           },
-          "x-ms-mutability": ["create", "read"]
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "Flow_Type": {
           "type": "string",
@@ -401,11 +564,89 @@
           "externalDocs": {
             "url": "https://aka.ms/sl0yqd"
           }
+        },
+        "ConnectionString": {
+          "type": "string",
+          "readOnly": true,
+          "description": "Application Insights component connection string."
+        },
+        "RetentionInDays": {
+          "type": "integer",
+          "description": "Retention period in days."
+        },
+        "DisableIpMasking": {
+          "type": "boolean",
+          "description": "Disable IP masking."
+        },
+        "ImmediatePurgeDataOn30Days": {
+          "type": "boolean",
+          "description": "Purge data immediately after 30 days."
+        },
+        "WorkspaceResourceId": {
+          "type": "string",
+          "description": "Resource Id of the log analytics workspace which the data will be ingested to. This property is required to create an application with this API version. Applications from older versions will not have this property."
+        },
+        "LaMigrationDate": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The date which the component got migrated to LA, in ISO 8601 format.",
+          "format": "date-time"
+        },
+        "PrivateLinkScopedResources": {
+          "readOnly": true,
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateLinkScopedResource"
+          },
+          "description": "List of linked private link scope resources."
+        },
+        "publicNetworkAccessForIngestion": {
+          "description": "The network access type for accessing Application Insights ingestion.",
+          "$ref": "#/definitions/PublicNetworkAccessType"
+        },
+        "publicNetworkAccessForQuery": {
+          "description": "The network access type for accessing Application Insights query.",
+          "$ref": "#/definitions/PublicNetworkAccessType"
+        },
+        "IngestionMode": {
+          "type": "string",
+          "description": "Indicates the flow of the ingestion.",
+          "default": "LogAnalytics",
+          "enum": [
+            "ApplicationInsights",
+            "ApplicationInsightsWithDiagnosticSettings",
+            "LogAnalytics"
+          ],
+          "x-ms-enum": {
+            "name": "IngestionMode",
+            "modelAsString": true
+          }
+        },
+        "DisableLocalAuth": {
+          "type": "boolean",
+          "description": "Disable Non-AAD based Auth."
+        },
+        "ForceCustomerStorageForProfiler": {
+          "type": "boolean",
+          "description": "Force users to create their own storage account for profiler and debugger."
         }
       },
       "required": [
         "Application_Type"
       ]
+    },
+    "PrivateLinkScopedResource": {
+      "properties": {
+        "ResourceId": {
+          "type": "string",
+          "description": "The full resource Id of the private link scope resource."
+        },
+        "ScopeId": {
+          "type": "string",
+          "description": "The private link scope unique Identifier."
+        }
+      },
+      "description": "The private link scope resource reference."
     },
     "ApplicationInsightsComponentListResult": {
       "description": "Describes the list of Application Insights Resources.",
@@ -422,40 +663,131 @@
         },
         "nextLink": {
           "type": "string",
-          "description": "The URI to get the next set of Application Insights component defintions if too many components where returned in the result set."
+          "description": "The URI to get the next set of Application Insights component definitions if too many components where returned in the result set."
         }
+      }
+    },
+    "ComponentPurgeBody": {
+      "description": "Describes the body of a purge request for an App Insights component",
+      "required": [
+        "table",
+        "filters"
+      ],
+      "properties": {
+        "table": {
+          "type": "string",
+          "description": "Table from which to purge data."
+        },
+        "filters": {
+          "type": "array",
+          "description": "The set of columns and filters (queries) to run over them to purge the resulting data.",
+          "items": {
+            "$ref": "#/definitions/ComponentPurgeBodyFilters"
+          }
+        }
+      }
+    },
+    "ComponentPurgeBodyFilters": {
+      "description": "User-defined filters to return data which will be purged from the table.",
+      "properties": {
+        "column": {
+          "description": "The column of the table over which the given query should run",
+          "type": "string"
+        },
+        "operator": {
+          "description": "A query operator to evaluate over the provided column and value(s). Supported operators are ==, =~, in, in~, >, >=, <, <=, between, and have the same behavior as they would in a KQL query.",
+          "type": "string"
+        },
+        "value": {
+          "description": "the value for the operator to function over. This can be a number (e.g., > 100), a string (timestamp >= '2017-09-01') or array of values."
+        },
+        "key": {
+          "description": "When filtering over custom dimensions, this key will be used as the name of the custom dimension.",
+          "type": "string"
+        }
+      }
+    },
+    "ComponentPurgeResponse": {
+      "description": "Response containing operationId for a specific purge action.",
+      "properties": {
+        "operationId": {
+          "description": "Id to use when querying for status for a particular purge operation.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "operationId"
+      ]
+    },
+    "ComponentPurgeStatusResponse": {
+      "description": "Response containing status for a specific purge operation.",
+      "properties": {
+        "status": {
+          "description": "Status of the operation represented by the requested Id.",
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed"
+          ],
+          "x-ms-enum": {
+            "name": "PurgeState",
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "PublicNetworkAccessType": {
+      "type": "string",
+      "description": "The network access type for operating on the Application Insights Component. By default it is Enabled",
+      "default": "Enabled",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "PublicNetworkAccessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "Enabled",
+            "description": "Enables connectivity to Application Insights through public DNS."
+          },
+          {
+            "value": "Disabled",
+            "description": "Disables public connectivity to Application Insights through public DNS."
+          }
+        ]
       }
     }
   },
   "parameters": {
-    "SubscriptionIdParameter": {
-      "name": "subscriptionId",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "description": "The Azure subscription Id."
-    },
-    "ApiVersionParameter": {
-      "name": "api-version",
-      "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "Client Api Version."
-    },
-    "ResourceGroupNameParameter": {
-      "name": "resourceGroupName",
-      "in": "path",
-      "required": true,
-      "type": "string",
-      "description": "The name of the resource group.",
-      "x-ms-parameter-location": "method"
-    },
     "ResourceNameParameter": {
       "name": "resourceName",
       "in": "path",
       "required": true,
       "type": "string",
       "description": "The name of the Application Insights component resource.",
+      "x-ms-parameter-location": "method"
+    },
+    "ComponentPurgeParameter": {
+      "name": "body",
+      "in": "body",
+      "description": "Describes the body of a request to purge data in a single table of an Application Insights component",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/ComponentPurgeBody"
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "ComponentPurgeIdParameter": {
+      "name": "purgeId",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "In a purge status request, this is the Id of the operation the status of which is returned.",
       "x-ms-parameter-location": "method"
     }
   }

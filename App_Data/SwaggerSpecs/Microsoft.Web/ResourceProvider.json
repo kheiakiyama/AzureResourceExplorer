@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-01-15",
     "title": " API Client"
   },
   "host": "management.azure.com",
@@ -46,6 +46,11 @@
             "schema": {
               "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
             }
+          }
+        },
+        "x-ms-examples": {
+          "Generate Github Access Token For AppService CLI": {
+            "$ref": "./examples/GenerateGithubAccessTokenForAppserviceCLIAsync.json"
           }
         }
       }
@@ -291,112 +296,6 @@
               "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
             }
           }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnames": {
-      "get": {
-        "summary": "List all hostnames in a subscription",
-        "description": "Description for List all hostnames in a subscription",
-        "operationId": "ListCustomHostNames",
-        "parameters": [
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/IdentifierCollection"
-            }
-          },
-          "default": {
-            "description": "App Service error response.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnames/{hostName}": {
-      "get": {
-        "summary": "Get custom hostname",
-        "description": "Description for Get custom hostname",
-        "operationId": "GetCustomHostName",
-        "parameters": [
-          {
-            "name": "hostName",
-            "in": "path",
-            "description": "Hostname in the hostname binding.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "string"
-            }
-          },
-          "default": {
-            "description": "App Service error response.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnames/{hostname}/sites": {
-      "get": {
-        "summary": "Get custom hostname",
-        "description": "Description for Get custom hostname",
-        "operationId": "ListCustomHostNameSites",
-        "parameters": [
-          {
-            "name": "hostname",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/IdentifierCollection"
-            }
-          },
-          "default": {
-            "description": "App Service error response.",
-            "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/DefaultErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
         }
       }
     },
@@ -823,6 +722,7 @@
       "properties": {
         "properties": {
           "description": "BillingMeter resource specific properties",
+          "type": "object",
           "properties": {
             "meterId": {
               "description": "Meter GUID onboarded in Commerce",
@@ -935,6 +835,7 @@
       "properties": {
         "properties": {
           "description": "GeoRegion resource specific properties",
+          "type": "object",
           "properties": {
             "description": {
               "description": "Region description.",
@@ -998,7 +899,7 @@
           "type": "string"
         },
         "capacity": {
-          "$ref": "#/definitions/SkuCapacity",
+          "$ref": "./CommonDefinitions.json#/definitions/SkuCapacity",
           "description": "Min, max, and default scale values of the SKU."
         },
         "locations": {
@@ -1042,6 +943,7 @@
       "properties": {
         "properties": {
           "description": "PremierAddOnOffer resource specific properties",
+          "type": "object",
           "properties": {
             "sku": {
               "description": "Premier add on SKU.",
@@ -1184,36 +1086,6 @@
         }
       }
     },
-    "SkuCapacity": {
-      "description": "Description of the App Service plan scale options.",
-      "type": "object",
-      "properties": {
-        "minimum": {
-          "format": "int32",
-          "description": "Minimum number of workers for this App Service plan SKU.",
-          "type": "integer"
-        },
-        "maximum": {
-          "format": "int32",
-          "description": "Maximum number of workers for this App Service plan SKU.",
-          "type": "integer"
-        },
-        "elasticMaximum": {
-          "format": "int32",
-          "description": "Maximum number of Elastic workers for this App Service plan SKU.",
-          "type": "integer"
-        },
-        "default": {
-          "format": "int32",
-          "description": "Default number of workers for this App Service plan SKU.",
-          "type": "integer"
-        },
-        "scaleType": {
-          "description": "Available scale configurations for an App Service plan.",
-          "type": "string"
-        }
-      }
-    },
     "SkuInfos": {
       "description": "Collection of SKU information.",
       "type": "object",
@@ -1242,6 +1114,7 @@
       "properties": {
         "properties": {
           "description": "SourceControl resource specific properties",
+          "type": "object",
           "properties": {
             "token": {
               "description": "OAuth access token.",
@@ -1314,10 +1187,6 @@
         },
         "hostingEnvironment": {
           "description": "Name of App Service Environment where app or App Service plan should be created.",
-          "type": "string"
-        },
-        "kubeEnvironment": {
-          "description": "Name of Kube Environment where app or app service plan should be created.",
           "type": "string"
         },
         "isXenon": {
@@ -1431,6 +1300,7 @@
       "properties": {
         "properties": {
           "description": "VnetParameters resource specific properties",
+          "type": "object",
           "properties": {
             "vnetResourceGroup": {
               "description": "The Resource Group of the VNET to be validated",
@@ -1464,6 +1334,7 @@
       "properties": {
         "properties": {
           "description": "VnetValidationFailureDetails resource specific properties",
+          "type": "object",
           "properties": {
             "message": {
               "description": "Text describing the validation outcome.",
@@ -1503,6 +1374,7 @@
       "properties": {
         "properties": {
           "description": "VnetValidationTestFailure resource specific properties",
+          "type": "object",
           "properties": {
             "testName": {
               "description": "The name of the test that failed.",
