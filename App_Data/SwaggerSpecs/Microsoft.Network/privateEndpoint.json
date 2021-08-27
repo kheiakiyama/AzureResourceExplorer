@@ -3,7 +3,7 @@
   "info": {
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service.",
-    "version": "2021-02-01"
+    "version": "2021-03-01"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -145,6 +145,9 @@
           },
           "Get private endpoint with manual approval connection": {
             "$ref": "./examples/PrivateEndpointGetForManualApproval.json"
+          },
+          "Get private endpoint with application security groups": {
+            "$ref": "./examples/PrivateEndpointGetWithASG.json"
           }
         }
       },
@@ -215,6 +218,9 @@
           },
           "Create private endpoint with manual approval connection": {
             "$ref": "./examples/PrivateEndpointCreateForManualApproval.json"
+          },
+          "Create private endpoint with application security groups": {
+            "$ref": "./examples/PrivateEndpointCreateWithASG.json"
           }
         }
       }
@@ -708,6 +714,24 @@
             "$ref": "#/definitions/CustomDnsConfigPropertiesFormat"
           },
           "description": "An array of custom dns configurations."
+        },
+        "applicationSecurityGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "./applicationSecurityGroup.json#/definitions/ApplicationSecurityGroup"
+          },
+          "description": "Application security groups in which the private endpoint IP configuration is included."
+        },
+        "ipConfigurations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrivateEndpointIPConfiguration"
+          },
+          "description": "A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints."
+        },
+        "customNetworkInterfaceName": {
+          "type": "string",
+          "description": "The custom name of the network interface attached to the private endpoint."
         }
       },
       "description": "Properties of the private endpoint."
@@ -966,6 +990,49 @@
         }
       },
       "description": "A collective group of information about the record set information."
+    },
+    "PrivateEndpointIPConfiguration": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/PrivateEndpointIPConfigurationProperties",
+          "description": "Properties of private endpoint IP configurations."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource that is unique within a resource group."
+        },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The resource type."
+        },
+        "etag": {
+          "readOnly": true,
+          "type": "string",
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "description": "An IP Configuration of the private endpoint."
+    },
+    "PrivateEndpointIPConfigurationProperties": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "string",
+          "description": "The ID of a group obtained from the remote resource that this private endpoint should connect to."
+        },
+        "memberName": {
+          "type": "string",
+          "description": "The member name of a group obtained from the remote resource that this private endpoint should connect to."
+        },
+        "privateIPAddress": {
+          "type": "string",
+          "description": "A private ip address obtained from the private endpoint's subnet."
+        }
+      },
+      "description": "Properties of an IP Configuration of the private endpoint."
     }
   }
 }

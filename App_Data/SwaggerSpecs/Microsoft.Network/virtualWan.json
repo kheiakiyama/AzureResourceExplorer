@@ -3,7 +3,7 @@
   "info": {
     "title": "VirtualWANAsAServiceManagementClient",
     "description": "REST API for Azure VirtualWAN As a Service.",
-    "version": "2021-02-01"
+    "version": "2021-03-01"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -5889,6 +5889,11 @@
           "readOnly": false,
           "description": "Peer IP."
         },
+        "hubVirtualNetworkConnection": {
+          "description": "The reference to the HubVirtualNetworkConnection resource.",
+          "readOnly": false,
+          "$ref": "./network.json#/definitions/SubResource"
+        },
         "provisioningState": {
           "description": "The provisioning state of the resource.",
           "readOnly": true,
@@ -6062,6 +6067,11 @@
           "type": "string",
           "readOnly": true,
           "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "kind": {
+          "readOnly": true,
+          "type": "string",
+          "description": "Kind of service virtual hub. This is metadata used for the Azure portal experience for Route Server."
         }
       },
       "allOf": [
@@ -6121,6 +6131,10 @@
           "items": {
             "$ref": "#/definitions/VpnGatewayIpConfiguration"
           }
+        },
+        "enableBgpRouteTranslationForNat": {
+          "type": "boolean",
+          "description": "Enable BGP routes translation for NAT on this VpnGateway."
         },
         "isRoutingPreferenceInternet": {
           "type": "boolean",
@@ -7799,6 +7813,14 @@
           "description": "List of all Static Routes.",
           "items": {
             "$ref": "#/definitions/StaticRoute"
+          }
+        },
+        "bgpConnections": {
+          "type": "array",
+          "readOnly": true,
+          "description": "The list of references to HubBgpConnection objects.",
+          "items": {
+            "$ref": "./network.json#/definitions/SubResource"
           }
         }
       }
