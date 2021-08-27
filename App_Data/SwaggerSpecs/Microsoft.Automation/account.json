@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "AutomationManagement",
-    "version": "2019-06-01",
+    "version": "2021-06-22",
     "x-ms-code-generation-settings": {
       "useDateTimeOffset": true
     }
@@ -476,6 +476,13 @@
         "etag": {
           "type": "string",
           "description": "Gets or sets the etag of the resource."
+        },
+        "identity": {
+          "$ref": "#/definitions/Identity"
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "description": "Resource system metadata."
         }
       },
       "allOf": [
@@ -526,6 +533,29 @@
         "description": {
           "type": "string",
           "description": "Gets or sets the description."
+        },
+        "encryption": {
+          "$ref": "#/definitions/EncryptionProperties",
+          "description": "Encryption properties for the automation account"
+        },
+        "privateEndpointConnections": {
+          "type": "array",
+          "items": {
+            "$ref": "../../common/v1/definitions.json#/definitions/PrivateEndpointConnection"
+          },
+          "description": "List of Automation operations supported by the Automation resource provider."
+        },
+        "publicNetworkAccess": {
+          "type": "boolean",
+          "description": "Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet"
+        },
+        "disableLocalAuth": {
+          "type": "boolean",
+          "description": "Indicates whether requests using non-AAD authentication are blocked"
+        },
+        "automationHybridServiceUrl": {
+          "type": "string",
+          "description": "URL of automation hybrid service which is used for hybrid worker on-boarding."
         }
       },
       "description": "Definition of the account property."
@@ -574,6 +604,11 @@
           "type": "string",
           "description": "Gets or sets the location of the resource."
         },
+        "identity": {
+          "type": "object",
+          "$ref": "#/definitions/Identity",
+          "description": "Sets the identity property for automation account"
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
@@ -589,6 +624,14 @@
         "sku": {
           "$ref": "#/definitions/Sku",
           "description": "Gets or sets account SKU."
+        },
+        "encryption": {
+          "$ref": "#/definitions/EncryptionProperties",
+          "description": "Set the encryption properties for the automation account"
+        },
+        "publicNetworkAccess": {
+          "type": "boolean",
+          "description": "Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet"
         }
       },
       "description": "The parameters supplied to the create or update account properties."
@@ -764,6 +807,18 @@
         "sku": {
           "$ref": "#/definitions/Sku",
           "description": "Gets or sets account SKU."
+        },
+        "encryption": {
+          "$ref": "#/definitions/EncryptionProperties",
+          "description": "Set the encryption properties for the automation account"
+        },
+        "publicNetworkAccess": {
+          "type": "boolean",
+          "description": "Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet"
+        },
+        "disableLocalAuth": {
+          "type": "boolean",
+          "description": "Indicates whether requests using non-AAD authentication are blocked"
         }
       },
       "description": "The parameters supplied to the update account properties."
@@ -783,6 +838,11 @@
           "type": "string",
           "description": "Gets or sets the location of the resource."
         },
+        "identity": {
+          "type": "object",
+          "$ref": "#/definitions/Identity",
+          "description": "Sets the identity property for automation account"
+        },
         "tags": {
           "type": "object",
           "additionalProperties": {
@@ -792,6 +852,102 @@
         }
       },
       "description": "The parameters supplied to the update automation account operation."
+    },
+    "Identity": {
+      "description": "Identity for the resource.",
+      "properties": {
+        "principalId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The principal ID of resource identity."
+        },
+        "tenantId": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The tenant ID of resource."
+        },
+        "type": {
+          "type": "string",
+          "description": "The identity type.",
+          "enum": [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ResourceIdentityType",
+            "modelAsString": false
+          }
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "principalId": {
+                "readOnly": true,
+                "type": "string",
+                "description": "The principal id of user assigned identity."
+              },
+              "clientId": {
+                "readOnly": true,
+                "type": "string",
+                "description": "The client id of user assigned identity."
+              }
+            }
+          }
+        }
+      }
+    },
+    "EncryptionProperties": {
+      "description": "The encryption settings for automation account",
+      "properties": {
+        "keyVaultProperties": {
+          "$ref": "#/definitions/KeyVaultProperties",
+          "description": "Key vault properties."
+        },
+        "keySource": {
+          "type": "string",
+          "description": "Encryption Key Source",
+          "enum": [
+            "Microsoft.Automation",
+            "Microsoft.Keyvault"
+          ],
+          "x-ms-enum": {
+            "name": "EncryptionKeySourceType",
+            "modelAsString": false
+          }
+        },
+        "identity": {
+          "description": "User identity used for CMK.",
+          "properties": {
+            "userAssignedIdentity": {
+              "type": "object",
+              "description": "The user identity used for CMK. It will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+            }
+          }
+        }
+      }
+    },
+    "KeyVaultProperties": {
+      "type": "object",
+      "description": "Settings concerning key vault encryption for a configuration store.",
+      "properties": {
+        "keyvaultUri": {
+          "description": "The URI of the key vault key used to encrypt data.",
+          "type": "string"
+        },
+        "keyName": {
+          "description": "The name of key used to encrypt data.",
+          "type": "string"
+        },
+        "keyVersion": {
+          "description": "The key version of the key used to encrypt data.",
+          "type": "string"
+        }
+      }
     }
   },
   "parameters": {}

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2021-01-15",
+    "version": "2021-02-01",
     "title": "StaticSites API Client"
   },
   "host": "management.azure.com",
@@ -2908,6 +2908,7 @@
         "properties": {
           "$ref": "#/definitions/StaticSite",
           "description": "Core resource properties",
+          "type": "object",
           "x-ms-client-flatten": true
         },
         "sku": {
@@ -3242,6 +3243,7 @@
         "properties": {
           "$ref": "#/definitions/StaticSite",
           "description": "Core resource properties",
+          "type": "object",
           "x-ms-client-flatten": true
         }
       }
@@ -3547,6 +3549,7 @@
         "properties": {
           "$ref": "#/definitions/StaticSiteZipDeployment",
           "description": "Core resource properties",
+          "type": "object",
           "x-ms-client-flatten": true
         }
       }

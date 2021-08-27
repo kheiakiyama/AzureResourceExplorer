@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2021-01-15",
+    "version": "2021-02-01",
     "title": "Common Definitions"
   },
   "host": "management.azure.com",
@@ -149,8 +149,11 @@
         "dedicatedHostCount": {
           "format": "int32",
           "description": "Dedicated Host Count",
-          "type": "integer",
-          "readOnly": true
+          "type": "integer"
+        },
+        "zoneRedundant": {
+          "description": "Whether or not this App Service Environment is zone-redundant.",
+          "type": "boolean"
         }
       }
     },
@@ -304,6 +307,11 @@
             "kubeEnvironmentProfile": {
               "$ref": "#/definitions/KubeEnvironmentProfile",
               "description": "Specification for the Kubernetes Environment to use for the App Service plan."
+            },
+            "zoneRedundant": {
+              "description": "If <code>true</code>, this App Service Plan will perform availability zone balancing.\nIf <code>false</code>, this App Service Plan will not perform availability zone balancing.",
+              "default": false,
+              "type": "boolean"
             }
           },
           "x-ms-client-flatten": true
@@ -1107,6 +1115,17 @@
           "items": {
             "$ref": "#/definitions/ErrorEntity"
           }
+        },
+        "details": {
+          "description": "Error Details.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ErrorEntity"
+          }
+        },
+        "target": {
+          "description": "The error target.",
+          "type": "string"
         },
         "code": {
           "description": "Basic error code.",
@@ -3239,6 +3258,46 @@
     "VnetInfo": {
       "description": "Virtual Network information contract.",
       "type": "object",
+      "properties": {
+        "vnetResourceId": {
+          "description": "The Virtual Network's resource ID.",
+          "type": "string"
+        },
+        "certThumbprint": {
+          "description": "The client certificate thumbprint.",
+          "type": "string",
+          "readOnly": true
+        },
+        "certBlob": {
+          "description": "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \nPoint-To-Site VPN connection.",
+          "type": "string"
+        },
+        "routes": {
+          "description": "The routes that this Virtual Network connection uses.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VnetRoute"
+          },
+          "readOnly": true
+        },
+        "resyncRequired": {
+          "description": "<code>true</code> if a resync is required; otherwise, <code>false</code>.",
+          "type": "boolean",
+          "readOnly": true
+        },
+        "dnsServers": {
+          "description": "DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.",
+          "type": "string"
+        },
+        "isSwift": {
+          "description": "Flag that is used to denote if this is VNET injection",
+          "type": "boolean"
+        }
+      }
+    },
+    "VnetInfoResource": {
+      "description": "Virtual Network information ARM resource.",
+      "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/ProxyOnlyResource"
@@ -3246,44 +3305,9 @@
       ],
       "properties": {
         "properties": {
-          "description": "VnetInfo resource specific properties",
+          "$ref": "#/definitions/VnetInfo",
+          "description": "Core resource properties",
           "type": "object",
-          "properties": {
-            "vnetResourceId": {
-              "description": "The Virtual Network's resource ID.",
-              "type": "string"
-            },
-            "certThumbprint": {
-              "description": "The client certificate thumbprint.",
-              "type": "string",
-              "readOnly": true
-            },
-            "certBlob": {
-              "description": "A certificate file (.cer) blob containing the public key of the private key used to authenticate a \nPoint-To-Site VPN connection.",
-              "type": "string"
-            },
-            "routes": {
-              "description": "The routes that this Virtual Network connection uses.",
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/VnetRoute"
-              },
-              "readOnly": true
-            },
-            "resyncRequired": {
-              "description": "<code>true</code> if a resync is required; otherwise, <code>false</code>.",
-              "type": "boolean",
-              "readOnly": true
-            },
-            "dnsServers": {
-              "description": "DNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.",
-              "type": "string"
-            },
-            "isSwift": {
-              "description": "Flag that is used to denote if this is VNET injection",
-              "type": "boolean"
-            }
-          },
           "x-ms-client-flatten": true
         }
       }

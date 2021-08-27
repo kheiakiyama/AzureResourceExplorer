@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "AutomationManagement",
-    "version": "2019-06-01",
+    "version": "2021-06-22",
     "x-ms-code-generation-settings": {
       "useDateTimeOffset": true
     }
@@ -95,7 +95,7 @@
         },
         "x-ms-examples": {
           "Get a hybrid worker group": {
-            "$ref": "./examples/hybridRunbookWorkerGroupGet.json"
+            "$ref": "./examples/getHybridRunbookWorkerGroup.json"
           }
         },
         "parameters": [
@@ -134,6 +134,65 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "HybridRunbookWorkerGroup"
+        ],
+        "operationId": "HybridRunbookWorkerGroup_Create",
+        "description": "Create a hybrid runbook worker group.",
+        "externalDocs": {
+          "url": "http://aka.ms/azureautomationsdk/hybridrunbookworkergroupoperations"
+        },
+        "x-ms-examples": {
+          "Create a hybrid worker group": {
+            "$ref": "./examples/putHybridRunbookWorkerGroup.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/AutomationAccountNameParameter"
+          },
+          {
+            "name": "hybridRunbookWorkerGroupName",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The hybrid runbook worker group name"
+          },
+          {
+            "name": "HybridRunbookWorkerGroupCreationParameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HybridRunbookWorkerGroupCreateOrUpdateParameters"
+            },
+            "description": "The create or update parameters for hybrid runbook worker group."
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/HybridRunbookWorkerGroup"
+            }
+          },
+          "default": {
+            "description": "Automation error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../common/v1/definitions.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "HybridRunbookWorkerGroup"
@@ -145,7 +204,7 @@
         },
         "x-ms-examples": {
           "Update hybrid worker group": {
-            "$ref": "./examples/hybridRunbookWorkerGroupUpdate.json"
+            "$ref": "./examples/updateHybridRunbookWorkerGroup.json"
           }
         },
         "parameters": [
@@ -167,7 +226,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/HybridRunbookWorkerGroupUpdateParameters"
+              "$ref": "#/definitions/HybridRunbookWorkerGroupCreateOrUpdateParameters"
             },
             "description": "The hybrid runbook worker group"
           },
@@ -206,7 +265,7 @@
         },
         "x-ms-examples": {
           "List hybrid worker groups by Automation Account": {
-            "$ref": "./examples/hybridRunbookWorkerGroupList.json"
+            "$ref": "./examples/listHybridRunbookWorkerGroup.json"
           }
         },
         "parameters": [
@@ -261,7 +320,8 @@
       },
       "description": "Definition of RunAs credential to use for hybrid worker."
     },
-    "HybridRunbookWorker": {
+    "HybridRunbookWorkerLegacy": {
+      "type": "object",
       "properties": {
         "name": {
           "type": "string",
@@ -284,9 +344,10 @@
           "x-nullable": false
         }
       },
-      "description": "Definition of hybrid runbook worker."
+      "description": "Definition of hybrid runbook worker Legacy."
     },
     "HybridRunbookWorkerGroup": {
+      "x-ms-azure-resource": true,
       "properties": {
         "id": {
           "type": "string",
@@ -296,10 +357,15 @@
           "type": "string",
           "description": "Gets or sets the name of the group."
         },
+        "type": {
+          "readOnly": true,
+          "type": "string",
+          "description": "The type of the resource."
+        },
         "hybridRunbookWorkers": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/HybridRunbookWorker"
+            "$ref": "#/definitions/HybridRunbookWorkerLegacy"
           },
           "description": "Gets or sets the list of hybrid runbook workers."
         },
@@ -318,6 +384,10 @@
             "name": "GroupTypeEnum",
             "modelAsString": true
           }
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "description": "Resource system metadata."
         }
       },
       "description": "Definition of hybrid runbook worker group."
@@ -346,6 +416,16 @@
         }
       },
       "description": "Parameters supplied to the update operation."
+    },
+    "HybridRunbookWorkerGroupCreateOrUpdateParameters": {
+      "type": "object",
+      "properties": {
+        "credential": {
+          "$ref": "#/definitions/RunAsCredentialAssociationProperty",
+          "description": "Sets the credential of a worker group."
+        }
+      },
+      "description": "The parameters supplied to the create or update hybrid runbook worker group operation."
     }
   },
   "parameters": {}
