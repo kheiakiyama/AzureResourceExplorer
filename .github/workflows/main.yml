@@ -59,7 +59,6 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.SYNC_SWAGGER_SPECS }}
           branch: sync-swagger-specs-automate
           delete-branch: true
           title: 'Updated API Swagger for Microsoft.* Created by GitHub Action'
