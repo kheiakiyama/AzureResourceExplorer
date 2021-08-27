@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2016-06-01",
+    "version": "2021-07-01",
     "title": "RecoveryServicesClient",
     "x-ms-code-generation-settings": {
       "internalConstructors": false
@@ -18,41 +18,6 @@
     "application/json"
   ],
   "paths": {
-    "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/operations": {
-      "get": {
-        "tags": [
-          "Operations"
-        ],
-        "description": "Returns the list of available operations.",
-        "operationId": "Operations_List",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/SubscriptionId"
-          },
-          {
-            "$ref": "#/parameters/ApiVersion"
-          },
-          {
-            "$ref": "#/parameters/ResourceGroupName"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "./vaults.json#/definitions/ClientDiscoveryResponse"
-            }
-          }
-        },
-        "deprecated": false,
-        "x-ms-pageable": {
-          "nextLinkName": "NextLink"
-        }
-      }
-    },
     "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/usages": {
       "get": {
         "tags": [
@@ -88,6 +53,11 @@
         "deprecated": false,
         "x-ms-pageable": {
           "nextLinkName": null
+        },
+        "x-ms-examples": {
+          "Gets vault usages": {
+            "$ref": "./examples/ListUsages.json"
+          }
         }
       }
     }

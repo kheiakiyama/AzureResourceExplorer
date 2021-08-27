@@ -2,7 +2,10 @@
   "swagger": "2.0",
   "info": {
     "title": "AutomationManagement",
-    "version": "2015-10-31"
+    "version": "2019-06-01",
+    "x-ms-code-generation-settings": {
+      "useDateTimeOffset": true
+    }
   },
   "host": "management.azure.com",
   "schemes": [
@@ -14,6 +17,24 @@
   "produces": [
     "application/json"
   ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "flow": "implicit",
+      "description": "Azure Active Directory OAuth2 Flow",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
   "paths": {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodeConfigurations/{nodeConfigurationName}": {
       "delete": {
@@ -27,19 +48,18 @@
         },
         "x-ms-examples": {
           "Delete a DSC node configuration": {
-            "$ref": "../examples/dscNodeConfiguration/deleteDscNodeConfiguration.json"
+            "$ref": "./examples/deleteDscNodeConfiguration.json"
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "name": "automationAccountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The automation account name."
+            "$ref": "../../common/v1/definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/AutomationAccountNameParameter"
           },
           {
             "name": "nodeConfigurationName",
@@ -49,10 +69,7 @@
             "description": "The Dsc node configuration name."
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -62,7 +79,7 @@
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "../../common/v1/definitions.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -78,19 +95,18 @@
         },
         "x-ms-examples": {
           "Get a DSC node configuration": {
-            "$ref": "../examples/dscNodeConfiguration/getDscNodeConfiguration.json"
+            "$ref": "./examples/getDscNodeConfiguration.json"
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "name": "automationAccountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The automation account name."
+            "$ref": "../../common/v1/definitions.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/AutomationAccountNameParameter"
           },
           {
             "name": "nodeConfigurationName",
@@ -100,23 +116,20 @@
             "description": "The Dsc node configuration name."
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "./definitions.json#/definitions/DscNodeConfiguration"
+              "$ref": "#/definitions/DscNodeConfiguration"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "../../common/v1/definitions.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -126,61 +139,60 @@
           "DscNodeConfiguration"
         ],
         "operationId": "DscNodeConfiguration_CreateOrUpdate",
+        "x-ms-long-running-operation": true,
         "description": "Create the node configuration identified by node configuration name.",
         "externalDocs": {
           "url": "http://aka.ms/azureautomationsdk/dscnodeconfigurations"
         },
+        "x-ms-examples": {
+          "Create node configuration": {
+            "$ref": "./examples/createOrUpdateDscNodeConfiguration.json"
+          }
+        },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "automationAccountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The automation account name."
+            "$ref": "../../common/v1/definitions.json#/parameters/AutomationAccountNameParameter"
           },
           {
             "name": "nodeConfigurationName",
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "The create or update parameters for configuration."
+            "description": "The Dsc node configuration name."
           },
           {
             "name": "parameters",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "./definitions.json#/definitions/DscNodeConfigurationCreateOrUpdateParameters"
+              "$ref": "#/definitions/DscNodeConfigurationCreateOrUpdateParameters"
             },
             "description": "The create or update parameters for configuration."
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "./definitions.json#/definitions/DscNodeConfiguration"
-            }
+            "description": "OK"
           },
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "./definitions.json#/definitions/DscNodeConfiguration"
+              "$ref": "#/definitions/DscNodeConfiguration"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "../../common/v1/definitions.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -198,19 +210,27 @@
         },
         "x-ms-examples": {
           "List DSC node configurations by Automation Account": {
-            "$ref": "../examples/dscNodeConfiguration/listDscNodeConfigurations.json"
+            "$ref": "./examples/listDscNodeConfigurations.json"
+          },
+          "List Paged DSC node configurations by Automation Account with no filter": {
+            "$ref": "./examples/listPagedDscNodeConfigurationsWithNoFilter.json"
+          },
+          "List Paged DSC node configurations by Automation Account with name filter": {
+            "$ref": "./examples/listPagedDscNodeConfigurationsWithNameFilter.json"
           }
         },
         "parameters": [
           {
-            "$ref": "./definitions.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../common/v1/definitions.json#/parameters/ResourceGroupNameParameter"
           },
           {
-            "name": "automationAccountName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The automation account name."
+            "$ref": "../../common/v1/definitions.json#/parameters/AutomationAccountNameParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../common/v1/definitions.json#/parameters/ApiVersionParameter"
           },
           {
             "name": "$filter",
@@ -220,32 +240,229 @@
             "description": "The filter to apply on the operation."
           },
           {
-            "$ref": "./definitions.json#/parameters/SubscriptionIdParameter"
+            "name": "$skip",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The number of rows to skip."
           },
           {
-            "$ref": "./definitions.json#/parameters/ApiVersionParameter"
+            "name": "$top",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "The number of rows to take."
+          },
+          {
+            "name": "$inlinecount",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Return total rows."
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "./definitions.json#/definitions/DscNodeConfigurationListResult"
+              "$ref": "#/definitions/DscNodeConfigurationListResult"
             }
           },
           "default": {
             "description": "Automation error response describing why the operation failed.",
             "schema": {
-              "$ref": "./definitions.json#/definitions/ErrorResponse"
+              "$ref": "../../common/v1/definitions.json#/definitions/ErrorResponse"
             }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
-        }
+        },
+        "x-ms-odata": "#/definitions/DscNodeConfiguration"
       }
     }
   },
-  "definitions": {},
+  "definitions": {
+    "ContentHash": {
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "description": "Gets or sets the content hash algorithm used to hash the content."
+        },
+        "value": {
+          "type": "string",
+          "description": "Gets or sets expected hash value of the content."
+        }
+      },
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "description": "Definition of the runbook property type."
+    },
+    "ContentSource": {
+      "properties": {
+        "hash": {
+          "$ref": "#/definitions/ContentHash",
+          "description": "Gets or sets the hash."
+        },
+        "type": {
+          "type": "string",
+          "description": "Gets or sets the content source type.",
+          "enum": [
+            "embeddedContent",
+            "uri"
+          ],
+          "x-ms-enum": {
+            "name": "ContentSourceType",
+            "modelAsString": true
+          }
+        },
+        "value": {
+          "type": "string",
+          "description": "Gets or sets the value of the content. This is based on the content source type."
+        },
+        "version": {
+          "type": "string",
+          "description": "Gets or sets the version of the content."
+        }
+      },
+      "description": "Definition of the content source."
+    },
+    "DscNodeConfiguration": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DscNodeConfigurationProperties",
+          "x-ms-client-flatten": true,
+          "description": "Gets or sets the configuration properties."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../common/v1/definitions.json#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Definition of the dsc node configuration."
+    },
+    "DscNodeConfigurationProperties": {
+      "description": "Properties for the DscNodeConfiguration",
+      "properties": {
+        "lastModifiedTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets the last modified time.",
+          "x-nullable": false
+        },
+        "creationTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Gets or sets creation time.",
+          "x-nullable": false
+        },
+        "configuration": {
+          "$ref": "#/definitions/DscConfigurationAssociationProperty",
+          "description": "Gets or sets the configuration of the node."
+        },
+        "source": {
+          "type": "string",
+          "description": "Source of node configuration."
+        },
+        "nodeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of nodes with this node configuration assigned"
+        },
+        "incrementNodeConfigurationBuild": {
+          "type": "boolean",
+          "description": "If a new build version of NodeConfiguration is required."
+        }
+      }
+    },
+    "DscNodeConfigurationListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DscNodeConfiguration"
+          },
+          "description": "Gets or sets a list of Dsc node configurations."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "Gets or sets the next link."
+        },
+        "totalCount": {
+          "type": "integer",
+          "description": "Gets or sets the total rows in query."
+        }
+      },
+      "description": "The response model for the list job operation."
+    },
+    "DscNodeExtensionHandlerAssociationProperty": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the name of the extension handler."
+        },
+        "version": {
+          "type": "string",
+          "description": "Gets or sets the version of the extension handler."
+        }
+      },
+      "description": "The dsc extensionHandler property associated with the node"
+    },
+    "DscNodeConfigurationCreateOrUpdateParameters": {
+      "description": "The parameters supplied to the create or update node configuration operation.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DscNodeConfigurationCreateOrUpdateParametersProperties",
+          "x-ms-client-flatten": true,
+          "description": "Node configuration properties"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the node configuration."
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Gets or sets the tags attached to the resource."
+        }
+      }
+    },
+    "DscNodeConfigurationCreateOrUpdateParametersProperties": {
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/ContentSource",
+          "description": "Gets or sets the source."
+        },
+        "configuration": {
+          "$ref": "#/definitions/DscConfigurationAssociationProperty",
+          "description": "Gets or sets the configuration of the node."
+        },
+        "incrementNodeConfigurationBuild": {
+          "type": "boolean",
+          "description": "If a new build version of NodeConfiguration is required."
+        }
+      },
+      "required": [
+        "source",
+        "configuration"
+      ],
+      "description": "The parameter properties supplied to the create or update node configuration operation."
+    },
+    "DscConfigurationAssociationProperty": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Gets or sets the name of the Dsc configuration."
+        }
+      },
+      "description": "The Dsc configuration property associated with the entity."
+    }
+  },
   "parameters": {}
 }

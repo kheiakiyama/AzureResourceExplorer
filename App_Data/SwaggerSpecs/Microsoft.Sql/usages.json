@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Azure SQL Database",
-    "description": "Provides create, read, update and delete functionality for Azure SQL Database resources including servers, databases, elastic pools, recommendations, operations, and usage metrics.",
-    "version": "2014-04-01"
+    "version": "2015-05-01",
+    "title": "SqlManagementClient",
+    "description": "The Azure SQL Database management API provides a RESTful set of web APIs that interact with Azure SQL Database services to manage your databases. The API enables users to create, retrieve, update, and delete databases, servers, and other entities."
   },
   "host": "management.azure.com",
   "schemes": [
@@ -16,213 +16,158 @@
     "application/json"
   ],
   "paths": {
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/usages": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages": {
       "get": {
         "tags": [
-          "Servers"
+          "SubscriptionUsages"
         ],
-        "operationId": "Servers_ListUsages",
-        "description": "Returns server usages.",
-        "x-ms-examples":{
-          "List servers usages": { "$ref": "../examples/ServerUsageMetricsList.json" }
-        },
+        "description": "Gets all subscription usage metrics in a given location.",
+        "operationId": "SubscriptionUsages_ListByLocation",
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "name": "locationName",
+            "in": "path",
+            "description": "The name of the region where the resource is located.",
+            "required": true,
+            "type": "string"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successfully retrieved the subscription location usages.",
             "schema": {
-              "$ref": "#/definitions/ServerUsageListResult"
+              "$ref": "#/definitions/SubscriptionUsageListResult"
             }
+          },
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 400 SubscriptionNotFound - The requested subscription was not found.\n\n * 400 InvalidLocation - An invalid location was specified."
           }
         },
         "x-ms-pageable": {
-          "nextLinkName": null
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List subscription usages in the given location.": {
+            "$ref": "./examples/SubscriptionUsageListByLocation.json"
+          }
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/usages": {
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/usages/{usageName}": {
       "get": {
         "tags": [
-          "Databases"
+          "SubscriptionUsages"
         ],
-        "operationId": "Databases_ListUsages",
-        "description": "Returns database usages.",
-        "x-ms-examples": {
-          "List database usage metrics": { "$ref": "../examples/DatabaseUsageMetricsList.json" }
-        },
+        "description": "Gets a subscription usage metric.",
+        "operationId": "SubscriptionUsages_Get",
         "parameters": [
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "name": "locationName",
+            "in": "path",
+            "description": "The name of the region where the resource is located.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "usageName",
+            "in": "path",
+            "description": "Name of usage metric to return.",
+            "required": true,
+            "type": "string"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "#/parameters/ResourceGroupParameter"
-          },
-          {
-            "$ref": "#/parameters/ServerNameParameter"
-          },
-          {
-            "name": "databaseName",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "The name of the database."
+            "$ref": "#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successfully retrieved particular subscription location usage.",
             "schema": {
-              "$ref": "#/definitions/DatabaseUsageListResult"
+              "$ref": "#/definitions/SubscriptionUsage"
             }
+          },
+          "default": {
+            "description": "*** Error Responses: ***\n\n * 400 SubscriptionNotFound - The requested subscription was not found.\n\n * 400 InvalidLocation - An invalid location was specified."
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": null
+        "x-ms-examples": {
+          "Get specific subscription usage in the given location.": {
+            "$ref": "./examples/SubscriptionUsageGet.json"
+          }
         }
       }
     }
   },
   "definitions": {
-    "ServerUsage": {
-      "properties": {
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Name of the server usage metric."
-        },
-        "resourceName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The name of the resource."
-        },
-        "displayName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The metric display name."
-        },
-        "currentValue": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current value of the metric."
-        },
-        "limit": {
-          "readOnly": true,
-          "type": "number",
-          "format": "double",
-          "description": "The current limit of the metric."
-        },
-        "unit": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The units of the metric."
-        },
-        "nextResetTime": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "The next reset time for the metric (ISO8601 format)."
-        }
-      },
-      "description": "Represents server metrics."
-    },
-    "ServerUsageListResult": {
+    "SubscriptionUsageListResult": {
+      "description": "A list of subscription usage metrics in a location.",
+      "type": "object",
       "properties": {
         "value": {
+          "description": "Array of results.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ServerUsage"
+            "$ref": "#/definitions/SubscriptionUsage"
           },
-          "description": "The list of server metrics for the server."
-        }
-      },
-      "required": ["value"],
-      "description": "Represents the response to a list server metrics request."
-    },
-    "DatabaseUsage": {
-      "properties": {
-        "resourceName": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The name of the resource."
+          "readOnly": true
         },
-        "displayName": {
-          "readOnly": true,
+        "nextLink": {
+          "description": "Link to retrieve next page of results.",
           "type": "string",
-          "description": "The usage metric display name."
+          "readOnly": true
+        }
+      }
+    },
+    "SubscriptionUsageProperties": {
+      "description": "Properties of a subscription usage.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "User-readable name of the metric.",
+          "type": "string",
+          "readOnly": true
         },
         "currentValue": {
-          "readOnly": true,
-          "type": "number",
           "format": "double",
-          "description": "The current value of the usage metric."
+          "description": "Current value of the metric.",
+          "type": "number",
+          "readOnly": true
         },
         "limit": {
-          "readOnly": true,
-          "type": "number",
           "format": "double",
-          "description": "The current limit of the usage metric."
+          "description": "Boundary value of the metric.",
+          "type": "number",
+          "readOnly": true
         },
         "unit": {
-          "readOnly": true,
+          "description": "Unit of the metric.",
           "type": "string",
-          "description": "The units of the usage metric."
-        },
-        "nextResetTime": {
-          "readOnly": true,
-          "type": "string",
-          "format": "date-time",
-          "description": "The next reset time for the usage metric (ISO8601 format)."
+          "readOnly": true
         }
-      },
-      "description": "The database usages.",
+      }
+    },
+    "SubscriptionUsage": {
+      "description": "Usage Metric of a Subscription in a Location.",
+      "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/SubResource"
+          "$ref": "../../../common/v1/types.json#/definitions/ProxyResource"
         }
-      ]
-    },
-    "DatabaseUsageListResult": {
+      ],
       "properties": {
-        "value": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DatabaseUsage"
-          },
-          "description": "The list of database usages for the database."
-        }
-      },
-      "required": ["value"],
-      "description": "The response to a list database metrics request."
-    },
-    "SubResource": {
-      "description": "Subresource properties",
-      "properties": {
-        "name": {
-          "readOnly": true,
-          "type": "string",
-          "description": "Resource name"
-        },
-        "id": {
-          "readOnly": true,
-          "type": "string",
-          "description": "The resource ID."
+        "properties": {
+          "$ref": "#/definitions/SubscriptionUsageProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
         }
       }
     }
@@ -231,31 +176,73 @@
     "SubscriptionIdParameter": {
       "name": "subscriptionId",
       "in": "path",
+      "description": "The subscription ID that identifies an Azure subscription.",
       "required": true,
       "type": "string",
-      "description": "The subscription ID that identifies an Azure subscription."
+      "x-ms-parameter-location": "client"
     },
     "ApiVersionParameter": {
       "name": "api-version",
       "in": "query",
+      "description": "The API version to use for the request.",
       "required": true,
       "type": "string",
-      "description": "The API version to use for the request."
+      "x-ms-parameter-location": "client"
     },
     "ResourceGroupParameter": {
       "name": "resourceGroupName",
       "in": "path",
+      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
       "required": true,
       "type": "string",
-      "description": "The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.",
       "x-ms-parameter-location": "method"
     },
     "ServerNameParameter": {
       "name": "serverName",
       "in": "path",
+      "description": "The name of the server.",
       "required": true,
       "type": "string",
-      "description": "The name of the server.",
+      "x-ms-parameter-location": "method"
+    },
+    "ManagedInstanceNameParameter": {
+      "name": "managedInstanceName",
+      "in": "path",
+      "description": "The name of the managed instance.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "DatabaseNameParameter": {
+      "name": "databaseName",
+      "in": "path",
+      "description": "The name of the database.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SqlVirtualMachineInstanceNameParameter": {
+      "name": "sqlVirtualMachineInstanceName",
+      "in": "path",
+      "description": "The name of the SqlVirtualMachineInstance.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "SqlVirtualMachineContainerNameParameter": {
+      "name": "sqlVirtualMachineContainerName",
+      "in": "path",
+      "description": "The name of the SqlVirtualMachineContainer.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "VirtualClusterNameParameter": {
+      "name": "virtualClusterName",
+      "in": "path",
+      "description": "The name of the virtual cluster.",
+      "required": true,
+      "type": "string",
       "x-ms-parameter-location": "method"
     }
   },

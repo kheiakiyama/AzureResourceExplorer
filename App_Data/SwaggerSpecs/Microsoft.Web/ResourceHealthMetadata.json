@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-02-01",
     "title": "ResourceHealthMetadata API Client"
   },
   "host": "management.azure.com",
@@ -319,6 +319,7 @@
       "properties": {
         "properties": {
           "description": "ResourceHealthMetadata resource specific properties",
+          "type": "object",
           "properties": {
             "category": {
               "description": "The category that the resource matches in the RHC Policy File",

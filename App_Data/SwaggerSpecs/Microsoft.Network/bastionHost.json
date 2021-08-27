@@ -3,7 +3,7 @@
   "info": {
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service.",
-    "version": "2021-02-01"
+    "version": "2021-03-01"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -174,6 +174,62 @@
         "x-ms-examples": {
           "Create Bastion Host": {
             "$ref": "./examples/BastionHostPut.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        }
+      },
+      "patch": {
+        "tags": [
+          "BastionHosts"
+        ],
+        "operationId": "BastionHosts_UpdateTags",
+        "description": "Updates Tags for BastionHost resource",
+        "parameters": [
+          {
+            "$ref": "./network.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupName"
+          },
+          {
+            "$ref": "#/parameters/BastionHostName"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "./network.json#/definitions/TagsObject"
+            },
+            "description": "Parameters supplied to update BastionHost tags."
+          },
+          {
+            "$ref": "./network.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update successful. The operation returns the resulting BastionHost resource.",
+            "schema": {
+              "$ref": "#/definitions/BastionHost"
+            }
+          },
+          "202": {
+            "description": "Accepted and the operation will complete asynchronously."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "./network.json#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Patch Bastion Host": {
+            "$ref": "./examples/BastionHostPatch.json"
           }
         },
         "x-ms-long-running-operation": true,
@@ -611,6 +667,38 @@
           "readOnly": true,
           "$ref": "./network.json#/definitions/ProvisioningState",
           "description": "The provisioning state of the bastion host resource."
+        },
+        "scaleUnits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The scale units for the Bastion Host resource.",
+          "minimum": 2,
+          "maximum": 50
+        },
+        "disableCopyPaste": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/Disable Copy/Paste feature of the Bastion Host resource."
+        },
+        "enableFileCopy": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/Disable File Copy feature of the Bastion Host resource."
+        },
+        "enableIpConnect": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/Disable IP Connect feature of the Bastion Host resource."
+        },
+        "enableShareableLink": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/Disable Shareable Link of the Bastion Host resource."
+        },
+        "enableTunneling": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable/Disable Tunneling feature of the Bastion Host resource."
         }
       },
       "description": "Properties of the Bastion Host."
