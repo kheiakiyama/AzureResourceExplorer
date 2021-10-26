@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-02-01",
     "title": "Diagnostics API Client"
   },
   "host": "management.azure.com",
@@ -694,7 +694,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DetectorDefinition"
+              "$ref": "#/definitions/DetectorDefinitionResource"
             }
           },
           "default": {
@@ -1416,7 +1416,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/DetectorDefinition"
+              "$ref": "#/definitions/DetectorDefinitionResource"
             }
           },
           "default": {
@@ -1606,6 +1606,7 @@
       "properties": {
         "properties": {
           "description": "AnalysisDefinition resource specific properties",
+          "type": "object",
           "properties": {
             "description": {
               "description": "Description of the Analysis",
@@ -1704,6 +1705,33 @@
     "DetectorDefinition": {
       "description": "Class representing detector definition",
       "type": "object",
+      "properties": {
+        "displayName": {
+          "description": "Display name of the detector",
+          "type": "string",
+          "readOnly": true
+        },
+        "description": {
+          "description": "Description of the detector",
+          "type": "string",
+          "readOnly": true
+        },
+        "rank": {
+          "format": "double",
+          "description": "Detector Rank",
+          "type": "number",
+          "readOnly": true
+        },
+        "isEnabled": {
+          "description": "Flag representing whether detector is enabled or not.",
+          "type": "boolean",
+          "readOnly": true
+        }
+      }
+    },
+    "DetectorDefinitionResource": {
+      "description": "ARM resource for a detector definition",
+      "type": "object",
       "allOf": [
         {
           "$ref": "./CommonDefinitions.json#/definitions/ProxyOnlyResource"
@@ -1711,30 +1739,9 @@
       ],
       "properties": {
         "properties": {
-          "description": "DetectorDefinition resource specific properties",
-          "properties": {
-            "displayName": {
-              "description": "Display name of the detector",
-              "type": "string",
-              "readOnly": true
-            },
-            "description": {
-              "description": "Description of the detector",
-              "type": "string",
-              "readOnly": true
-            },
-            "rank": {
-              "format": "double",
-              "description": "Detector Rank",
-              "type": "number",
-              "readOnly": true
-            },
-            "isEnabled": {
-              "description": "Flag representing whether detector is enabled or not.",
-              "type": "boolean",
-              "readOnly": true
-            }
-          },
+          "$ref": "#/definitions/DetectorDefinition",
+          "description": "Core resource properties",
+          "type": "object",
           "x-ms-client-flatten": true
         }
       }
@@ -1750,6 +1757,7 @@
       "properties": {
         "properties": {
           "description": "DiagnosticAnalysis resource specific properties",
+          "type": "object",
           "properties": {
             "startTime": {
               "format": "date-time",
@@ -1819,6 +1827,7 @@
       "properties": {
         "properties": {
           "description": "DiagnosticCategory resource specific properties",
+          "type": "object",
           "properties": {
             "description": {
               "description": "Description of the diagnostic category",
@@ -1862,7 +1871,7 @@
           "description": "Collection of resources.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DetectorDefinition"
+            "$ref": "#/definitions/DetectorDefinitionResource"
           }
         },
         "nextLink": {
@@ -1883,6 +1892,7 @@
       "properties": {
         "properties": {
           "description": "DiagnosticDetectorResponse resource specific properties",
+          "type": "object",
           "properties": {
             "startTime": {
               "format": "date-time",

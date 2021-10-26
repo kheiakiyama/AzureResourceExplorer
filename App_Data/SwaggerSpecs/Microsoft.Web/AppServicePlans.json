@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2020-12-01",
+    "version": "2021-02-01",
     "title": "AppServicePlans API Client"
   },
   "host": "management.azure.com",
@@ -138,7 +138,8 @@
             }
           },
           "404": {
-            "description": "Not found."
+            "description": "Not found.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -742,6 +743,12 @@
             "type": "string"
           },
           {
+            "$ref": "#/parameters/subscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          },
+          {
             "name": "$skipToken",
             "in": "query",
             "description": "Skip to a web app in the list of webapps associated with app service plan. If specified, the resulting list will contain web apps starting from (including) the skipToken. Otherwise, the resulting list contains web apps from the start of the list",
@@ -759,12 +766,6 @@
             "in": "query",
             "description": "List page size. If specified, results are paged.",
             "type": "string"
-          },
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
           }
         ],
         "responses": {
@@ -848,17 +849,17 @@
             "type": "string"
           },
           {
+            "$ref": "#/parameters/subscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/apiVersionParameter"
+          },
+          {
             "name": "$filter",
             "in": "query",
             "description": "Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2').",
             "type": "string",
             "x-ms-skip-url-encoding": true
-          },
-          {
-            "$ref": "#/parameters/subscriptionIdParameter"
-          },
-          {
-            "$ref": "#/parameters/apiVersionParameter"
           }
         ],
         "responses": {
@@ -912,7 +913,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "./CommonDefinitions.json#/definitions/VnetInfo"
+                "$ref": "./CommonDefinitions.json#/definitions/VnetInfoResource"
               }
             }
           },
@@ -962,11 +963,12 @@
           "200": {
             "description": "OK.",
             "schema": {
-              "$ref": "./CommonDefinitions.json#/definitions/VnetInfo"
+              "$ref": "./CommonDefinitions.json#/definitions/VnetInfoResource"
             }
           },
           "404": {
-            "description": "Virtual network could not be found."
+            "description": "Virtual network could not be found.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -1199,7 +1201,8 @@
             }
           },
           "404": {
-            "description": "Specified route does not exist."
+            "description": "Specified route does not exist.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -1265,10 +1268,12 @@
             }
           },
           "400": {
-            "description": "Invalid request. Ensure that required parameters are given, and that addresses and address spaces are valid."
+            "description": "Invalid request. Ensure that required parameters are given, and that addresses and address spaces are valid.",
+            "x-ms-error-response": true
           },
           "404": {
-            "description": "Route not found."
+            "description": "Route not found.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -1322,7 +1327,8 @@
             "description": "Successfully deleted Virtual Network route."
           },
           "404": {
-            "description": "Specified Virtual Network route does not exist."
+            "description": "Specified Virtual Network route does not exist.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -1388,10 +1394,12 @@
             }
           },
           "400": {
-            "description": "Invalid request. Ensure that required parameters are given, and that addresses and address spaces are valid."
+            "description": "Invalid request. Ensure that required parameters are given, and that addresses and address spaces are valid.",
+            "x-ms-error-response": true
           },
           "404": {
-            "description": "Route not found."
+            "description": "Route not found.",
+            "x-ms-error-response": true
           },
           "default": {
             "description": "App Service error response.",
@@ -1461,6 +1469,7 @@
       "properties": {
         "properties": {
           "description": "AppServicePlanPatchResource resource specific properties",
+          "type": "object",
           "properties": {
             "workerTierName": {
               "description": "Target worker tier assigned to the App Service plan.",
@@ -1599,6 +1608,11 @@
             "kubeEnvironmentProfile": {
               "$ref": "./CommonDefinitions.json#/definitions/KubeEnvironmentProfile",
               "description": "Specification for the Kubernetes Environment to use for the App Service plan."
+            },
+            "zoneRedundant": {
+              "description": "If <code>true</code>, this App Service Plan will perform availability zone balancing.\nIf <code>false</code>, this App Service Plan will not perform availability zone balancing.",
+              "default": false,
+              "type": "boolean"
             }
           },
           "x-ms-client-flatten": true
@@ -1637,6 +1651,7 @@
       "properties": {
         "properties": {
           "description": "HybridConnectionKey resource specific properties",
+          "type": "object",
           "properties": {
             "sendKeyName": {
               "description": "The name of the send key.",
@@ -1664,6 +1679,7 @@
       "properties": {
         "properties": {
           "description": "HybridConnectionLimits resource specific properties",
+          "type": "object",
           "properties": {
             "current": {
               "format": "int32",
