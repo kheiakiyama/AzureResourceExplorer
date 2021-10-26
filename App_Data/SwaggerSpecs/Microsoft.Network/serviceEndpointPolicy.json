@@ -3,7 +3,7 @@
   "info": {
     "title": "NetworkManagementClient",
     "description": "The Microsoft Azure Network management API provides a RESTful set of web services that interact with Microsoft Azure Networks service to manage your network resources. The API has entities that capture the relationship between an end user and the Microsoft Azure Networks service.",
-    "version": "2021-02-01"
+    "version": "2021-05-01"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -646,6 +646,10 @@
           "readOnly": true,
           "type": "string",
           "description": "A unique read-only string that changes whenever the resource is updated."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the resource."
         }
       },
       "allOf": [
@@ -697,6 +701,17 @@
           "readOnly": true,
           "$ref": "./network.json#/definitions/ProvisioningState",
           "description": "The provisioning state of the service endpoint policy resource."
+        },
+        "serviceAlias": {
+          "type": "string",
+          "description": "The alias indicating if the policy belongs to a service"
+        },
+        "contextualServiceEndpointPolicies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A collection of contextual service endpoint policy."
         }
       },
       "description": "Service Endpoint Policy resource."

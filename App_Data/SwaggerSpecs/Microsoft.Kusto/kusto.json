@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "KustoManagementClient",
-    "version": "2019-11-09"
+    "version": "2021-08-27"
   },
   "host": "management.azure.com",
   "schemes": [
@@ -85,6 +85,22 @@
             "description": "The Kusto cluster parameters supplied to the CreateOrUpdate operation."
           },
           {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "x-ms-client-name": "IfMatch",
+            "description": "The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes."
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "x-ms-client-name": "IfNoneMatch",
+            "description": "Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will result in a 412 Pre-condition Failed response."
+          },
+          {
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
@@ -139,6 +155,14 @@
               "$ref": "#/definitions/ClusterUpdate"
             },
             "description": "The Kusto cluster parameters supplied to the Update operation."
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "x-ms-client-name": "IfMatch",
+            "description": "The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes."
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -835,11 +859,7 @@
             "$ref": "#/parameters/SubscriptionIdParameter"
           },
           {
-            "name": "location",
-            "in": "path",
-            "description": "Azure location.",
-            "required": true,
-            "type": "string"
+            "$ref": "#/parameters/LocationNameParameter"
           },
           {
             "name": "clusterName",
@@ -874,11 +894,11 @@
         ],
         "operationId": "Databases_CheckNameAvailability",
         "x-ms-examples": {
-          "KustoDatabaseCheckNameAvailability": {
+          "KustoDatabasesCheckNameAvailability": {
             "$ref": "./examples/KustoDatabasesCheckNameAvailability.json"
           }
         },
-        "description": "Checks that the database name is valid and is not already in use.",
+        "description": "Checks that the databases resource name is valid and is not already in use.",
         "parameters": [
           {
             "$ref": "#/parameters/ResourceGroupParameter"
@@ -898,6 +918,108 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/CheckNameRequest"
+            },
+            "description": "The name of the resource."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Operation to check the kusto resource name availability was successful.",
+            "schema": {
+              "$ref": "#/definitions/CheckNameResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability": {
+      "post": {
+        "tags": [
+          "AttachedDatabaseConfigurations"
+        ],
+        "operationId": "AttachedDatabaseConfigurations_CheckNameAvailability",
+        "x-ms-examples": {
+          "KustoAttachedDatabaseConfigurationCheckNameAvailability": {
+            "$ref": "./examples/KustoAttachedDatabaseConfigurationCheckNameAvailability.json"
+          }
+        },
+        "description": "Checks that the attached database configuration resource name is valid and is not already in use.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AttachedDatabaseConfigurationsCheckNameRequest"
+            },
+            "description": "The name of the resource."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Operation to check the kusto resource name availability was successful.",
+            "schema": {
+              "$ref": "#/definitions/CheckNameResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpointsCheckNameAvailability": {
+      "post": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_CheckNameAvailability",
+        "x-ms-examples": {
+          "KustoManagedPrivateEndpointsCheckNameAvailability": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsCheckNameAvailability.json"
+          }
+        },
+        "description": "Checks that the managed private endpoints resource name is valid and is not already in use.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "resourceName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpointsCheckNameRequest"
             },
             "description": "The name of the resource."
           }
@@ -1059,8 +1181,11 @@
         "description": "Creates or updates a database.",
         "operationId": "Databases_CreateOrUpdate",
         "x-ms-examples": {
-          "KustoDatabasesCreateOrUpdate": {
+          "Kusto ReadWrite database create or update": {
             "$ref": "./examples/KustoDatabasesCreateOrUpdate.json"
+          },
+          "Kusto ReadOnly database update": {
+            "$ref": "./examples/KustoDatabaseReadonlyUpdate.json"
           }
         },
         "parameters": [
@@ -1594,6 +1719,873 @@
         }
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts": {
+      "get": {
+        "tags": [
+          "scripts"
+        ],
+        "operationId": "Scripts_ListByDatabase",
+        "x-ms-examples": {
+          "KustoScriptsList": {
+            "$ref": "./examples/KustoScriptsListByDatabase.json"
+          }
+        },
+        "description": "Returns the list of database scripts for given database.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list result of Kusto database scripts.",
+            "schema": {
+              "$ref": "#/definitions/ScriptListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}": {
+      "get": {
+        "tags": [
+          "Scripts"
+        ],
+        "operationId": "Scripts_Get",
+        "x-ms-examples": {
+          "KustoScriptsGet": {
+            "$ref": "./examples/KustoScriptsGet.json"
+          }
+        },
+        "description": "Gets a Kusto cluster database script.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ScriptNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Kusto cluster database script object.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Scripts"
+        ],
+        "operationId": "Scripts_CreateOrUpdate",
+        "x-ms-examples": {
+          "KustoScriptsCreateOrUpdate": {
+            "$ref": "./examples/KustoScriptsCreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Creates a Kusto database script.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ScriptNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Script"
+            },
+            "description": "The Kusto Script parameters contains the KQL to run."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the Script.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "201": {
+            "description": "Successfully created the script.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "202": {
+            "description": "Successfully accepted the Script.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Scripts"
+        ],
+        "operationId": "Scripts_Update",
+        "x-ms-examples": {
+          "KustoScriptsUpdate": {
+            "$ref": "./examples/KustoScriptsUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Updates a database script.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ScriptNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Script"
+            },
+            "description": "The Kusto Script parameters contains to the KQL to run."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the database script.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "202": {
+            "description": "Accepted the update request of the database script.",
+            "schema": {
+              "$ref": "#/definitions/Script"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Scripts"
+        ],
+        "operationId": "Scripts_Delete",
+        "x-ms-examples": {
+          "KustoScriptsDelete": {
+            "$ref": "./examples/KustoScriptsDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Deletes a Kusto principalAssignment.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ScriptNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Script deleted successfully."
+          },
+          "202": {
+            "description": "Accepted the delete Script request."
+          },
+          "204": {
+            "description": "NoContent -- If the Script resource is already deleted, this is the expected status code."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints": {
+      "get": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_List",
+        "x-ms-examples": {
+          "KustoManagedPrivateEndpointsList": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsList.json"
+          }
+        },
+        "description": "Returns the list of managed private endpoints.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list result of managed private endpoints.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpointListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}": {
+      "get": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_Get",
+        "x-ms-examples": {
+          "KustoManagedPrivateEndpointsGet": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsGet.json"
+          }
+        },
+        "description": "Gets a managed private endpoint.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ManagedPrivateEndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The managed private endpoint object.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_CreateOrUpdate",
+        "x-ms-examples": {
+          "KustoManagedPrivateEndpointsCreateOrUpdate": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsCreateOrUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Creates a managed private endpoint.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ManagedPrivateEndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            },
+            "description": "The managed private endpoint parameters."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the managed private endpoint.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "201": {
+            "description": "Successfully created the managed private endpoint.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "202": {
+            "description": "Successfully accepted the managed private endpoint.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_Update",
+        "x-ms-examples": {
+          "KustoManagedPrivateEndpointsUpdate": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsUpdate.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Updates a managed private endpoint.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ManagedPrivateEndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            },
+            "description": "The managed private endpoint parameters."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated the managed private endpoint.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "202": {
+            "description": "Accepted the update request of the managed private endpoint.",
+            "schema": {
+              "$ref": "#/definitions/ManagedPrivateEndpoint"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ManagedPrivateEndpoints"
+        ],
+        "operationId": "ManagedPrivateEndpoints_Delete",
+        "x-ms-examples": {
+          "ManagedPrivateEndpointsDelete": {
+            "$ref": "./examples/KustoManagedPrivateEndpointsDelete.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "description": "Deletes a managed private endpoint.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ManagedPrivateEndpointNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- managed private endpoint deleted successfully."
+          },
+          "202": {
+            "description": "Accepted the delete managed private endpoint request."
+          },
+          "204": {
+            "description": "NoContent -- If the managed private endpoint resource is already deleted, this is the expected status code."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections": {
+      "get": {
+        "tags": [
+          "PrivateEndpointConnections"
+        ],
+        "operationId": "PrivateEndpointConnections_List",
+        "x-ms-examples": {
+          "KustoPrivateEndpointConnectionsList": {
+            "$ref": "./examples/KustoPrivateEndpointConnectionsList.json"
+          }
+        },
+        "description": "Returns the list of private endpoint connections.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list result of private endpoint connections.",
+            "schema": {
+              "$ref": "#/definitions/PrivateEndpointConnectionListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}": {
+      "get": {
+        "tags": [
+          "PrivateEndpointConnections"
+        ],
+        "description": "Gets a private endpoint connection.",
+        "operationId": "PrivateEndpointConnections_Get",
+        "x-ms-examples": {
+          "Gets private endpoint connection.": {
+            "$ref": "./examples/KustoPrivateEndpointConnectionsGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PrivateEndpointConnectionNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a specified private endpoint connection.",
+            "schema": {
+              "$ref": "#/definitions/PrivateEndpointConnection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "PrivateEndpointConnections"
+        ],
+        "description": "Approve or reject a private endpoint connection with a given name.",
+        "operationId": "PrivateEndpointConnections_CreateOrUpdate",
+        "x-ms-examples": {
+          "Approve or reject a private endpoint connection with a given name.": {
+            "$ref": "./examples/KustoPrivateEndpointConnectionsCreateOrUpdate.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PrivateEndpointConnectionNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "parameters",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PrivateEndpointConnection"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully approved or rejected private endpoint connection.",
+            "schema": {
+              "$ref": "#/definitions/PrivateEndpointConnection"
+            }
+          },
+          "201": {
+            "description": "Accepted. The private endpoint connection update will complete asynchronously.",
+            "schema": {
+              "$ref": "#/definitions/PrivateEndpointConnection"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "tags": [
+          "PrivateEndpointConnections"
+        ],
+        "description": "Deletes a private endpoint connection with a given name.",
+        "operationId": "PrivateEndpointConnections_Delete",
+        "x-ms-examples": {
+          "Deletes a private endpoint connection with a given name.": {
+            "$ref": "./examples/KustoPrivateEndpointConnectionsDelete.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PrivateEndpointConnectionNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the private endpoint connection."
+          },
+          "202": {
+            "description": "Accepted. The private endpoint connection delete will complete asynchronously."
+          },
+          "204": {
+            "description": "Private endpoint connection does not exist."
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateLinkResources": {
+      "get": {
+        "tags": [
+          "PrivateLinkResources"
+        ],
+        "description": "Returns the list of private link resources.",
+        "operationId": "PrivateLinkResources_List",
+        "x-ms-examples": {
+          "Gets private endpoint connections.": {
+            "$ref": "./examples/KustoPrivateLinkResourcesList.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved private link resources.",
+            "schema": {
+              "$ref": "#/definitions/PrivateLinkResourceListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateLinkResources/{privateLinkResourceName}": {
+      "get": {
+        "tags": [
+          "PrivateLinkResources"
+        ],
+        "description": "Gets a private link resource.",
+        "operationId": "PrivateLinkResources_Get",
+        "x-ms-examples": {
+          "Gets private endpoint connection.": {
+            "$ref": "./examples/KustoPrivateLinkResourcesGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PrivateLinkResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved a specified private link resource.",
+            "schema": {
+              "$ref": "#/definitions/PrivateLinkResource"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/outboundNetworkDependenciesEndpoints": {
+      "get": {
+        "tags": [
+          "OutboundNetworkDependenciesEndpoints"
+        ],
+        "operationId": "Clusters_ListOutboundNetworkDependenciesEndpoints",
+        "x-ms-examples": {
+          "Get Kusto cluster outbound network dependencies": {
+            "$ref": "./examples/KustoOutboundNetworkDependenciesList.json"
+          }
+        },
+        "description": "Gets the network endpoints of all outbound dependencies of a Kusto cluster",
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OutboundNetworkDependenciesEndpointListResult"
+            }
+          },
+          "default": {
+            "description": "Error from the RP",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations": {
       "get": {
         "tags": [
@@ -1906,8 +2898,12 @@
         "operationId": "DataConnections_dataConnectionValidation",
         "x-ms-examples": {
           "KustoDataConnectionValidation": {
-            "$ref": "./examples/KustoDataConnectionValidation.json"
+            "$ref": "./examples/KustoDataConnectionValidationAsync.json"
           }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
         },
         "description": "Checks that the data connection parameters are valid.",
         "parameters": [
@@ -1941,6 +2937,15 @@
             "description": "OK -- Operation to check the kusto resource name availability was successful.",
             "schema": {
               "$ref": "#/definitions/DataConnectionValidationListResult"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
             }
           }
         }
@@ -1982,6 +2987,60 @@
               "$ref": "#/definitions/DataConnectionCheckNameRequest"
             },
             "description": "The name of the data connection."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK -- Operation to check the Kusto resource name availability was successful.",
+            "schema": {
+              "$ref": "#/definitions/CheckNameResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability": {
+      "post": {
+        "tags": [
+          "Scripts"
+        ],
+        "operationId": "Scripts_CheckNameAvailability",
+        "x-ms-examples": {
+          "KustoScriptsCheckNameAvailability": {
+            "$ref": "./examples/KustoScriptsCheckNameAvailability.json"
+          }
+        },
+        "description": "Checks that the script name is valid and is not already in use.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DatabaseNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "scriptName",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ScriptCheckNameRequest"
+            },
+            "description": "The name of the script."
           }
         ],
         "responses": {
@@ -2269,6 +3328,197 @@
           "nextLinkName": "nextLink"
         }
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions": {
+      "post": {
+        "tags": [
+          "Clusters"
+        ],
+        "description": "Returns a list of language extensions that can run within KQL queries.",
+        "operationId": "Clusters_ListLanguageExtensions",
+        "x-ms-examples": {
+          "KustoClusterListLanguageExtensions": {
+            "$ref": "./examples/KustoClusterListLanguageExtensions.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the list of language extensions.",
+            "schema": {
+              "$ref": "#/definitions/LanguageExtensionsList"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": null
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions": {
+      "post": {
+        "tags": [
+          "Clusters"
+        ],
+        "description": "Add a list of language extensions that can run within KQL queries.",
+        "operationId": "Clusters_AddLanguageExtensions",
+        "x-ms-examples": {
+          "KustoClusterAddLanguageExtensions": {
+            "$ref": "./examples/KustoClusterAddLanguageExtensions.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "languageExtensionsToAdd",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageExtensionsList"
+            },
+            "description": "The language extensions to add."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions": {
+      "post": {
+        "tags": [
+          "Clusters"
+        ],
+        "description": "Remove a list of language extensions that can run within KQL queries.",
+        "operationId": "Clusters_RemoveLanguageExtensions",
+        "x-ms-examples": {
+          "KustoClusterRemoveLanguageExtensions": {
+            "$ref": "./examples/KustoClusterRemoveLanguageExtensions.json"
+          }
+        },
+        "x-ms-long-running-operation": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupParameter"
+          },
+          {
+            "$ref": "#/parameters/ClusterNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "languageExtensionsToRemove",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageExtensionsList"
+            },
+            "description": "The language extensions to remove."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationresults/{operationId}": {
+      "get": {
+        "tags": [
+          "OperationResults"
+        ],
+        "description": "Returns operation results.",
+        "operationId": "OperationsResults_Get",
+        "x-ms-examples": {
+          "KustoOperationResultsGet": {
+            "$ref": "./examples/KustoOperationResultsGet.json"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/LocationNameParameter"
+          },
+          {
+            "$ref": "#/parameters/OperationIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the operation result.",
+            "schema": {
+              "$ref": "#/definitions/OperationResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "#/definitions/CloudError"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2295,21 +3545,9 @@
           }
         },
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         },
         "uri": {
           "type": "string",
@@ -2320,6 +3558,11 @@
           "type": "string",
           "readOnly": true,
           "description": "The cluster data ingestion URI."
+        },
+        "stateReason": {
+          "type": "string",
+          "readOnly": true,
+          "description": "The reason for the cluster's current state."
         },
         "trustedExternalTenants": {
           "type": "array",
@@ -2335,6 +3578,7 @@
         },
         "enableDiskEncryption": {
           "description": "A boolean value that indicates if the cluster's disks are encrypted.",
+          "default": false,
           "type": "boolean"
         },
         "enableStreamingIngest": {
@@ -2351,6 +3595,87 @@
           "type": "object",
           "$ref": "#/definitions/KeyVaultProperties",
           "description": "KeyVault properties for the cluster encryption."
+        },
+        "enablePurge": {
+          "description": "A boolean value that indicates if the purge operations are enabled.",
+          "default": false,
+          "type": "boolean"
+        },
+        "languageExtensions": {
+          "type": "object",
+          "$ref": "#/definitions/LanguageExtensionsList",
+          "readOnly": true,
+          "description": "List of the cluster's language extensions."
+        },
+        "enableDoubleEncryption": {
+          "description": "A boolean value that indicates if double encryption is enabled.",
+          "default": false,
+          "type": "boolean"
+        },
+        "publicNetworkAccess": {
+          "type": "string",
+          "description": "Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "PublicNetworkAccess",
+            "modelAsString": true
+          },
+          "default": "Enabled"
+        },
+        "allowedIpRangeList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of ips in the format of CIDR allowed to connect to the cluster."
+        },
+        "engineType": {
+          "type": "string",
+          "description": "The engine type",
+          "enum": [
+            "V2",
+            "V3"
+          ],
+          "x-ms-enum": {
+            "name": "EngineType",
+            "modelAsString": true
+          },
+          "default": "V3"
+        },
+        "acceptedAudiences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AcceptedAudiences"
+          },
+          "description": "The cluster's accepted audiences."
+        },
+        "enableAutoStop": {
+          "description": "A boolean value that indicates if the cluster could be automatically stopped (due to lack of data or no activity for many days).",
+          "default": true,
+          "type": "boolean"
+        },
+        "restrictOutboundNetworkAccess": {
+          "description": "Whether or not to restrict outbound network access.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ClusterNetworkAccessFlag",
+            "modelAsString": true
+          }
+        },
+        "allowedFqdnList": {
+          "description": "List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster.",
+          "type": "array",
+          "items": {
+            "description": "FQDN to be allowed for egress. Example: my-storageaccount.blob.core.windows.net",
+            "type": "string"
+          }
         }
       },
       "description": "Class representing the Kusto cluster properties."
@@ -2405,15 +3730,18 @@
         },
         "minimum": {
           "description": "Minimum allowed capacity.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "maximum": {
           "description": "Maximum allowed capacity.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "default": {
           "description": "The default capacity that would be used.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         }
       },
       "description": "Azure capacity definition."
@@ -2516,10 +3844,23 @@
             "Standard_D14_v2",
             "Standard_L8s",
             "Standard_L16s",
+            "Standard_L8s_v2",
+            "Standard_L16s_v2",
             "Standard_D11_v2",
             "Standard_D12_v2",
             "Standard_L4s",
-            "Dev(No SLA)_Standard_D11_v2"
+            "Dev(No SLA)_Standard_D11_v2",
+            "Standard_E64i_v3",
+            "Standard_E80ids_v4",
+            "Standard_E2a_v4",
+            "Standard_E4a_v4",
+            "Standard_E8a_v4",
+            "Standard_E16a_v4",
+            "Standard_E8as_v4+1TB_PS",
+            "Standard_E8as_v4+2TB_PS",
+            "Standard_E16as_v4+3TB_PS",
+            "Standard_E16as_v4+4TB_PS",
+            "Dev(No SLA)_Standard_E2a_v4"
           ],
           "x-ms-enum": {
             "name": "AzureSkuName",
@@ -2528,7 +3869,8 @@
         },
         "capacity": {
           "description": "The number of instances of the cluster.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "tier": {
           "description": "SKU tier.",
@@ -2563,7 +3905,8 @@
       "properties": {
         "version": {
           "description": "The version of the template defined, for instance 1.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "isEnabled": {
           "description": "A boolean value that indicate if the optimized autoscale feature is enabled or not.",
@@ -2571,11 +3914,13 @@
         },
         "minimum": {
           "description": "Minimum allowed instances count.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "maximum": {
           "description": "Maximum allowed instances count.",
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         }
       },
       "description": "A class that contains the optimized auto scale definition."
@@ -2590,15 +3935,27 @@
       "properties": {
         "subnetId": {
           "description": "The subnet resource id.",
-          "type": "string"
+          "type": "string",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "enginePublicIpId": {
           "description": "Engine service's public IP address resource id.",
-          "type": "string"
+          "type": "string",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         },
         "dataManagementPublicIpId": {
           "description": "Data management's service public IP address resource id.",
-          "type": "string"
+          "type": "string",
+          "x-ms-mutability": [
+            "create",
+            "read"
+          ]
         }
       },
       "description": "A class that contains virtual network definition."
@@ -2617,21 +3974,9 @@
     "AttachedDatabaseConfigurationProperties": {
       "properties": {
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         },
         "databaseName": {
           "type": "string",
@@ -2661,6 +4006,11 @@
             "modelAsString": true
           },
           "description": "The default principals modification kind"
+        },
+        "tableLevelSharingProperties": {
+          "type": "object",
+          "$ref": "#/definitions/TableLevelSharingProperties",
+          "description": "Table level sharing specifications"
         }
       },
       "description": "Class representing the an attached database configuration properties of kind specific.",
@@ -2673,21 +4023,9 @@
     "ReadWriteDatabaseProperties": {
       "properties": {
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         },
         "softDeletePeriod": {
           "type": "string",
@@ -2701,10 +4039,11 @@
         },
         "statistics": {
           "$ref": "#/definitions/DatabaseStatistics",
+          "readOnly": true,
           "description": "The statistics of the database."
         },
         "isFollowed": {
-          "type": "string",
+          "type": "boolean",
           "readOnly": true,
           "description": "Indicates whether the database is followed."
         }
@@ -2714,21 +4053,9 @@
     "ReadOnlyFollowingDatabaseProperties": {
       "properties": {
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         },
         "softDeletePeriod": {
           "type": "string",
@@ -2743,6 +4070,7 @@
         },
         "statistics": {
           "$ref": "#/definitions/DatabaseStatistics",
+          "readOnly": true,
           "description": "The statistics of the database."
         },
         "leaderClusterResourceId": {
@@ -2804,6 +4132,15 @@
         "compression": {
           "$ref": "#/definitions/Compression",
           "description": "The event hub messages compression type"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true,
+          "description": "The provisioned state of the resource."
+        },
+        "managedIdentityResourceId": {
+          "type": "string",
+          "description": "The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub."
         }
       },
       "required": [
@@ -2844,6 +4181,11 @@
         "sharedAccessPolicyName": {
           "type": "string",
           "description": "The name of the share access policy"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true,
+          "description": "The provisioned state of the resource."
         }
       },
       "required": [
@@ -2870,7 +4212,9 @@
         "AVRO",
         "TSVE",
         "PARQUET",
-        "ORC"
+        "ORC",
+        "APACHEAVRO",
+        "W3CLOGFILE"
       ],
       "x-ms-enum": {
         "name": "eventHubDataFormat",
@@ -2894,7 +4238,9 @@
         "AVRO",
         "TSVE",
         "PARQUET",
-        "ORC"
+        "ORC",
+        "APACHEAVRO",
+        "W3CLOGFILE"
       ],
       "x-ms-enum": {
         "name": "iotHubDataFormat",
@@ -2918,10 +4264,24 @@
         "AVRO",
         "TSVE",
         "PARQUET",
-        "ORC"
+        "ORC",
+        "APACHEAVRO",
+        "W3CLOGFILE"
       ],
       "x-ms-enum": {
         "name": "eventGridDataFormat",
+        "modelAsString": true
+      }
+    },
+    "BlobStorageEventType": {
+      "description": "The name of blob storage event type to process.",
+      "type": "string",
+      "enum": [
+        "Microsoft.Storage.BlobCreated",
+        "Microsoft.Storage.BlobRenamed"
+      ],
+      "x-ms-enum": {
+        "name": "blobStorageEventType",
         "modelAsString": true
       }
     },
@@ -2935,7 +4295,8 @@
       "x-ms-enum": {
         "name": "compression",
         "modelAsString": true
-      }
+      },
+      "default": "None"
     },
     "EventGridConnectionProperties": {
       "properties": {
@@ -2962,14 +4323,25 @@
         "dataFormat": {
           "$ref": "#/definitions/EventGridDataFormat",
           "description": "The data format of the message. Optionally the data format can be added to each message."
+        },
+        "ignoreFirstRecord": {
+          "type": "boolean",
+          "description": "A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file"
+        },
+        "blobStorageEventType": {
+          "$ref": "#/definitions/BlobStorageEventType",
+          "description": "The name of blob storage event type to process."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true,
+          "description": "The provisioned state of the resource."
         }
       },
       "required": [
         "storageAccountResourceId",
         "eventHubResourceId",
-        "consumerGroup",
-        "tableName",
-        "dataFormat"
+        "consumerGroup"
       ],
       "description": "Class representing the Kusto event grid connection properties."
     },
@@ -2981,6 +4353,10 @@
         "sku": {
           "$ref": "#/definitions/AzureSku",
           "description": "The SKU of the cluster."
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
         },
         "zones": {
           "$ref": "#/definitions/Zones",
@@ -2994,11 +4370,16 @@
           "x-ms-client-flatten": true,
           "$ref": "#/definitions/ClusterProperties",
           "description": "The cluster properties."
+        },
+        "etag": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A unique read-only string that changes whenever the resource is updated."
         }
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/TrackedResource"
         }
       ],
       "description": "Class representing a Kusto cluster."
@@ -3037,7 +4418,7 @@
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/Resource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/Resource"
         }
       ],
       "description": "Class representing an update to a Kusto cluster."
@@ -3068,7 +4449,7 @@
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
         }
       ],
       "description": "Class representing an attached database configuration."
@@ -3097,7 +4478,7 @@
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
         }
       ],
       "description": "Class representing a Kusto database.",
@@ -3151,7 +4532,7 @@
             "Ingestor",
             "Monitor",
             "User",
-            "UnrestrictedViewers",
+            "UnrestrictedViewer",
             "Viewer"
           ],
           "x-ms-enum": {
@@ -3216,7 +4597,7 @@
             "Ingestor",
             "Monitor",
             "User",
-            "UnrestrictedViewers",
+            "UnrestrictedViewer",
             "Viewer"
           ],
           "x-ms-enum": {
@@ -3252,21 +4633,9 @@
           "description": "The principal name"
         },
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         }
       },
       "description": "A class representing database principal property."
@@ -3323,24 +4692,79 @@
           "description": "The principal name"
         },
         "provisioningState": {
-          "type": "string",
+          "$ref": "#/definitions/ProvisioningState",
           "readOnly": true,
-          "description": "The provisioned state of the resource.",
-          "enum": [
-            "Running",
-            "Creating",
-            "Deleting",
-            "Succeeded",
-            "Failed",
-            "Moving"
-          ],
-          "x-ms-enum": {
-            "name": "ProvisioningState",
-            "modelAsString": true
-          }
+          "description": "The provisioned state of the resource."
         }
       },
       "description": "A class representing cluster principal property."
+    },
+    "ScriptProperties": {
+      "type": "object",
+      "required": [
+        "scriptUrl",
+        "scriptUrlSasToken"
+      ],
+      "properties": {
+        "scriptUrl": {
+          "description": "The url to the KQL script blob file.",
+          "type": "string"
+        },
+        "scriptUrlSasToken": {
+          "description": "The SaS token.",
+          "type": "string",
+          "x-ms-mutability": [
+            "create"
+          ],
+          "x-ms-secret": true
+        },
+        "forceUpdateTag": {
+          "description": "A unique string. If changed the script will be applied again.",
+          "type": "string"
+        },
+        "continueOnErrors": {
+          "description": "Flag that indicates whether to continue if one of the command fails.",
+          "type": "boolean",
+          "default": false
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true,
+          "description": "The provisioned state of the resource."
+        }
+      },
+      "description": "A class representing database script property."
+    },
+    "ManagedPrivateEndpointProperties": {
+      "type": "object",
+      "required": [
+        "privateLinkResourceId",
+        "groupId"
+      ],
+      "properties": {
+        "privateLinkResourceId": {
+          "description": "The ARM resource ID of the resource for which the managed private endpoint is created.",
+          "type": "string"
+        },
+        "privateLinkResourceRegion": {
+          "description": "The region of the resource to which the managed private endpoint is created.",
+          "type": "string"
+        },
+        "groupId": {
+          "description": "The groupId in which the managed private endpoint is created.",
+          "type": "string"
+        },
+        "requestMessage": {
+          "description": "The user request message.",
+          "type": "string"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioned state of the resource.",
+          "readOnly": true
+        }
+      },
+      "description": "A class representing the properties of a managed private endpoint object."
     },
     "DatabasePrincipalAssignment": {
       "properties": {
@@ -3352,7 +4776,7 @@
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
         }
       ],
       "description": "Class representing a database principal assignment."
@@ -3367,10 +4791,317 @@
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
         }
       ],
       "description": "Class representing a cluster principal assignment."
+    },
+    "ScriptListResult": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Script"
+          },
+          "description": "The list of Kusto scripts."
+        }
+      },
+      "description": "The list Kusto database script operation response."
+    },
+    "Script": {
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ScriptProperties",
+          "description": "The database script."
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Class representing a database script."
+    },
+    "ManagedPrivateEndpointListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManagedPrivateEndpoint"
+          },
+          "description": "The list of managed private endpoints."
+        }
+      },
+      "description": "The list managed private endpoints operation response."
+    },
+    "ManagedPrivateEndpoint": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/ManagedPrivateEndpointProperties",
+          "description": "A managed private endpoint."
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+        }
+      ],
+      "description": "Class representing a managed private endpoint."
+    },
+    "PrivateEndpointConnectionListResult": {
+      "description": "A list of private endpoint connections",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "Array of private endpoint connections",
+          "items": {
+            "$ref": "#/definitions/PrivateEndpointConnection"
+          }
+        }
+      }
+    },
+    "PrivateEndpointConnection": {
+      "description": "A private endpoint connection",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PrivateEndpointConnectionProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "PrivateEndpointConnectionProperties": {
+      "description": "Properties of a private endpoint connection.",
+      "required": [
+        "privateLinkServiceConnectionState"
+      ],
+      "type": "object",
+      "properties": {
+        "privateEndpoint": {
+          "$ref": "#/definitions/PrivateEndpointProperty",
+          "description": "Private endpoint which the connection belongs to.",
+          "readOnly": true
+        },
+        "privateLinkServiceConnectionState": {
+          "$ref": "#/definitions/PrivateLinkServiceConnectionStateProperty",
+          "description": "Connection State of the Private Endpoint Connection."
+        },
+        "groupId": {
+          "type": "string",
+          "description": "Group id of the private endpoint.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "Provisioning state of the private endpoint.",
+          "readOnly": true
+        }
+      }
+    },
+    "PrivateEndpointProperty": {
+      "type": "object",
+      "description": "Private endpoint which the connection belongs to.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Resource id of the private endpoint.",
+          "readOnly": true
+        }
+      }
+    },
+    "PrivateLinkServiceConnectionStateProperty": {
+      "type": "object",
+      "description": "Connection State of the Private Endpoint Connection.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "The private link service connection status."
+        },
+        "description": {
+          "type": "string",
+          "description": "The private link service connection description."
+        },
+        "actionsRequired": {
+          "type": "string",
+          "description": "Any action that is required beyond basic workflow (approve/ reject/ disconnect)",
+          "readOnly": true
+        }
+      }
+    },
+    "PrivateLinkResourceListResult": {
+      "description": "A list of private link resources",
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "Array of private link resources",
+          "items": {
+            "$ref": "#/definitions/PrivateLinkResource"
+          }
+        }
+      }
+    },
+    "PrivateLinkResource": {
+      "description": "A private link resource",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PrivateLinkResourceProperties",
+          "description": "Resource properties.",
+          "x-ms-client-flatten": true
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/Resource"
+        }
+      ]
+    },
+    "PrivateLinkResourceProperties": {
+      "description": "Properties of a private link resource.",
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "description": "The private link resource group id.",
+          "type": "string",
+          "readOnly": true
+        },
+        "requiredMembers": {
+          "description": "The private link resource required member names.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        },
+        "requiredZoneNames": {
+          "description": "The private link resource required zone names.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true
+        }
+      }
+    },
+    "OutboundNetworkDependenciesEndpointListResult": {
+      "description": "Collection of Outbound Environment Endpoints",
+      "required": [
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "value": {
+          "description": "Collection of resources.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OutboundNetworkDependenciesEndpoint"
+          }
+        },
+        "nextLink": {
+          "description": "Link to next page of resources.",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
+    "OutboundNetworkDependenciesEndpoint": {
+      "description": "Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to.",
+      "type": "object",
+      "properties": {
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OutboundNetworkDependenciesEndpointProperties",
+          "description": "The outbound environment endpoint properties."
+        },
+        "etag": {
+          "type": "string",
+          "readOnly": true,
+          "description": "A unique read-only string that changes whenever the resource is updated."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "OutboundNetworkDependenciesEndpointProperties": {
+      "description": "Endpoints accessed for a common purpose that the Kusto Service Environment requires outbound network access to.",
+      "type": "object",
+      "properties": {
+        "category": {
+          "description": "The type of service accessed by the Kusto Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory.",
+          "type": "string"
+        },
+        "endpoints": {
+          "description": "The endpoints that the Kusto Service Environment reaches the service at.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EndpointDependency"
+          }
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "readOnly": true,
+          "description": "The provisioned state of the resource."
+        }
+      }
+    },
+    "EndpointDependency": {
+      "description": "A domain name that a service is reached at, including details of the current connection status.",
+      "type": "object",
+      "properties": {
+        "domainName": {
+          "description": "The domain name of the dependency.",
+          "type": "string"
+        },
+        "endpointDetails": {
+          "description": "The ports used when connecting to DomainName.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EndpointDetail"
+          }
+        }
+      }
+    },
+    "EndpointDetail": {
+      "description": "Current TCP connectivity information from the Kusto cluster to a single endpoint.",
+      "type": "object",
+      "properties": {
+        "port": {
+          "format": "int32",
+          "description": "The port an endpoint is connected to.",
+          "type": "integer"
+        }
+      }
     },
     "ClusterListResult": {
       "properties": {
@@ -3462,14 +5193,14 @@
           ],
           "type": "string",
           "x-ms-enum": {
-            "name": "Kind",
+            "name": "DataConnectionKind",
             "modelAsString": true
           }
         }
       },
       "allOf": [
         {
-          "$ref": "../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
+          "$ref": "../../../../../common-types/resource-management/v1/types.json#/definitions/ProxyResource"
         }
       ],
       "description": "Class representing an data connection.",
@@ -3639,7 +5370,7 @@
             "Microsoft.Kusto/clusters"
           ],
           "x-ms-enum": {
-            "name": "Type",
+            "name": "ClusterType",
             "modelAsString": false
           },
           "description": "The type of resource, Microsoft.Kusto/clusters."
@@ -3677,6 +5408,56 @@
       ],
       "description": "The result returned from a database check name availability request."
     },
+    "AttachedDatabaseConfigurationsCheckNameRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Attached database resource name."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.Kusto/clusters/attachedDatabaseConfigurations"
+          ],
+          "x-ms-enum": {
+            "name": "AttachedDatabaseType",
+            "modelAsString": false
+          },
+          "description": "The type of resource, for instance Microsoft.Kusto/clusters/attachedDatabaseConfigurations."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "The result returned from a AttachedDatabaseConfigurations check name availability request."
+    },
+    "ManagedPrivateEndpointsCheckNameRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Managed private endpoint resource name."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.Kusto/clusters/managedPrivateEndpoints"
+          ],
+          "x-ms-enum": {
+            "name": "ManagedPrivateEndpointsType",
+            "modelAsString": false
+          },
+          "description": "The type of resource, for instance Microsoft.Kusto/clusters/managedPrivateEndpoints."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "The result returned from a managedPrivateEndpoints check name availability request."
+    },
     "ClusterPrincipalAssignmentCheckNameRequest": {
       "type": "object",
       "properties": {
@@ -3690,7 +5471,7 @@
             "Microsoft.Kusto/clusters/principalAssignments"
           ],
           "x-ms-enum": {
-            "name": "Type",
+            "name": "PrincipalAssignmentType",
             "modelAsString": false
           },
           "description": "The type of resource, Microsoft.Kusto/clusters/principalAssignments."
@@ -3715,7 +5496,7 @@
             "Microsoft.Kusto/clusters/databases/dataConnections"
           ],
           "x-ms-enum": {
-            "name": "Type",
+            "name": "DataConnectionType",
             "modelAsString": false
           },
           "description": "The type of resource, Microsoft.Kusto/clusters/databases/dataConnections."
@@ -3726,6 +5507,31 @@
         "type"
       ],
       "description": "A data connection check name availability request."
+    },
+    "ScriptCheckNameRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Script name."
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "Microsoft.Kusto/clusters/databases/scripts"
+          ],
+          "x-ms-enum": {
+            "name": "ScriptType",
+            "modelAsString": false
+          },
+          "description": "The type of resource, Microsoft.Kusto/clusters/databases/scripts."
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "description": "A script name availability request."
     },
     "DatabasePrincipalAssignmentCheckNameRequest": {
       "type": "object",
@@ -3740,7 +5546,7 @@
             "Microsoft.Kusto/clusters/databases/principalAssignments"
           ],
           "x-ms-enum": {
-            "name": "Type",
+            "name": "DatabasePrincipalAssignmentType",
             "modelAsString": false
           },
           "description": "The type of resource, Microsoft.Kusto/clusters/databases/principalAssignments."
@@ -3892,14 +5698,16 @@
         },
         "type": {
           "type": "string",
-          "description": "The identity type.",
+          "description": "The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.",
           "enum": [
             "None",
-            "SystemAssigned"
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned"
           ],
           "x-ms-enum": {
             "name": "IdentityType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "userAssignedIdentities": {
@@ -3929,11 +5737,6 @@
     },
     "KeyVaultProperties": {
       "description": "Properties of the key vault.",
-      "required": [
-        "keyName",
-        "keyVersion",
-        "keyVaultUri"
-      ],
       "properties": {
         "keyName": {
           "type": "string",
@@ -3949,8 +5752,209 @@
           "type": "string",
           "description": "The Uri of the key vault.",
           "x-ms-client-name": "KeyVaultUri"
+        },
+        "userIdentity": {
+          "type": "string",
+          "description": "The user assigned identity (ARM resource id) that has access to the key.",
+          "x-ms-client-name": "UserIdentity"
         }
       }
+    },
+    "LanguageExtensionName": {
+      "description": "Language extension that can run within KQL query.",
+      "type": "string",
+      "enum": [
+        "PYTHON",
+        "R"
+      ],
+      "x-ms-enum": {
+        "name": "languageExtensionName",
+        "modelAsString": true
+      }
+    },
+    "LanguageExtension": {
+      "type": "object",
+      "description": "The language extension object.",
+      "properties": {
+        "languageExtensionName": {
+          "$ref": "#/definitions/LanguageExtensionName",
+          "description": "The language extension name."
+        }
+      }
+    },
+    "LanguageExtensionsList": {
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LanguageExtension"
+          },
+          "description": "The list of language extensions."
+        }
+      },
+      "description": "The list of language extension objects."
+    },
+    "ProvisioningState": {
+      "type": "string",
+      "readOnly": true,
+      "description": "The provisioned state of the resource.",
+      "enum": [
+        "Running",
+        "Creating",
+        "Deleting",
+        "Succeeded",
+        "Failed",
+        "Moving"
+      ],
+      "x-ms-enum": {
+        "name": "ProvisioningState",
+        "modelAsString": true
+      }
+    },
+    "OperationResult": {
+      "description": "Operation Result Entity.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "readOnly": true,
+          "description": "ID of the resource.",
+          "type": "string"
+        },
+        "name": {
+          "readOnly": true,
+          "description": "Name of the resource.",
+          "type": "string"
+        },
+        "status": {
+          "description": "status of the Operation result.",
+          "$ref": "#/definitions/Status"
+        },
+        "startTime": {
+          "description": "The operation start time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "description": "The operation end time",
+          "type": "string",
+          "format": "date-time"
+        },
+        "percentComplete": {
+          "type": "number",
+          "format": "double",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage completed."
+        },
+        "properties": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationResultProperties",
+          "description": "Properties of the operation results"
+        },
+        "error": {
+          "x-ms-client-flatten": true,
+          "$ref": "#/definitions/OperationResultErrorProperties",
+          "description": "Object that contains the error code and message if the operation failed."
+        }
+      }
+    },
+    "Status": {
+      "readOnly": true,
+      "description": "The status of operation.",
+      "type": "string",
+      "enum": [
+        "Succeeded",
+        "Canceled",
+        "Failed",
+        "Running"
+      ],
+      "x-ms-enum": {
+        "name": "Status",
+        "modelAsString": true
+      }
+    },
+    "OperationResultProperties": {
+      "properties": {
+        "operationKind": {
+          "type": "string",
+          "description": "The kind of the operation."
+        },
+        "operationState": {
+          "type": "string",
+          "description": "The state of the operation."
+        }
+      },
+      "description": "Operation result properties"
+    },
+    "OperationResultErrorProperties": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The code of the error."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        }
+      },
+      "description": "Operation result error properties"
+    },
+    "TableLevelSharingProperties": {
+      "properties": {
+        "tablesToInclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of tables to include in the follower database"
+        },
+        "tablesToExclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of tables to exclude from the follower database"
+        },
+        "externalTablesToInclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of external tables to include in the follower database"
+        },
+        "externalTablesToExclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of external tables exclude from the follower database"
+        },
+        "materializedViewsToInclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of materialized views to include in the follower database"
+        },
+        "materializedViewsToExclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of materialized views exclude from the follower database"
+        }
+      },
+      "description": "Tables that will be included and excluded in the follower database"
+    },
+    "AcceptedAudiences": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "GUID or valid URL representing an accepted audience."
+        }
+      },
+      "description": "Represents an accepted audience trusted by the cluster."
     }
   },
   "parameters": {
@@ -3972,6 +5976,14 @@
       "name": "clusterName",
       "in": "path",
       "description": "The name of the Kusto cluster.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "LocationNameParameter": {
+      "name": "location",
+      "in": "path",
+      "description": "Azure location (region) name.",
       "required": true,
       "type": "string",
       "x-ms-parameter-location": "method"
@@ -4015,6 +6027,46 @@
       "required": true,
       "type": "string",
       "x-ms-parameter-location": "method"
+    },
+    "ScriptNameParameter": {
+      "name": "scriptName",
+      "in": "path",
+      "description": "The name of the Kusto database script.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "OperationIdParameter": {
+      "name": "operationId",
+      "in": "path",
+      "description": "The Guid of the operation ID",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "PrivateEndpointConnectionNameParameter": {
+      "name": "privateEndpointConnectionName",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "description": "The name of the private endpoint connection."
+    },
+    "PrivateLinkResourceNameParameter": {
+      "name": "privateLinkResourceName",
+      "in": "path",
+      "description": "The name of the private link resource.",
+      "required": true,
+      "x-ms-parameter-location": "method",
+      "type": "string"
+    },
+    "ManagedPrivateEndpointNameParameter": {
+      "name": "managedPrivateEndpointName",
+      "in": "path",
+      "description": "The name of the managed private endpoint.",
+      "required": true,
+      "x-ms-parameter-location": "method",
+      "type": "string"
     }
   },
   "securityDefinitions": {

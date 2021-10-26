@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "ManagementLockClient",
-    "version": "2016-09-01",
+    "version": "2020-05-01",
     "description": "Azure resources can be locked to prevent other users in your organization from deleting or modifying resources."
   },
   "host": "management.azure.com",
@@ -34,6 +34,42 @@
     }
   },
   "paths": {
+    "/providers/Microsoft.Authorization/operations": {
+      "get": {
+        "tags": [
+          "Operations"
+        ],
+        "operationId": "AuthorizationOperations_List",
+        "description": "Lists all of the available Microsoft.Authorization REST API operations.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-examples": {
+          "List provider operations": {
+            "$ref": "./examples/ListProviderOperations.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}": {
       "put": {
         "tags": [
@@ -70,7 +106,7 @@
             "description": "The management lock parameters."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -88,10 +124,21 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create management lock at resource group level": {
+            "$ref": "./examples/ManagementLocks_CreateOrUpdateAtResourceGroupLevel.json"
           }
         }
       },
-	  "delete": {
+      "delete": {
         "tags": [
           "ManagementLocks"
         ],
@@ -117,7 +164,7 @@
             "description": "The name of lock to delete."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -129,10 +176,21 @@
           },
           "200": {
             "description": "OK"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete management lock at resource group level": {
+            "$ref": "./examples/ManagementLocks_DeleteAtResourceGroupLevel.json"
           }
         }
       },
-	  "get": {
+      "get": {
         "tags": [
           "ManagementLocks"
         ],
@@ -157,7 +215,7 @@
             "description": "The name of the lock to get."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -169,6 +227,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get management lock at resource group level": {
+            "$ref": "./examples/ManagementLocks_GetAtResourceGroupLevel.json"
           }
         }
       }
@@ -205,11 +274,11 @@
             "description": "Create or update management lock parameters."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
-           "200": {
+          "200": {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
@@ -220,6 +289,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create management lock at scope": {
+            "$ref": "./examples/ManagementLocks_CreateOrUpdateAtScope.json"
           }
         }
       },
@@ -245,7 +325,7 @@
             "description": "The name of lock."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -254,6 +334,17 @@
           },
           "200": {
             "description": "OK"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete management lock at scope": {
+            "$ref": "./examples/ManagementLocks_DeleteAtScope.json"
           }
         }
       },
@@ -279,7 +370,7 @@
             "description": "The name of lock."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
@@ -288,6 +379,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get management lock at scope": {
+            "$ref": "./examples/ManagementLocks_GetAtScope.json"
           }
         }
       }
@@ -358,7 +460,7 @@
             "description": "Parameters for creating or updating a  management lock."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -376,6 +478,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create management lock at resource level": {
+            "$ref": "./examples/ManagementLocks_CreateOrUpdateAtResourceLevel.json"
           }
         }
       },
@@ -435,7 +548,7 @@
             "description": "The name of the lock to delete."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -447,6 +560,17 @@
           },
           "200": {
             "description": "OK"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete management lock at resource level": {
+            "$ref": "./examples/ManagementLocks_DeleteAtResourceLevel.json"
           }
         }
       },
@@ -505,7 +629,7 @@
             "description": "The name of lock."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -517,6 +641,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get management lock at resource level": {
+            "$ref": "./examples/ManagementLocks_GetAtResourceLevel.json"
           }
         }
       }
@@ -547,7 +682,7 @@
             "description": "The management lock parameters."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -565,6 +700,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create management lock at subscription level": {
+            "$ref": "./examples/ManagementLocks_CreateOrUpdateAtSubscriptionLevel.json"
           }
         }
       },
@@ -584,7 +730,7 @@
             "description": "The name of lock to delete."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -596,6 +742,17 @@
           },
           "200": {
             "description": "OK"
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete management lock at subscription level": {
+            "$ref": "./examples/ManagementLocks_DeleteAtSubscriptionLevel.json"
           }
         }
       },
@@ -614,7 +771,7 @@
             "description": "The name of the lock to get."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -626,6 +783,17 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockObject"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get management lock at subscription level": {
+            "$ref": "./examples/ManagementLocks_GetAtSubscriptionLevel.json"
           }
         }
       }
@@ -656,7 +824,7 @@
             "description": "The filter to apply on the operation."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -668,12 +836,23 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockListResult"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/ManagementLockObject"
+        "x-ms-odata": "#/definitions/ManagementLockObject",
+        "x-ms-examples": {
+          "List management groups at resource group level": {
+            "$ref": "./examples/ManagementLocks_ListAtResourceGroupLevel.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks": {
@@ -732,7 +911,7 @@
             "description": "The filter to apply on the operation."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -744,12 +923,23 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockListResult"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/ManagementLockObject"
+        "x-ms-odata": "#/definitions/ManagementLockObject",
+        "x-ms-examples": {
+          "List management locks at resource level": {
+            "$ref": "./examples/ManagementLocks_ListAtResourceLevel.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks": {
@@ -768,7 +958,7 @@
             "description": "The filter to apply on the operation."
           },
           {
-            "$ref": "#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
           },
           {
             "$ref": "#/parameters/SubscriptionIdParameter"
@@ -780,12 +970,74 @@
             "schema": {
               "$ref": "#/definitions/ManagementLockListResult"
             }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         },
-        "x-ms-odata": "#/definitions/ManagementLockObject"
+        "x-ms-odata": "#/definitions/ManagementLockObject",
+        "x-ms-examples": {
+          "List management locks at subscription level": {
+            "$ref": "./examples/ManagementLocks_ListAtSubscriptionLevel.json"
+          }
+        }
+      }
+    },
+    "/{scope}/providers/Microsoft.Authorization/locks": {
+      "get": {
+        "tags": [
+          "ManagementLocks"
+        ],
+        "operationId": "ManagementLocks_ListByScope",
+        "description": "Gets all the management locks for a scope.",
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "The scope for the lock. When providing a scope for the assignment, use '/subscriptions/{subscriptionId}' for subscriptions, '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}' for resources."
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The filter to apply on the operation."
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK - Returns an array of resource locks.",
+            "schema": {
+              "$ref": "#/definitions/ManagementLockListResult"
+            }
+          },
+          "default": {
+            "description": "Error response describing why the operation failed.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-odata": "#/definitions/ManagementLockObject",
+        "x-ms-examples": {
+          "List management locks at scope": {
+            "$ref": "./examples/ManagementLocks_ListAtScope.json"
+          }
+        }
       }
     }
   },
@@ -826,7 +1078,9 @@
           "description": "The owners of the lock."
         }
       },
-      "required": [ "level" ],
+      "required": [
+        "level"
+      ],
       "description": "The lock properties."
     },
     "ManagementLockObject": {
@@ -847,11 +1101,18 @@
           "description": "The resource type of the lock - Microsoft.Authorization/locks."
         },
         "name": {
+          "readOnly": true,
           "type": "string",
           "description": "The name of the lock."
+        },
+        "systemData": {
+          "$ref": "../../../../../common-types/resource-management/v2/types.json#/definitions/systemData",
+          "readOnly": true
         }
       },
-      "required": [ "properties" ],
+      "required": [
+        "properties"
+      ],
       "description": "The lock information.",
       "x-ms-azure-resource": true
     },
@@ -870,6 +1131,49 @@
         }
       },
       "description": "The list of locks."
+    },
+    "Operation": {
+      "description": "Microsoft.Authorization operation",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Operation name: {provider}/{resource}/{operation}",
+          "type": "string"
+        },
+        "display": {
+          "description": "The object that represents the operation.",
+          "properties": {
+            "provider": {
+              "description": "Service provider: Microsoft.Authorization",
+              "type": "string"
+            },
+            "resource": {
+              "description": "Resource on which the operation is performed: Profile, endpoint, etc.",
+              "type": "string"
+            },
+            "operation": {
+              "description": "Operation type: Read, write, delete, etc.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "OperationListResult": {
+      "description": "Result of the request to list Microsoft.Authorization operations. It contains a list of operations and a URL link to get the next set of results.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          },
+          "description": "List of Microsoft.Authorization operations."
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "URL to get the next set of operation list results if there are any."
+        }
+      }
     }
   },
   "parameters": {
@@ -879,13 +1183,6 @@
       "required": true,
       "type": "string",
       "description": "The ID of the target subscription."
-    },
-    "ApiVersionParameter": {
-      "name": "api-version",
-      "in": "query",
-      "required": true,
-      "type": "string",
-      "description": "The API version to use for the operation."
     }
   }
 }
